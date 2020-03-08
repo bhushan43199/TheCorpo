@@ -22,28 +22,15 @@ export const navigation = [
     name: 'Project'
   },
   {
-    name: 'Project',
+    name: 'Vanue Provider',
     url: '/vanue-provider',
     icon: 'icon-puzzle',
-    children: [
-      {
-        name: 'Cards',
-        url: '/vanue-provider',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Carousels',
-        url: '/base/carousels',
-        icon: 'icon-puzzle'
-      },
-      {
-        name: 'Collapses',
-        url: '/base/collapses',
-        icon: 'icon-puzzle'
-      }
-    ]
   },
-
+  {
+    name: 'Users',
+    url: '/users',
+    icon: 'icon-puzzle',
+  },
 
 
   {

@@ -84,17 +84,13 @@ export const routes: Routes = [
         path: 'view-bead',
         loadChildren: './views/beading-inbox-mail/view-bead/view-bead.module#ViewBeadModule'
       },
-      // {
-      //   path: 'vanue-provider',
-      //   loadChildren: './views/vanue-provider/vanue-provider.module#VenueProviderModule'
-      // },
       {
         path: 'users',
         loadChildren: './views/users/users.module#UsersModule'
       },
       {
         path: 'vanue-provider',
-        loadChildren: './views/vanue-provider/vanue-provider.module#VenueProviderModule'
+        loadChildren: './views/vanue-provider/venue-provider.module#VenueProviderModule'
       },
 
       

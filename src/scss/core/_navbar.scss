@@ -5,7 +5,7 @@
   padding: 0;
   margin: 0;
   background-color: $navbar-bg;
-  @include borders($navbar-border);
+  @include borders(#fff);
 
   .navbar-brand {
     display: inline-block;
@@ -13,12 +13,12 @@
     height: $navbar-height;
     padding: $navbar-padding-y $navbar-padding-x;
     margin-right: 0;
-    background-color: $navbar-brand-bg;
-    background-image: $navbar-brand-logo;
+    background-color: #fff;
+    background-image: url('../assets/img/logo.png');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: $navbar-brand-logo-size;
-    @include borders($navbar-brand-border);
+    @include borders(#fff);
   }
 
   .navbar-toggler {
@@ -117,7 +117,7 @@
     .app-header.navbar {
       .navbar-brand {
         width: $navbar-brand-minimized-width;
-        background-color: $navbar-brand-minimized-bg;
+        background-color: #fff;
         background-image: $navbar-brand-minimized-logo;
         background-size: $navbar-brand-minimized-logo-size;
         @include borders($navbar-brand-minimized-border);

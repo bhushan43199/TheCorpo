@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VenueProviderComponent } from './venue-provider.component';
+import { MyVenueComponent } from './my-venue.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: VenueProviderComponent,
+    component: MyVenueComponent,
     data: {
-      title: 'Venue Provider'
+      title: 'My Venue'
     }
   }
 ];
@@ -17,4 +17,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VenueProviderRoutingModule {}
+export class MyVenueRoutingModule {}

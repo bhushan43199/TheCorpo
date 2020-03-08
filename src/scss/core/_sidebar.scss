@@ -4,7 +4,7 @@
   flex-direction: column;
   padding: $sidebar-padding;
   color: $sidebar-color;
-  background: $sidebar-bg;
+  background: #fff;
   @include borders($sidebar-borders);
 
   .sidebar-close {
@@ -119,6 +119,7 @@
     color: $sidebar-nav-link-color;
     text-decoration: none;
     background: $sidebar-nav-link-bg;
+    font-weight: 500;
     @include borders($sidebar-nav-link-borders);
     @if $enable-sidebar-nav-rounded {
       border-radius: $border-radius;
@@ -128,7 +129,8 @@
       display: inline-block;
       width: 20px;
       margin: 0 ($sidebar-nav-link-padding-x / 2) 0 0;
-      font-size: 14px;
+      font-size: 16px;
+      font-weight: 500;
       color: $sidebar-nav-link-icon-color;
       text-align: center;
     }
@@ -140,7 +142,7 @@
 
     &.active {
       color: $sidebar-nav-link-active-color;
-      background: $sidebar-nav-link-active-bg;
+      background: #e47297;
       @include borders($sidebar-nav-link-active-borders);
 
       i {
@@ -150,7 +152,7 @@
 
     &:hover {
       color: $sidebar-nav-link-hover-color;
-      background: $sidebar-nav-link-hover-bg;
+      background: #e47297;
       @include borders($sidebar-nav-link-hover-borders);
 
       i {

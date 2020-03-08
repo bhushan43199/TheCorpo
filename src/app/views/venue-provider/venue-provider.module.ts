@@ -15,6 +15,6 @@ import { VenueProviderDataFilterPipe } from './datafilterpipe';
     FormsModule,
     HttpModule
   ],
-  declarations: [VenueProviderComponent,VenueProviderDataFilterPipe]
+  declarations: [VenueProviderComponent, VenueProviderDataFilterPipe]
 })
 export class VenueProviderModule { }

@@ -68,6 +68,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { VenueProviderDataFilterPipe } from './views/venue-provider/datafilterpipe';
+import { ComposeMailComponent } from './views/compose-mail/compose-mail.component';
 
 @NgModule({
   imports: [
@@ -85,7 +87,8 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
     ...APP_COMPONENTS,
     ...APP_DIRECTIVES,
   ],
-  providers: [{
+  providers: [
+    {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
   }],

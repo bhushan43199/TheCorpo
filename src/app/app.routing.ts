@@ -104,10 +104,10 @@ export const routes: Routes = [
         path: 'view-bead',
         loadChildren: './views/beading-inbox-mail/view-bead/view-bead.module#ViewBeadModule'
       },
-      // {
-      //   path: 'vanue-provider',
-      //   loadChildren: './views/vanue-provider/vanue-provider.module#VenueProviderModule'
-      // },
+      {
+        path: 'compose-mail',
+        loadChildren: './views/compose-mail/compose-mail.module#ComposeMailModule'
+      },
     ]
   },
   {

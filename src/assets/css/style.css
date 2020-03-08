@@ -1401,7 +1401,7 @@ pre {
     border: 0; }
 
 .table-responsive {
-  display: block;
+  display: table;
   width: 100%;
   min-height: 0%;
   overflow-x: auto; }

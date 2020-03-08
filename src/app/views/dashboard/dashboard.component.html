@@ -30,7 +30,7 @@
           <i class="icon-basket-loaded"></i>
         </div>
         <div class="h4 mb-0">1238</div>
-        <small class="text-muted text-uppercase font-weight-bold">Total Vanue</small>
+        <small class="text-muted text-uppercase font-weight-bold">Total Venue</small>
         <div class="progress progress-xs mt-3 mb-0">
           <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
@@ -66,73 +66,31 @@
     <div class="col-md-9">
       <div class="card">
         <div class="card-body">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4 class="card-title mb-0">Traffic</h4>
-              <div class="small text-muted">November 2015</div>
-            </div>
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-success float-right"><i class="icon-cloud-download"></i></button>
-              <div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-                  <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Day" id="option1">Day</label>
-                  <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Month" id="option2">Month</label>
-                  <label class="btn btn-outline-secondary" [(ngModel)]="radioModel" btnRadio="Year" id="option3">Year</label>
-                </div>
+          <carousel [interval]="4500">
+            <slide>
+              <img src="./assets/img/slider/4.jpg" alt="First slide" style="display: block; width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3>First slide label</h3>
+                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
               </div>
-            </div>
-          </div>
-          <div class="chart-wrapper" style="height:306px;margin-top:40px;">
-            <canvas baseChart class="chart"
-            [datasets]="mainChartData"
-            [labels]="mainChartLabels"
-            [options]="mainChartOptions"
-            [colors]="mainChartColours"
-            [legend]="mainChartLegend"
-            [chartType]="mainChartType"
-            (chartHover)="chartHovered($event)"
-            (chartClick)="chartClicked($event)"></canvas>
-          </div>
+            </slide>
+            <slide>
+              <img  src="./assets/img/slider/6.jpg" alt="Second slide" style="display: block; width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3>Second slide label</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+              </div>
+            </slide>
+            <slide>
+              <img  src="./assets/img/slider/12.jpg" alt="Third slide" style="display: block; width: 100%;">
+              <div class="carousel-caption d-none d-md-block">
+                <h3>Third slide label</h3>
+                <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+              </div>
+            </slide>
+          </carousel>
         </div>
-        <div class="card-footer">
-          <ul>
-            <li>
-              <div class="text-muted">Visits</div>
-              <strong>29.703 Users (40%)</strong>
-              <div class="progress progress-xs mt-2">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </li>
-            <li class="hidden-sm-down">
-              <div class="text-muted">Unique</div>
-              <strong>24.093 Users (20%)</strong>
-              <div class="progress progress-xs mt-2">
-                <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </li>
-            <li>
-              <div class="text-muted">Pageviews</div>
-              <strong>78.706 Views (60%)</strong>
-              <div class="progress progress-xs mt-2">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </li>
-            <li class="hidden-sm-down">
-              <div class="text-muted">New Users</div>
-              <strong>22.123 Users (80%)</strong>
-              <div class="progress progress-xs mt-2">
-                <div class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </li>
-            <li class="hidden-sm-down">
-              <div class="text-muted">Bounce Rate</div>
-              <strong>40.15%</strong>
-              <div class="progress progress-xs mt-2">
-                <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </li>
-          </ul>
-        </div>
+       
       </div>
     </div><!--/.col-->
     <div class="col-md-3">

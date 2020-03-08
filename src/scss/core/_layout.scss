@@ -311,8 +311,8 @@ app-root {
     z-index: $zindex-sticky;
     width: 100%;
     text-align: center;
-    background-color: $navbar-brand-bg;
-    @include borders($navbar-brand-border);
+    background-color:#fff;
+    @include borders(#fff);
 
     .navbar-toggler {
       @if (lightness( $navbar-brand-bg ) > 40) {

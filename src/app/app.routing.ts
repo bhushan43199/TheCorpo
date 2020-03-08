@@ -75,7 +75,29 @@ export const routes: Routes = [
       {
         path: 'widgets',
         loadChildren: './views/widgets/widgets.module#WidgetsModule'
-      }
+      },
+      {
+        path: 'beading-inbox-mail',
+        loadChildren: './views/beading-inbox-mail/beading-inbox-mail.module#BeadingMailModule'
+      },
+      {
+        path: 'view-bead',
+        loadChildren: './views/beading-inbox-mail/view-bead/view-bead.module#ViewBeadModule'
+      },
+      // {
+      //   path: 'vanue-provider',
+      //   loadChildren: './views/vanue-provider/vanue-provider.module#VenueProviderModule'
+      // },
+      {
+        path: 'users',
+        loadChildren: './views/users/users.module#UsersModule'
+      },
+      {
+        path: 'vanue-provider',
+        loadChildren: './views/vanue-provider/vanue-provider.module#VenueProviderModule'
+      },
+
+      
     ]
   },
   {

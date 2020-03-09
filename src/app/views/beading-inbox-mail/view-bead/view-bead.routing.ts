@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: ViewBeadComponent,
     data: {
-      title: 'Loading Buttons - Ladda'
+      title: ''
     }
   }
 ];

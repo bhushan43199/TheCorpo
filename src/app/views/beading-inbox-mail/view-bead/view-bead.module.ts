@@ -11,7 +11,8 @@ import { ToasterModule } from 'angular2-toaster';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ViewBeadComponent } from './view-bead.component';
 import { ViewBeadRoutingModule } from './view-bead.routing';
-
+import { NgxEditorModule } from 'ngx-editor'
+import {  HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -26,7 +27,9 @@ import { ViewBeadRoutingModule } from './view-bead.routing';
     ModalModule.forRoot(),
     ToasterModule,
     TooltipModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    NgxEditorModule,
+    HttpClientModule
   ],
   declarations: [ViewBeadComponent ]
 })

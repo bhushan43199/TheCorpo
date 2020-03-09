@@ -1,3 +1,126 @@
-<p>
-  view-bead works!
-</p>
+<div class="animated fadeIn">
+
+  <!-- <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-body mb-2">
+          <div class="d-flex justify-content-between flex-wrap-reverse">
+              <h5 class="mt-0 mb-0 font-17">Your updated item Corporate Connection Admin</h5>
+              <div>
+                  <small>Jan 9, 2019, 9:55 PM</small>
+                  <a href="javascript:void(0);" class="p-2"><i class="fa fa-star-outline"></i></a>
+                  <a href="javascript:void(0);" class="p-2"><i class="fa fa-mail-reply"></i></a>
+                  <a href="javascript:void(0);" class="p-2"><i class="fa fa-delete text-danger"></i></a>
+              </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-md-12">
+        <div class="d-flex">
+          <!-- <div class="mobile-left">
+                  <a class="btn btn-info btn-icon toggle-email-nav collapsed" data-toggle="collapse" href="#email-nav" role="button" aria-expanded="false" aria-controls="email-nav">
+                      <span class="btn-label"><i class="fa fa-more"></i></span>
+                  </a>
+              </div> -->
+          <div class="inbox right w-100">
+            <div class="card">
+
+              <div class="card-body mb-2">
+                <div class="card-body ">
+                  <ul class="list-unstyled d-flex justify-content-md-start mb-0">
+                    <li><img class="rounded w40" src="assets/img/xs/avatar1.jpg" alt=""></li>
+                    <li class="ml-3">
+                      <p class="mb-0"><span class="text-muted">From:</span> <a
+                          href="javascript:void(0);">woodwalton@info.com</a>, <a
+                          href="javascript:void(0);">info@examples.com</a></p>
+                      <p class="mb-0"><span class="text-muted">To:</span> Me</p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="header mb-2 text-info border-bottom">
+                  <span>Place :</span>
+
+                </div>
+                <div class="header mb-2 text-info border-bottom">
+                  <span>Venue Price :</span>
+
+                </div>
+                <div class="card-body mb-2">
+                  <h6>Hello Venue Provider,</h6>
+                  <br>
+                  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                  <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                    printer took a galley of type.</p>
+                  <ul>
+                    <li>standard dummy text ever since the 1500s, when an unknown printer</li>
+                    <li>Lorem Ipsum has been the industry's standard dummy</li>
+                  </ul>
+                  <p class="text-info">Purchase: Corporate Connection has not yet purchased this item from you.</p>
+                  <div class="row file_folder">
+                    <div class="col-md-3">
+                      <div class="icon">
+                        <i class="fa fa-file-text fa-lg text-success"></i>
+                      </div>
+                      <div class="file-name">
+                        <p class="mb-0 text-muted">Report2017.xls</p>
+                        <small>Size: 68KB</small>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="icon">
+                        <i class="fa fa-file-text fa-lg text-primary"></i>
+                      </div>
+                      <div class="file-name">
+                        <p class="mb-0 text-muted">Report2017.doc</p>
+                        <small>Size: 68KB</small>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="icon">
+                        <i class="fa fa-file-pdf-o fa-lg text-danger"></i>
+                      </div>
+                      <div class="file-name">
+                        <p class="mb-0 text-muted">Report2017.pdf</p>
+                        <small>Size: 68KB</small>
+                      </div>
+                    </div>
+                  </div>
+
+             
+
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <button class="btn btn-success text-white accept" (click)="editorOpen()"><i class="fa fa-check"></i>
+                      <span>Accept</span></button>
+                    <button class="btn btn-danger text-white reject" (click)="editorClose()"><i class="fa fa-close"></i> <span>No
+                        Thanks</span></button>
+                  </div>
+                </div>  
+
+              </div>
+            </div>
+            <div class="card" *ngIf="editorFlag==true">
+              <div class="card-body accept-reply">
+                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="htmlContent">
+                </app-ngx-editor>
+              </div>
+              <div class="card-footer">
+                <button class="btn btn-primary waves-effect m-t-20"> <i class="fa fa-paper-plane"
+                    aria-hidden="true"></i> Send</button>
+                <button type="button" class="btn btn-primary waves-effect m-t-20 accept-close">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-my-venue',
@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyVenueComponent implements OnInit {
 
-  constructor() { }
+  constructor(private elementRef: ElementRef) {
+  }
 
   ngOnInit() {
+   
+ 
+
   }
 
 }

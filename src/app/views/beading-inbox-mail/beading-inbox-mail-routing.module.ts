@@ -9,7 +9,7 @@ const routes: Routes = [
     path: '',
     component: BeadingInboxMailComponent,
     data: {
-      title: 'Dashboard'
+      title: 'Inbox'
     }
   }
 ];

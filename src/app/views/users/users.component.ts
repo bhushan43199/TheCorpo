@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class UsersComponent implements OnInit {
 
   public data: any;
+  public user:any={};
   constructor() { }
 
   ngOnInit() {

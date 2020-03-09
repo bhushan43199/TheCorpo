@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VenueProviderComponent implements OnInit {
   public data: any;
+  public user:any={};
   constructor() { }
 
   ngOnInit() {

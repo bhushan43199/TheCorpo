@@ -6,6 +6,8 @@ import { DataTableModule } from 'angular2-datatable';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { VenueProviderDataFilterPipe } from './datafilterpipe';
+import { ModalModule } from 'ngx-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -13,7 +15,9 @@ import { VenueProviderDataFilterPipe } from './datafilterpipe';
     VenueProviderRoutingModule,
     DataTableModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ModalModule.forRoot(),
+    NgSelectModule,
   ],
   declarations: [VenueProviderComponent, VenueProviderDataFilterPipe]
 })

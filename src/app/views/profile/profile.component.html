@@ -1,84 +1,91 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="row clearfix">
     <div class="col-lg-4 col-md-12">
-      <div class="card">
+      <div class="card mcard_3">
         <div class="card-body">
-          <a><img src="assets/img/avatars/5.jpg" class="rounded-circle shadow " alt="profile-image"></a>
+          <img [src]="imgURL" class="rounded-circle shadow " width="130px" alt="profile-image">
+          <div class="main-file-input">
+            <input type="file" (change)="onAdd($event)" [hidden]="toggleButton" class="custom-file-input">
+          </div>
           <h4 class="m-t-10">Michael Dorsey</h4>
+
           <div class="row">
             <div class="col-12">
-              <ul class="social-links list-unstyled">
-                <li><a title="facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a></li>
-                <li><a title="twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a></li>
-                <li><a title="instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram"></i></a></li>
+              <ul class="social-links list-unstyled sld">
+                <li><a title="facebook" href="javascript:void(0);"><i class="fa fa-facebook fa-lg"></i></a></li>
+                <li><a title="twitter" href="javascript:void(0);"><i class="fa fa-twitter fa-lg"></i></a></li>
+                <li><a title="instagram" href="javascript:void(0);"><i class="fa fa-instagram fa-lg"></i></a></li>
               </ul>
               <p class="text-muted">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
             </div>
-            <!-- <div class="col-4">
-              <small>Following</small>
-              <h5>852</h5>
+            <div class="col-md-12">
+              <small class="text-muted">Email address: </small>
+              <p>michael_dorsey@gmail.com</p>
             </div>
-            <div class="col-4">
-              <small>Followers</small>
-              <h5>13k</h5>
+            <div class="col-md-12">
+              <small class="text-muted">Phone: </small>
+              <p>+ 202-555-0191</p>
             </div>
-            <div class="col-4">
-              <small>Post</small>
-              <h5>234</h5>
-            </div> -->
+
           </div>
         </div>
       </div>
+
     </div>
     <div class="col-lg-8 col-md-12">
       <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-12 text-right">
+              <button class="btn btn-primary" *ngIf="toggleButton==true" (click)="enable()"><i
+                  class="fa fa-edit fa-lg"></i></button>
+              <button class="btn btn-success" *ngIf="toggleButton==false" (click)="disable()"><i
+                  class="fa fa-check fa-lg"></i></button>
+            </div>
+          </div>
+        </div>
+
         <div class="card-body">
+
           <div class="row">
             <div class="form-group col-sm-6">
               <label for="city">First Name</label>
-              <input type="text" class="form-control" id="city" placeholder="Enter First Name">
+              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter First Name">
             </div>
             <div class="form-group col-sm-6">
               <label for="postal-code">Last Name</label>
-              <input type="text" class="form-control" id="postal-code" placeholder="Enter Last Name">
+              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter Last Name">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6">
               <label for="city">Email</label>
-              <input type="text" class="form-control" id="city" placeholder="Enter Email">
+              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter Email">
             </div>
             <div class="form-group col-sm-6">
               <label for="postal-code">Phone</label>
-              <input type="text" class="form-control" id="postal-code" placeholder="Enter Phone">
+              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter Phone">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6">
               <label for="city">Date of Birth</label>
-              <input type="text" class="form-control" id="vat" placeholder="03/03/2020">
+              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="03/03/2020">
             </div>
             <div class="form-group col-sm-6">
               <label for="street">Street</label>
               <!-- <input type="text" class="form-control" id="street" placeholder="Enter street name"> -->
-              <textarea class="form-control" id="street" rows="2" placeholder="Enter street name"></textarea>
+              <textarea class="form-control" [disabled]='toggleButton' rows="2"
+                placeholder="Enter street name"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-8">
-              <label for="city">City</label>
-              <input type="text" class="form-control" id="city" placeholder="Enter your city">
+              <label for="price">Price</label>
+              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter your Price">
             </div>
-            <div class="form-group col-sm-4">
-              <label for="postal-code">Postal Code</label>
-              <input type="text" class="form-control" id="postal-code" placeholder="Postal Code">
-            </div>
+
           </div>
-          <!--/.row-->
-          <!-- <div class="form-group">
-            <label for="country">Country</label>
-            <input type="text" class="form-control" id="country" placeholder="Country name">
-          </div> -->
         </div>
       </div>
     </div>

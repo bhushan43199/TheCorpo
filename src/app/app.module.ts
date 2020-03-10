@@ -69,7 +69,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { VenueProviderDataFilterPipe } from './views/venue-provider/datafilterpipe';
-import { ComposeMailComponent } from './views/compose-mail/compose-mail.component';
 
 @NgModule({
   imports: [

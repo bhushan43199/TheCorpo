@@ -101,6 +101,10 @@ export const routes: Routes = [
         loadChildren: './views/profile/profile.module#ProfileModule'
       },
       {
+        path: 'registration',
+        loadChildren: './views/registration/registration.module#RegistrationModule'
+      },
+      {
         path: 'view-bead',
         loadChildren: './views/beading-inbox-mail/view-bead/view-bead.module#ViewBeadModule'
       },

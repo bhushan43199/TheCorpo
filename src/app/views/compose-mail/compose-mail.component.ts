@@ -12,7 +12,7 @@ export class ComposeMailComponent implements OnInit {
   users = [];
   usersList: any = [];
   constructor() {
-   
+    this.user.users = "true"
   }
 
   ngOnInit() {

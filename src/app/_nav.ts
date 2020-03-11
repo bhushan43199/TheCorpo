@@ -7,15 +7,16 @@ export const navigation = [
     name: 'Dashboard',
     url: '/dashboard',
     icon: 'icon-speedometer',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
-    }
+   
   },
   {
     name: 'Beading Inbox',
     url: '/beading-inbox-mail',
-    icon: 'icon-envelope-open'
+    icon: 'icon-envelope-open',
+    badge: {
+      variant: 'primary',
+      text: '6'
+    }
   },
   {
     name: 'Calendar',
@@ -35,6 +36,11 @@ export const navigation = [
   {
     name: 'My Venue',
     url: '/myvenue',
+    icon: 'icon-user'
+  },
+  {
+    name: 'Registration',
+    url: '/registration',
     icon: 'icon-user'
   },
 

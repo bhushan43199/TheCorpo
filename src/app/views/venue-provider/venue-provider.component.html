@@ -50,12 +50,12 @@
             <td><i class="fa fa-whatsapp" aria-hidden="true"></i> {{item.phone}}</td>
             <td>{{item.email}}</td>
             <td><i class="fa fa-map-marker"></i> {{item.address}}</td>
-            <td><button class="btn btn-primary btn-sm" routerLink="/myvenue">See Venue</button>
+            <td><button class="btn btn-warning btn-sm" routerLink="/myvenue">See Venue</button>
               <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Edit User" (click)="successModal.show()">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
+              <button class="btn btn-danger btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Delete user" (click)="deleteUser(user)">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>
@@ -80,7 +80,7 @@
     <div class="modal-content">
       <form #userForm="ngForm" name="updateUserForm" novalidate>
         <div class="modal-header">
-          <h4 class="modal-title">User</h4>
+          <h4 class="modal-title">Venue Provider</h4>
           <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -90,12 +90,6 @@
             <div class="card">
               <div class="card-body">
                 <div class="form-group row">
-                  <!-- <div class="col-md-4">
-                                      <label for="userID">User Id :</label>
-                                      <input type="text" class="form-control" [(ngModel)]="user.userID" name="userID" #userID="ngModel" placeholder="Enter userID" readonly>
-                                      <span class="help-block" style="color: red;" *ngIf="userID.errors && (userID.touched || userForm.submitted)">User ID is
-                                          required</span>
-                                  </div> -->
                   <div class="col-md-4">
                     <label for="fname">First name :</label>
                     <input type="text" class="form-control" placeholder="Enter First name" [(ngModel)]="user.FIRST_NAME"
@@ -112,24 +106,51 @@
                       *ngIf="LAST_NAME.errors && (LAST_NAME.touched || userForm.submitted)">Last Name is required</span>
                   </div>
                   <div class="col-md-4">
-                    <label for="type">User Role :
+                    <label for="type">Company Name :
                     </label>
-                    <input type="text" class="form-control" placeholder="Enter User Role" [(ngModel)]="user.ROLE"
-                      name="ROLE" #ROLE="ngModel" required>
+                    <input type="text" class="form-control" placeholder="Enter User Role" [(ngModel)]="user.COMP_NAME"
+                      name="COMP_NAME" #COMP_NAME="ngModel" required>
                     <span class="help-block" style="color: red;"
-                      *ngIf="ROLE.errors && (ROLE.touched || userForm.submitted)">User role is
+                      *ngIf="COMP_NAME.errors && (COMP_NAME.touched || userForm.submitted)">Comapny Name is
                       required</span>
                   </div>
                 </div>
+             
+                <div class="form-group row">
+                  <div class="col-md-4">
+                    <label for="phone">Phone :</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.PHONE" name="PHONE" #PHONE="ngModel"
+                      (keypress)="keyPress($event)" minlength=10 maxlength=10 placeholder="Enter your phone">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="email">Email :</label>
+                    <input type="email" class="form-control" [(ngModel)]="user.EMAIL" name="EMAIL" #EMAIL="ngModel"
+                      placeholder="Enter email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                    <span class="help-block" style="color: red;"
+                      *ngIf="EMAIL.errors && (EMAIL.valid || EMAIL.dirty || EMAIL.touched || userForm.submitted)">Email
+                      is required and format should be
+                      <i>john@doe.com</i>.</span>
+                    <!-- <p class="bg-danger" *ngIf="email.errors && (email.valid || email.dirty || email.touched || userForm.submitted)"> Email is required and format should be <i>john@doe.com</i>.</p> -->
+                  </div>
+                  <div class="col-md-4">
+                    <label for="gender">Gender :
+                    </label>
+                    <ng-select [items]="genders" bindLabel="label" bindValue="value" placeholder="Select Gender"
+                      [(ngModel)]="user.GENDER" #GENDER="ngModel" name="GENDER" required>
+                    </ng-select>
+                    <span class="help-block" style="color: red;"
+                      *ngIf="GENDER.errors && (GENDER.touched || userForm.submitted)">Gender is
+                      required</span>
+                  </div>
+                </div>
+            
                 <div class="form-group row" *ngIf="!formFlag">
                   <div class="col-md-4">
-                    <label for="username">User Name :</label>
-                    <input type="text" class="form-control" [(ngModel)]="user.USERNAME" name="USERNAME"
-                      #USERNAME="ngModel" placeholder="Enter user name" required>
+                    <label for="address">Address :</label>
+                    <input type="text" class="form-control" placeholder="Enter Address" [(ngModel)]="user.ADDRESS"
+                      name="ADDRESS" #ADDRESS="ngModel" required>
                     <span class="help-block" style="color: red;"
-                      *ngIf="USERNAME.errors && (USERNAME.touched || userForm.submitted)">User
-                      Name is
-                      required</span>
+                      *ngIf="ADDRESS.errors && (ADDRESS.touched || userForm.submitted)">Address is required</span>
                   </div>
                   <div class="col-md-4">
                     <label for="password">Password :</label>
@@ -154,47 +175,6 @@
                       is not match</span>
                     <!-- <p class="bg-danger" *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.required && userForm.submitted)">Password is required.</p>
                       <p class="bg-danger" *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.notEqual && !confirmPassword.errors?.required)">Password is not match.</p> -->
-                  </div>
-
-                </div>
-                <div class="form-group row">
-                  <div class="col-md-4">
-                    <label for="phone">Phone :</label>
-                    <input type="text" class="form-control" [(ngModel)]="user.PHONE" name="PHONE" #PHONE="ngModel"
-                      (keypress)="keyPress($event)" minlength=10 maxlength=10 placeholder="Enter your phone">
-                  </div>
-                  <div class="col-md-4">
-                    <label for="email">Email :</label>
-                    <input type="email" class="form-control" [(ngModel)]="user.EMAIL" name="EMAIL" #EMAIL="ngModel"
-                      placeholder="Enter email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
-                    <span class="help-block" style="color: red;"
-                      *ngIf="EMAIL.errors && (EMAIL.valid || EMAIL.dirty || EMAIL.touched || userForm.submitted)">Email
-                      is required and format should be
-                      <i>john@doe.com</i>.</span>
-                    <!-- <p class="bg-danger" *ngIf="email.errors && (email.valid || email.dirty || email.touched || userForm.submitted)"> Email is required and format should be <i>john@doe.com</i>.</p> -->
-                  </div>
-                  <div class="col-md-4">
-                    <label for="gender">Gender :
-                    </label>
-                    <!-- <select id="gender" name="gender" [(ngModel)]="user.gender" #gender="ngModel" class="form-control m-input">
-                                          <option [ngValue]="undefined">Select Gender :</option>
-                                          <option *ngFor="let gender of genders" [value]="gender">{{gender}}</option>
-                                      </select> -->
-                    <ng-select [items]="genders" bindLabel="label" bindValue="value" placeholder="Select Gender"
-                      [(ngModel)]="user.GENDER" #GENDER="ngModel" name="GENDER" required>
-                    </ng-select>
-                    <span class="help-block" style="color: red;"
-                      *ngIf="GENDER.errors && (GENDER.touched || userForm.submitted)">Gender is
-                      required</span>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-md-4">
-                    <label for="address">Address :</label>
-                    <input type="text" class="form-control" placeholder="Enter Address" [(ngModel)]="user.ADDRESS"
-                      name="ADDRESS" #ADDRESS="ngModel" required>
-                    <span class="help-block" style="color: red;"
-                      *ngIf="ADDRESS.errors && (ADDRESS.touched || userForm.submitted)">Address is required</span>
                   </div>
 
                 </div>

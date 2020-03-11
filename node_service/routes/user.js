@@ -3,14 +3,160 @@ const router = express.Router();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 var fs = require('fs');
-var dicom = require('dicom-parser');
-var secret = 'tudasat-token';
+var secret = 'corporate-token';
 const Client = require('../models/client');
 const Company = require('../models/company');
 var generator = require('generate-password');
 
 
 module.exports = function (passport) {
+
+
+    //All Registerd users
+    router.get('/getAllRegisterdUsers', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, userObj) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            } else {
+                User.getAllRegisterdUsers(userObj, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    // Users by role
+    router.get('/getAllUsers', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, userObj) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            } else {
+                var loggedIn = userObj.user;
+                User.getAllUsers(loggedIn, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    router.post('/updateUser', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var data = req.body;
+                var userId = req.body._id;
+                User.find({ '_id': userId }, function (err, user) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: null
+                        });
+                    }
+                    user = user[0];
+                    user.FIRST_NAME = data.FIRST_NAME;
+                    user.LAST_NAME = data.LAST_NAME;
+                    user.ROLE = data.ROLE;
+                    user.GENDER = data.GENDER;
+                    user.ADDRESS = data.ADDRESS;
+                    user.PHONE = data.PHONE;
+                    user.COMP_NAME = data.COMP_NAME;
+                    user.QUALIFICATION = data.QUALIFICATION;
+                    User.updateUser(user, function (err, result) {
+                        if (err) {
+                            return res.json({
+                                message: err.message,
+                                status: 0,
+                                result: {}
+                            });
+                        }
+                        if (result) {
+                            return res.json({
+                                verify: 1,
+                                message: "User update success.",
+                                data: user
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    router.post('/delete', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, user) {
+            if (err) {
+                // return res.status(403);
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                const userId = req.body._id;
+                User.deleteUser(userId, function (err, user) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: null
+                        });
+                    }
+                    if (user) {
+                        return res.json({
+                            verify: 1,
+                            message: 'Deleted success..!',
+                            data: null
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+
+    // Old -------------------------------------------------------
 
 
     router.get('/getProfile', verifyToken, function (req, res) {
@@ -165,7 +311,7 @@ module.exports = function (passport) {
                                 user.password = password;
                                 User.sendEmail(user, function (err, result) {
                                     if (err) throw err;
-                                    if (result) {                                        
+                                    if (result) {
                                         return res.json({
                                             message: "Request accept success",
                                             status: 1,
@@ -226,13 +372,13 @@ module.exports = function (passport) {
                 return res.status(403);
             } else {
                 var reqData = req.body;
-                User.findById(reqData._id, function (err, user){
+                User.findById(reqData._id, function (err, user) {
                     if (err) throw err;
-                    if(user){
+                    if (user) {
                         User.comparePassword(reqData.old_password, user.password, function (err, isMatch) {
                             // console.log('comparePassword is calling..');
                             if (err) throw err;
-                            if (isMatch) {                       
+                            if (isMatch) {
                                 // return done(null, user);  
                                 console.log(isMatch);
                                 User.changePassword(reqData, function (err, result) {
@@ -285,22 +431,6 @@ module.exports = function (passport) {
         });
     });
 
-    router.get('/getAllUsers', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, userObj) {
-            if (err) {
-                return res.status(403);
-            } else {
-                User.getAllUsers(userObj, function (err, usersList) {
-                    if (err) throw err;
-
-                    if (usersList) {
-                        return res.json(usersList);
-                    }
-                });
-            }
-        });
-    });
-
     router.post('/userStatus', verifyToken, (req, res) => {
         jwt.verify(req.token, secret, function (err, userObj) {
             if (err) {
@@ -324,24 +454,7 @@ module.exports = function (passport) {
         });
     });
 
-    router.post('/delete', verifyToken, (req, res) => {
-
-        jwt.verify(req.token, secret, function (err, user) {
-            if (err) {
-                return res.status(403);
-            } else {
-                const userId = req.body._id;
-                User.deleteUser(userId, function (err, user) {
-                    if (err) throw err;
-                    if (user) {
-                        return res.json({
-                            message: 'Deleted success..!'
-                        });
-                    }
-                });
-            }
-        });
-    });
+   
 
     router.post('/updateUser', verifyToken, (req, res) => {
 
@@ -425,57 +538,6 @@ module.exports = function (passport) {
                 });
             }
         });
-    });
-
-    // router.post('/activeInactiveUser', verifyToken, (req, res) => {
-    //     jwt.verify(req.token, secret, function (err, user) {
-    //         if (err) {
-    //             return res.status(403);
-    //         } else {
-    //             var loggedInUser = user;
-    //             const id = req.body._id;
-    //             if (req.body.status === true) {
-    //                 req.body.status = false;
-    //             } else {
-    //                 req.body.status = true;
-    //             }
-    //             console.log(req.body);
-    //             User.updateUser(id, req.body, function (err, user) {
-    //                 if (err) throw err;
-    //                 if (user) {
-    //                     return res.json({
-    //                         message: 'Update success..!'
-    //                     });
-    //                 }
-    //             });
-    //         }
-    //     });
-    // });
-
-    router.post('/fileupload', function (req, res) {
-        var token = req.headers.authorization
-        jwt.verify(token, secret, function (err, loggedInUser) {
-            if (err) {
-                return res.status(403);
-            } else {
-                var mainPath = DOCPATH;
-                var imgPath = '/user/';
-                var filepath = '';
-                var imgFullPath = mainPath + imgPath;
-
-
-                var dicomFileAsBuffer = fs.readFileSync(mainPath);
-                var dataSet = dicom.parseDicom(dicomFileAsBuffer);
-
-                var name = (dataSet.string('x00100010'));
-                console.log(name)
-                //var pixelData = new Uint8Array(dataSet.byteArray.buffer, 
-                //   dataSet.elements.x00880200.items[0].dataSet.elements.x7fe00010.dataOffset, 
-                //  dataSet.elements.x00880200.items[0].dataSet.elements.x7fe00010.length)
-
-            }
-        });
-
     });
 
     //Verify Token

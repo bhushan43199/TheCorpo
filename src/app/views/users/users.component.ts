@@ -9,6 +9,10 @@ export class UsersComponent implements OnInit {
 
   public data: any;
   public user:any={};
+  public genders= [
+    {label:"Male", value:"male"},
+    {label:"Female", value:"female"}
+  ]
   constructor() { }
 
   ngOnInit() {

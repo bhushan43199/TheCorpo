@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user');
 const Client = require('./models/client');
-var secret = 'super secret';
+var secret = 'corporate-token';
 
 module.exports = function (passport) {
 
@@ -16,8 +16,8 @@ module.exports = function (passport) {
     });
 
     passport.use(new LocalStrategy({
-            usernameField: 'email',
-            passwordField: 'password',
+            usernameField: 'EMAIL',
+            passwordField: 'PASSWORD',
             passReqToCallback: true,
             session: false
           },     
@@ -30,7 +30,7 @@ module.exports = function (passport) {
                     });
                 }
 
-                User.comparePassword(password, user.password, function (err, isMatch) {
+                User.comparePassword(password, user.PASSWORD, function (err, isMatch) {
                     // console.log('comparePassword is calling..');
                     if (err) throw err;
                     if (isMatch) {                       

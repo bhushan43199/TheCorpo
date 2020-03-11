@@ -8,6 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class VenueProviderComponent implements OnInit {
   public data: any;
   public user:any={};
+  public genders= [
+    {label:"Male", value:"male"},
+    {label:"Female", value:"female"}
+  ]
   constructor() { }
 
   ngOnInit() {

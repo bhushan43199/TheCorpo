@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="card">
-    <div class="card-header"><i class="fa fa-users"></i> Users
+    <div class="card-header">Registration
       <button class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add User"
         (click)="successModal.show();">
         <i class="fa fa-plus fa-lg"></i>
@@ -30,6 +30,9 @@
               <mfDefaultSorter by="name">Name</mfDefaultSorter>
             </th>
             <th>
+              User Type
+            </th>
+            <th>
               Phone
             </th>
             <th>
@@ -47,6 +50,7 @@
           <tr *ngFor="let item of mf.data">
             <td><input type="checkbox" /></td>
             <td><img [src]="item.img" height="30px" width="30px" style="border-radius: 5px;"> {{item.name}}</td>
+            <td> {{item.userType}}</td>
             <td><i class="fa fa-whatsapp" aria-hidden="true"></i> {{item.phone}}</td>
             <td><a routerLink="/compose-mail">{{item.email}}</a></td>
             <td><i class="fa fa-map-marker"></i> {{item.address}}</td>
@@ -76,9 +80,9 @@
   aria-hidden="true" [config]="{backdrop: 'static',keyboard: 'false'}">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <form #userForm="ngForm" name="updateUserForm" novalidate>
+      <form #userRegiForm="ngForm" name="updateUserForm" novalidate>
         <div class="modal-header">
-          <h4 class="modal-title"><i class="fa fa-users"></i> User</h4>
+          <h4 class="modal-title">Registration</h4>
           <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -88,12 +92,18 @@
             <div class="card">
               <div class="card-body">
                 <div class="form-group row">
+                  <!-- <div class="col-md-4">
+                                      <label for="userID">User Id :</label>
+                                      <input type="text" class="form-control" [(ngModel)]="user.userID" name="userID" #userID="ngModel" placeholder="Enter userID" readonly>
+                                      <span class="help-block" style="color: red;" *ngIf="userID.errors && (userID.touched || userForm.submitted)">User ID is
+                                          required</span>
+                                  </div> -->
                   <div class="col-md-4">
                     <label for="fname">First name :</label>
                     <input type="text" class="form-control" placeholder="Enter First name" [(ngModel)]="user.FIRST_NAME"
                       name="FIRST_NAME" #FIRST_NAME="ngModel" required>
                     <span class="help-block" style="color: red;"
-                      *ngIf="FIRST_NAME.errors && (FIRST_NAME.touched || userForm.submitted)">First Name is
+                      *ngIf="FIRST_NAME.errors && (FIRST_NAME.touched || userRegiForm.submitted)">First Name is
                       required</span>
                   </div>
                   <div class="col-md-4">
@@ -101,50 +111,28 @@
                     <input type="text" class="form-control" placeholder="Enter Last name" [(ngModel)]="user.LAST_NAME"
                       name="LAST_NAME" #LAST_NAME="ngModel" required>
                     <span class="help-block" style="color: red;"
-                      *ngIf="LAST_NAME.errors && (LAST_NAME.touched || userForm.submitted)">Last Name is required</span>
+                      *ngIf="LAST_NAME.errors && (LAST_NAME.touched || userRegiForm.submitted)">Last Name is required</span>
                   </div>
                   <div class="col-md-4">
-                    <label for="address">Qaulification:</label>
-                    <input type="text" class="form-control" placeholder="Enter Qaulification" [(ngModel)]="user.QUALIFICATION"
-                      name="QUALIFICATION" #QUALIFICATION="ngModel" required>
+                    <label for="type">User Role :
+                    </label>
+                      <ng-select [items]="userRoles" bindLabel="label" bindValue="value" placeholder="Select User Role"
+                      [(ngModel)]="user.ROLE" #ROLE="ngModel" name="ROLE" required>
+                    </ng-select>
                     <span class="help-block" style="color: red;"
-                      *ngIf="QUALIFICATION.errors && (QUALIFICATION.touched || userForm.submitted)">Qaulification is required</span>
+                      *ngIf="ROLE.errors && (ROLE.touched || userRegiForm.submitted)">User role is
+                      required</span>
                   </div>
                 </div>
-          
-                <div class="form-group row">
-                  <div class="col-md-4">
-                    <label for="phone">Phone :</label>
-                    <input type="text" class="form-control" [(ngModel)]="user.PHONE" name="PHONE" #PHONE="ngModel"
-                      (keypress)="keyPress($event)" minlength=10 maxlength=10 placeholder="Enter your phone">
-                  </div>
+                <div class="form-group row" *ngIf="!formFlag">
                   <div class="col-md-4">
                     <label for="email">Email :</label>
                     <input type="email" class="form-control" [(ngModel)]="user.EMAIL" name="EMAIL" #EMAIL="ngModel"
                       placeholder="Enter email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
                     <span class="help-block" style="color: red;"
-                      *ngIf="EMAIL.errors && (EMAIL.valid || EMAIL.dirty || EMAIL.touched || userForm.submitted)">Email
+                      *ngIf="EMAIL.errors && (EMAIL.valid || EMAIL.dirty || EMAIL.touched || userRegiForm.submitted)">Email
                       is required and format should be
                       <i>john@doe.com</i>.</span>
-                  </div>
-                  <div class="col-md-4">
-                    <label for="gender">Gender :
-                    </label>
-                    <ng-select [items]="genders" bindLabel="label" bindValue="value" placeholder="Select Gender"
-                      [(ngModel)]="user.GENDER" #GENDER="ngModel" name="GENDER" required>
-                    </ng-select>
-                    <span class="help-block" style="color: red;"
-                      *ngIf="GENDER.errors && (GENDER.touched || userForm.submitted)">Gender is
-                      required</span>
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-md-4">
-                    <label for="address">Address :</label>
-                    <input type="text" class="form-control" placeholder="Enter Address" [(ngModel)]="user.ADDRESS"
-                      name="ADDRESS" #ADDRESS="ngModel" required>
-                    <span class="help-block" style="color: red;"
-                      *ngIf="ADDRESS.errors && (ADDRESS.touched || userForm.submitted)">Address is required</span>
                   </div>
                   <div class="col-md-4">
                     <label for="password">Password :</label>
@@ -152,7 +140,7 @@
                       #PASSWORD="ngModel" (change)="confirmPassword.control.updateValueAndValidity()"
                       placeholder="Enter password" required>
                     <span class="help-block" style="color: red;"
-                      *ngIf="PASSWORD.errors && (PASSWORD.touched || PASSWORD.dirty && userForm.submitted)">Password
+                      *ngIf="PASSWORD.errors && (PASSWORD.touched || PASSWORD.dirty && userRegiForm.submitted)">Password
                       is required</span>
                   </div>
                   <div class="col-md-4">
@@ -162,26 +150,67 @@
                       placeholder="Repeat password" required>
                     <br>
                     <span class="help-block" style="color: red;"
-                      *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.required && userForm.submitted)">Password
+                      *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.required && userRegiForm.submitted)">Password
                       is required</span>
                     <span class="help-block" style="color: red;"
                       *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.notEqual && !confirmPassword.errors?.required)">Password
                       is not match</span>
+                    <!-- <p class="bg-danger" *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.required && userForm.submitted)">Password is required.</p>
+                      <p class="bg-danger" *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.notEqual && !confirmPassword.errors?.required)">Password is not match.</p> -->
                   </div>
 
                 </div>
-              
+                <div class="form-group row">
+             
+                  <div class="col-md-4">
+                    <label for="gender">Gender :
+                    </label>
+                    <ng-select [items]="genders" bindLabel="label" bindValue="value" placeholder="Select Gender"
+                      [(ngModel)]="user.GENDER" #GENDER="ngModel" name="GENDER" required>
+                    </ng-select>
+                    <span class="help-block" style="color: red;"
+                      *ngIf="GENDER.errors && (GENDER.touched || userRegiForm.submitted)">Gender is
+                      required</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="phone">Phone :</label>
+                    <input type="text" class="form-control" [(ngModel)]="user.PHONE" name="PHONE" #PHONE="ngModel"
+                      (keypress)="keyPress($event)" minlength=10 maxlength=10 placeholder="Enter your phone">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="address">Address :</label>
+                    <input type="text" class="form-control" placeholder="Enter Address" [(ngModel)]="user.ADDRESS"
+                      name="ADDRESS" #ADDRESS="ngModel" required>
+                    <span class="help-block" style="color: red;"
+                      *ngIf="ADDRESS.errors && (ADDRESS.touched || userRegiForm.submitted)">Address is required</span>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-md-4" *ngIf="user.ROLE!='admin'">
+                    <label for="address">Company Name :</label>
+                    <input type="text" class="form-control" placeholder="Enter Company Name" [(ngModel)]="user.COMP_NAME"
+                      name="COMP_NAME" #COMP_NAME="ngModel" required>
+                    <span class="help-block" style="color: red;"
+                      *ngIf="COMP_NAME.errors && (COMP_NAME.touched || userRegiForm.submitted)">Company Name is required</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="address">Qualification:</label>
+                    <input type="text" class="form-control" placeholder="Enter Qaulification" [(ngModel)]="user.QUALIFICATION"
+                      name="QUALIFICATION" #QUALIFICATION="ngModel" required>
+                    <span class="help-block" style="color: red;"
+                      *ngIf="QUALIFICATION.errors && (QUALIFICATION.touched || userRegiForm.submitted)">Qaulification is required</span>
+                  </div>
+                </div>
 
               </div>
             </div>
-            <!--/.col-->
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary px-4" [disabled]="!userForm.form.valid" *ngIf="!formFlag"
+          <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid" *ngIf="!formFlag"
             (click)="createUser(); successModal.hide()">Save</button>
-          <button type="button" class="btn btn-primary px-4" [disabled]="!userForm.form.valid" *ngIf="formFlag"
+          <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid" *ngIf="formFlag"
             (click)="updateUser(); successModal.hide()">Update</button>
         </div>
       </form>

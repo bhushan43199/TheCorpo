@@ -13,7 +13,7 @@ export class AuthenticationService {
         return this.http.post<any>(appConfig.apiUrl + '/auth/login', { EMAIL: email, PASSWORD: password })
             .map(user => {
                 // login successful if there's a jwt token in the response
-                user = user.data;
+                // user = user.user;
                 if (user && user.token) {
                     console.log(user);
                     localStorage.setItem('currentUser', JSON.stringify(user));

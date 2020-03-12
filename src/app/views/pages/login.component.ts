@@ -19,11 +19,10 @@ export class LoginComponent {
     private _route: ActivatedRoute,
     public authenticationService: AuthenticationService,
     public userService:UserService,
-    toasterService: ToasterService) {
+    public toasterService: ToasterService) {
       this.toasterService = toasterService;
      }
 
-     private toasterService: ToasterService;
 
      public toasterconfig : ToasterConfig =
        new ToasterConfig({
@@ -64,15 +63,23 @@ export class LoginComponent {
     this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
         .subscribe(
             data => {
-              // this.showSuccess('Success login');                   
+                console.log(data)  
+                //  this.showSuccess('Success login');                
                 this._router.navigate([this.returnUrl]);           
             },
             error => {
-                // this.showError(error.statusText);
+                //  this.showError(error.statusText);
                 this.loading = false;
             });
   }
 
+  showSuccess(msg) {
+    this.toasterService.pop('Login!', 'successfully!', msg);
+  }
+
+  showError(msg) {
+    this.toasterService.pop('Username Or Password Invalid', 'error!', msg);
+  }
   // doLogin(){
   //   if (this.user.username == "admin" && this.user.password == "admin")
   //   {

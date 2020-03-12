@@ -33,6 +33,7 @@ const app = express();
 // const routes = require('./routes/index');
 const auth = require('./routes/auth')(passport);
 const user = require('./routes/user')(passport);
+const email = require('./routes/email')(passport);
 const company = require('./routes/company')(passport);
 
 // app.use(upload.array()); 
@@ -91,6 +92,7 @@ app.use(expressValidator({
 app.use('/auth', auth);
 app.use('/user', user);
 app.use('/company', company);
+app.use('/email', email);
 
 
 // For production use this 

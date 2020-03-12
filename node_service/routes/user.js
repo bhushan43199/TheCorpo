@@ -73,6 +73,26 @@ module.exports = function (passport) {
         });
     });
 
+    // All Vanue Providers 
+    router.get('/getAllVanueProviders', (req, res) => {
+        User.getAllVanueProviders(function (err, usersList) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            }
+            if (usersList) {
+                return res.json({
+                    verify: 1,
+                    message: "",
+                    data: usersList
+                });
+            }
+        });
+    });
+
     router.post('/updateUser', verifyToken, (req, res) => {
 
         jwt.verify(req.token, secret, function (err, loggedInUser) {
@@ -454,7 +474,7 @@ module.exports = function (passport) {
         });
     });
 
-   
+
 
     router.post('/updateUser', verifyToken, (req, res) => {
 

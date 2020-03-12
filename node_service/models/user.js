@@ -57,6 +57,12 @@ module.exports.getAllUsers = function (user, callback) {
     }
 }
 
+module.exports.getAllVanueProviders = function (callback) {
+    var query = { 'ROLE': 2,'STATUS': true };
+    User.find(query, callback);
+}
+
+
 module.exports.deleteUser = function (userId, callback) {
     var query = { STATUS: false };
     User.update({ _id: userId }, { $set: query }, callback);

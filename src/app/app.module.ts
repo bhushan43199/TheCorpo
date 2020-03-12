@@ -69,6 +69,10 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { VenueProviderDataFilterPipe } from './views/venue-provider/datafilterpipe';
+import { AuthenticationService, UserService } from './services';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { JwtInterceptor } from './helpers';
+import { AuthGuard } from './guards';
 
 @NgModule({
   imports: [
@@ -79,6 +83,7 @@ import { VenueProviderDataFilterPipe } from './views/venue-provider/datafilterpi
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TabsModule.forRoot(),
+    HttpClientModule
   ],
   declarations: [
     AppComponent,
@@ -87,10 +92,13 @@ import { VenueProviderDataFilterPipe } from './views/venue-provider/datafilterpi
     ...APP_DIRECTIVES,
   ],
   providers: [
+    AuthenticationService,
+    UserService,
+    AuthGuard,
     {
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }],
+  }, { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

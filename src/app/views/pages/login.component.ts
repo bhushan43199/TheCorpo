@@ -1,33 +1,87 @@
 import { Component } from '@angular/core';
-import {Router} from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
+import { AuthenticationService, UserService } from 'app/services';
+import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Component({
   templateUrl: 'login.component.html'
 })
 export class LoginComponent {
- 
-   user :any = {}; 
-  constructor(private router: Router) { }
+  model: any = {};
+  returnUrl: string ="";
+  loading = false;
+  public data;
+  passwordType: string = 'password';
+  passwordShown: boolean = false;
+  eyeIcon: String = 'fa fa-eye';
+  user: any = {};
+  constructor(private _router: Router,
+    private _route: ActivatedRoute,
+    public authenticationService: AuthenticationService,
+    public userService:UserService,
+    toasterService: ToasterService) {
+      this.toasterService = toasterService;
+     }
 
-  submit(){
+     private toasterService: ToasterService;
 
-    
+     public toasterconfig : ToasterConfig =
+       new ToasterConfig({
+         tapToDismiss: true,
+         timeout: 5000
+       });
    
-  }
-register()
-{
+    ngOnInit() {
+      this.authenticationService.isLogout();
+      this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+      this._router.navigate([this.returnUrl]);
+    }
+  
+  submit() {
 
-}
 
-doLogin(){
-  if (this.user.username == "admin" && this.user.password == "admin")
-  {
-    this.router.navigate(['/pages/register']);
+
   }
-  else
-  {
-    alert('Login failed..!');
+  register() {
+
   }
-}
+
+  
+  togglePassword() {
+    if (this.passwordShown) {
+      this.passwordShown = false;
+      this.passwordType = 'password'
+      this.eyeIcon = "fa fa-eye"
+    } else {
+      this.passwordShown = true;
+      this.passwordType = 'text';
+      this.eyeIcon = "fa fa-eye-slash";
+    }
+  }
+
+  signin(){
+    this.loading = true;
+    this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
+        .subscribe(
+            data => {
+              // this.showSuccess('Success login');                   
+                this._router.navigate([this.returnUrl]);           
+            },
+            error => {
+                // this.showError(error.statusText);
+                this.loading = false;
+            });
+  }
+
+  // doLogin(){
+  //   if (this.user.username == "admin" && this.user.password == "admin")
+  //   {
+  //     this.router.navigate(['/pages/register']);
+  //   }
+  //   else
+  //   {
+  //     alert('Login failed..!');
+  //   }
+  // }
 
 }

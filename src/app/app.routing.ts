@@ -6,6 +6,7 @@ import {
   FullLayoutComponent,
   SimpleLayoutComponent
 } from './containers';
+import { AuthGuard } from './guards';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     path: '',
     component: FullLayoutComponent,
+    canActivate: [AuthGuard],
     data: {
       title: 'Home'
     },

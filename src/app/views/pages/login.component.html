@@ -8,26 +8,48 @@
             <div class="card-body">
               <h1>Login</h1>
               <p class="text-muted">Sign In to your account</p>
-              <div class="input-group mb-3">
+              <form name="form" (ngSubmit)="f.form.valid && signin()" #f="ngForm" novalidate id="form_login">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="text" class="form-control" [(ngModel)]="model.EMAIL" name="EMAIL" #EMAIL="ngModel" placeholder="Email" autocomplete="off" required>
+                </div>
+                <div class="input-group mb-4">
+                    <div class="input-group-prepend" (click)="togglePassword()">
+                        <span class="input-group-text"><i [class]="eyeIcon" aria-hidden="true"></i></span>
+                    </div>
+                    <input [type]="passwordType" class="form-control" [(ngModel)]="model.PASSWORD" name="PASSWORD" #PASSWORD="ngModel" placeholder="Password" required>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-primary px-4">Login</button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <!-- <button type="button" routerLink="/pages/forgot" class="btn btn-link px-0">Forgot password?</button> -->
+                    </div>
+                </div>
+            </form>
+              <!-- <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="icon-user"></i></span>
                 </div>
-                <input type="text" class="form-control" placeholder="Username" [(ngModel)]="user.username" name="username" #username="ngModel"  required>
+                <input type="text" class="form-control" placeholder="Email" [(ngModel)]="user.EMAIL" name="EMAIL" #EMAIL="ngModel"  required>
               </div>
               <div class="input-group mb-4">
                 <div class="input-group-prepend">
                   <span class="input-group-text"><i class="icon-lock"></i></span>
                 </div>
                 <input type="password" class="form-control" [(ngModel)]="user.password" name="password" placeholder="Password" #password="ngModel" required>
-              </div>
-              <div class="row">
+              </div> -->
+              <!-- <div class="row">
                 <div class="col-6">
-                  <button type="button" (click)="doLogin()" class="btn btn-primary px-4">Login</button>
+                  <button type="submit" (click)="doLogin()" class="btn btn-primary px-4">Login</button>
                 </div>
                 <div class="col-6 text-right">
                   <button type="button" class="btn btn-link px-0">Forgot password?</button>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="card text-white bg-primary py-5 d-md-down-none" style="width:44%">

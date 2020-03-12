@@ -27,7 +27,7 @@
       <p class="text-center">New Message</p>
       <form>
         <div class="form-row mb-3">
-          <label for="to" class="col-2 col-sm-1 col-form-label">To:</label>
+          <label for="to" class="col-2 col-sm-1 col-form-label">UserType:</label>
           <div class="col-10 col-sm-11">
             <ng-select [items]="userType" bindLabel="label" bindValue="value" (change)="filterUsers($event)"  placeholder="Select Users"
             required>
@@ -42,18 +42,13 @@
           </ng-select>
           </div>
         </div>
-        <!-- <div class="form-row mb-3">
-          <label for="cc" class="col-2 col-sm-1 col-form-label">CC:</label>
+        <div class="form-row mb-3">
+          <label for="cc" class="col-2 col-sm-1 col-form-label">Subject:</label>
           <div class="col-10 col-sm-11">
-            <input type="email" class="form-control" id="cc" placeholder="Type email">
+            <input type="text" class="form-control"  placeholder="Subject">
           </div>
         </div>
-        <div class="form-row mb-3">
-          <label for="bcc" class="col-2 col-sm-1 col-form-label">BCC:</label>
-          <div class="col-10 col-sm-11">
-            <input type="email" class="form-control" id="bcc" placeholder="Type email">
-          </div>
-        </div> -->
+
       </form>
       <div class="row">
         <div class="col-sm-11 ml-auto">

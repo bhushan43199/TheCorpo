@@ -4,12 +4,14 @@ import { P404Component } from './404.component';
 import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { PagesRoutingModule } from './pages-routing.module';
+import { ToasterModule } from 'angular2-toaster';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [ PagesRoutingModule, FormsModule ],
+  imports: [ PagesRoutingModule, FormsModule , ToasterModule, ReactiveFormsModule, CommonModule ],
   declarations: [
     P404Component,
     P500Component,

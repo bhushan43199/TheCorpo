@@ -7,56 +7,62 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ComposeMailComponent implements OnInit {
   user: any = {};
+  selected = 1;
+  userType = [
+    { label: "User", value: 1 },
+    { label: "Venue Provider", value: 2 },
+  ]
   radioChecku = "true";
   radioCheckv = "false";
   users = [];
   usersList: any = [];
+  usersFilterList:any =[];
   constructor() {
-    this.user.users = "true"
+   
   }
 
   ngOnInit() {
     this.usersList = [
       {
-        id: "1",
-        name: "Abc",
+        value: "1",
+        label: "Abc",
         type: "u"
       },
       {
-        id: "2",
-        name: "Xyz",
+        value: "2",
+        label: "Xyz",
         type: "v"
       },
       {
-        id: "3",
-        name: "Pqr",
+        value: "3",
+        label: "Pqr",
         type: "u"
       },
       {
-        id: "4",
-        name: "Qwe",
+        value: "4",
+        label: "Qwe",
         type: "v"
       },
       {
-        id: "5",
-        name: "Yui",
+        value: "5",
+        label: "Yui",
         type: "u"
       },
 
     ]
-   this.filterList();
+
 
   }
-  filterList() {
-    alert(this.user.users)
-    var temp = []
-    for (var i = 0; i < this.usersList.length; i++) {
-      if (this.usersList[i].type == "u") {
-        temp.push({ label: this.usersList[i].name, value: this.usersList[i].id })
-      }
+  filterUsers(data) {
+    console.log(data)
+    if (data.value == 1) {
+
+      this.usersFilterList = this.usersList.filter(x => x.type === "u");
+
+    } else {
+      this.usersFilterList = this.usersList.filter(x => x.type === "v");
     }
-    this.users = temp;
-   
   }
+
 
 }

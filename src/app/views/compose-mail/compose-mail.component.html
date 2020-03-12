@@ -27,18 +27,17 @@
       <p class="text-center">New Message</p>
       <form>
         <div class="form-row mb-3">
-          <div class="col-md-12 text-center">
-            <input type="radio" name="users" [(ngModel)]="user.users"  [value]="radioChecku" (change)="filterList()"> <span>Users</span> 
-          
-            <input type="radio" name="users"  [(ngModel)]="user.users" [value]="radioCheckv"  (change)="filterList()"> <span>Venue Provider</span> 
-          </div>  
-      
+          <label for="to" class="col-2 col-sm-1 col-form-label">To:</label>
+          <div class="col-10 col-sm-11">
+            <ng-select [items]="userType" bindLabel="label" bindValue="value" (change)="filterUsers($event)"  placeholder="Select Users"
+            required>
+          </ng-select>
+          </div>
         </div>
-
         <div class="form-row mb-3">
           <label for="to" class="col-2 col-sm-1 col-form-label">To:</label>
           <div class="col-10 col-sm-11">
-            <ng-select [items]="users" bindLabel="label" bindValue="value" multiple="true" placeholder="Select mails"
+            <ng-select [items]="usersFilterList" bindLabel="label" bindValue="value" multiple="true" placeholder="Select mails"
             required>
           </ng-select>
           </div>

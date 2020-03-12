@@ -12,14 +12,13 @@ export class AuthenticationService {
     login(email: string, password: string) {
         return this.http.post<any>(appConfig.apiUrl + '/auth/login', { EMAIL: email, PASSWORD: password })
             .map(user => {
-                // login successful if there's a jwt token in the response
-                // user = user.user;
+                // login successful if there's a jwt token in the respons
+                console.log(user)
                 if (user && user.token) {
                     console.log(user);
-                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('currentUser', user.user);
                     localStorage.setItem('token', JSON.stringify(user.token));
-                    localStorage.setItem('userType', JSON.stringify(user.user.USERTYPE_ROLE));
-                    localStorage.setItem('username', user.user.USERNAME);
+                    localStorage.setItem('ROLE', JSON.stringify(user.user.ROLE));
                 }
                 return user;
             });

@@ -8,7 +8,7 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
 })
 export class LoginComponent {
   model: any = {};
-  returnUrl: string ="";
+  returnUrl: string = "";
   loading = false;
   public data;
   passwordType: string = 'password';
@@ -18,34 +18,25 @@ export class LoginComponent {
   constructor(private _router: Router,
     private _route: ActivatedRoute,
     public authenticationService: AuthenticationService,
-    public userService:UserService,
-    public toasterService: ToasterService) {
-      this.toasterService = toasterService;
-     }
-
-
-     public toasterconfig : ToasterConfig =
-       new ToasterConfig({
-         tapToDismiss: true,
-         timeout: 5000
-       });
-   
-    ngOnInit() {
-      this.authenticationService.isLogout();
-      this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
-      this._router.navigate([this.returnUrl]);
-    }
-  
-  submit() {
-
-
-
-  }
-  register() {
-
+    public userService: UserService,
+    toasterService: ToasterService) {
+    this.toasterService = toasterService;
   }
 
-  
+  private toasterService: ToasterService;
+
+  public toasterconfig: ToasterConfig =
+    new ToasterConfig({
+      tapToDismiss: true,
+      timeout: 5000
+    });
+
+  ngOnInit() {
+    this.authenticationService.isLogout();
+    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+    this._router.navigate([this.returnUrl]);
+  }
+
   togglePassword() {
     if (this.passwordShown) {
       this.passwordShown = false;
@@ -58,19 +49,18 @@ export class LoginComponent {
     }
   }
 
-  signin(){
+  signin() {
     this.loading = true;
     this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
-        .subscribe(
-            data => {
-                console.log(data)  
-                //  this.showSuccess('Success login');                
-                this._router.navigate([this.returnUrl]);           
-            },
-            error => {
-                //  this.showError(error.statusText);
-                this.loading = false;
-            });
+      .subscribe(
+        data => {
+          // this.showSuccess('Success login');                   
+          this._router.navigate([this.returnUrl]);
+        },
+        error => {
+          // this.showError(error.statusText);
+          this.loading = false;
+        });
   }
 
   showSuccess(msg) {

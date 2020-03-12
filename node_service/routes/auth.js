@@ -75,8 +75,7 @@ module.exports = function (passport) {
                     data: {}
                 });
             } else {
-                var userId = user._id;
-                jwt.sign({ userId }, secret, (err, token) => {
+                jwt.sign({ user }, secret, (err, token) => {
                     res.json({
                         token: token,
                         user: user

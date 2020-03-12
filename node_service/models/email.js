@@ -25,55 +25,35 @@ const emailschema = mongoose.Schema({
     CREATED_DATE: { type: Date, require: true }
 });
 
-var Email = module.exports = mongoose.model('Email', emailschema);
+var EmailSchema = module.exports = mongoose.model('Email', emailschema);
 
 
 /* Loading modules done. */
 
-function massMailer() {
-    var self = this;
-    transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'genesis71318@gmail.com',
-            pass: '71318@genesis'
-        }
-    });
-    // transporter = nodemailer.createTransport("SMTP",{
-    //       host: 'smtp.gmail.com',
-    //       port: 587,
-    //       auth: {
-    //         user: '',
-    //         pass: ''
-    //      },
-    //       tls: {rejectUnauthorized: false},
-    //       debug:true
-    //     });
-
-    // Fetch all the emails from database and push it in listofemails
-    // Will do it later.
-    self.invokeOperation();
+// function massMailer() {
+//     var self = this;
+//     transporter = nodemailer.createTransport({
+//         service: 'gmail',
+//         auth: {
+//             user: 'genesis71318@gmail.com',
+//             pass: '71318@genesis'
+//         }
+//     });
+//     // Fetch all the emails from database and push it in listofemails
+//     // Will do it later.
+//     self.invokeOperation();
 
 
-};
+// };
 
 /* Invoking email sending operation at once */
-
-massMailer.prototype.invokeOperation = function () {
-    var self = this;
-    async.each(listofemails, self.SendEmail, function () {
-        console.log(success_email);
-        console.log(failure_email);
-    });
-}
-
 /*
 * This function will be called by multiple instance.
 * Each instance will contain one email ID
 * After successfull email operation, it will be pushed in failed or success array.
 */
 
-massMailer.prototype.SendEmail = function (Email, callback) {
+ function SendEmail(Email, callback) {
     console.log("Sending email to " + Email);
     var self = this;
     self.status = false;
@@ -98,13 +78,23 @@ massMailer.prototype.SendEmail = function (Email, callback) {
                 } else {
                     self.status = true;
                     success_email.push(Email);
+                   
                 }
                 callback(null, self.status, Email);
             });
         },
         function (statusCode, Email, callback) {
             console.log("Will update DB here for " + Email + "With " + statusCode);
-            callback();
+            var data = {
+                EMAIL: Email,
+                SUBJECT: mailData.SUBJECT,
+                MESSAGE: mailData.MESSAGE,
+                STATUS:true,
+                CREATED_DATE:new Date()
+            };
+            var email = new EmailSchema(data);
+            email.save(callback);
+            // callback();
         }
     ], function () {
         //When everything is done return back to caller.
@@ -118,7 +108,20 @@ module.exports.sendEmails = function (data, callback) {
     // User.update({ _id: userId }, { $set: query }, callback);
     listofemails = data.EMAIL;
     mailData = data;
-    new massMailer();
+    transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'genesis71318@gmail.com',
+            pass: '71318@genesis'
+        }
+    });
+    // Fetch all the emails from database and push it in listofemails
+    // Will do it later.
+    // invokeOperation(callback);
+    async.each(listofemails, SendEmail, function () {
+        // console.log(success_email);
+        // console.log(failure_email);
+        callback(null, true);
+    });
+    
 }
-
-// new massMailer(); //lets begin

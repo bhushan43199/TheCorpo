@@ -4,10 +4,9 @@ const jwt = require('jsonwebtoken');
 var secret = 'corporate-token';
 const Email = require('../models/email');
 
+
 module.exports = function (passport) {
 
- 
-    
     router.post('/sendEmail', verifyToken, (req, res) => {
 
         jwt.verify(req.token, secret, function (err, loggedInUser) {
@@ -31,7 +30,7 @@ module.exports = function (passport) {
                         return res.json({
                             verify: 1,
                             message: "Email send success.",
-                            data: user
+                            data: null
                         });
                     }
                 });

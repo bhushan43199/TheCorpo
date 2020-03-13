@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="card">
-    <div class="card-header">DataTable
+    <div class="card-header">Venue Providers
       <button class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add Venue"
       (click)="successModal.show();">
       <i class="fa fa-plus fa-lg"></i>
@@ -19,7 +19,7 @@
           </div>
         </div>
       </div>
-      <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
+      <table class="table table-striped table-responsive" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
         [mfRowsOnPage]="10">
         <thead>
           <tr>

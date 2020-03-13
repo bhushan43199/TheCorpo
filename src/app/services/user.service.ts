@@ -8,7 +8,12 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-
+    getAllVenueProviders(){
+        return this.http.get<any>(appConfig.apiUrl + '/user/getAllVanueProviders')
+        .map(res => {
+            return res;
+        });
+    }
     getAllUsers() {
         return this.http.get<any>(appConfig.apiUrl + '/user/getAllUsers')
             .map(res => {

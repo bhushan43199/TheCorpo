@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/services';
+import { ToasterService } from 'angular2-toaster';
 
 @Component({
   selector: 'app-venue-provider',
   templateUrl: './venue-provider.component.html',
-  styleUrls: ['./venue-provider.component.scss']
+  styleUrls: ['./venue-provider.component.scss', '../../../scss/vendors/toastr/toastr.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class VenueProviderComponent implements OnInit {
   public data: any;
   public user: any = {};
+  public venueProviderList:any ;
   public genders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
   ]
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, private toasterService: ToasterService) {
     this.getAllVenueProviders()
   }
 
@@ -56,7 +59,12 @@ export class VenueProviderComponent implements OnInit {
     this.userService.getAllVenueProviders()
       .subscribe(
         data => {
-          console.log(data)
+         
+          if (data.verify == '1') {
+            this.venueProviderList = data.data;
+          } else {
+            this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
+          }
         },
         err => {
           console.log(err)

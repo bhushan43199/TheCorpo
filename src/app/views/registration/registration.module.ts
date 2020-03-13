@@ -7,7 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { DataTableModule } from 'angular2-datatable';
 import { ModalModule } from 'ngx-bootstrap';
 import { RegistrationDataFilterPipe } from './datafilterpipe';
-
+import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster';
+import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,8 +17,9 @@ import { RegistrationDataFilterPipe } from './datafilterpipe';
     DataTableModule,
     FormsModule,
     NgSelectModule,
+    ToasterModule
     
   ],
-  declarations: [RegistrationComponent,RegistrationDataFilterPipe]
+  declarations: [RegistrationComponent,RegistrationDataFilterPipe,ChangePasswordEqualValidator]
 })
 export class RegistrationModule { }

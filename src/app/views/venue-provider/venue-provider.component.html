@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
   <div class="card">
-    <div class="card-header">DataTable
+    <div class="card-header">Venue Providers
       <button class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add Venue"
       (click)="successModal.show();">
       <i class="fa fa-plus fa-lg"></i>
@@ -19,8 +19,8 @@
           </div>
         </div>
       </div>
-      <table class="table table-striped" [mfData]="data | dataFilter : filterQuery" #mf="mfDataTable"
-        [mfRowsOnPage]="10">
+      <table class="table table-striped table-responsive" [mfData]="venueProviderList | dataFilter : filterQuery" #mf="mfDataTable"
+        [mfRowsOnPage]="5">
         <thead>
           <tr>
             <th>
@@ -44,12 +44,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of mf.data">
+          <tr *ngFor="let venueProvider of mf.data">
             <td><input type="checkbox" /></td>
-            <td><img [src]="item.img" height="30px" width="30px" style="border-radius: 5px;"> {{item.name}}</td>
-            <td><i class="fa fa-whatsapp" aria-hidden="true"></i> {{item.phone}}</td>
-            <td>{{item.email}}</td>
-            <td><i class="fa fa-map-marker"></i> {{item.address}}</td>
+            <!-- <img [src]="item.img" height="30px" width="30px" style="border-radius: 5px;"> -->
+            <td>
+               {{venueProvider.FIRST_NAME}} {{venueProvider.LAST_NAME}}</td>
+            <td><i class="fa fa-whatsapp" aria-hidden="true"></i> {{venueProvider.PHONE}}</td>
+            <td>{{venueProvider.EMAIL}}</td>
+            <td><i class="fa fa-map-marker"></i> {{venueProvider.ADDRESS}}</td>
             <td><button class="btn btn-warning btn-sm" routerLink="/myvenue">See Venue</button>
               <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Edit User" (click)="successModal.show()">

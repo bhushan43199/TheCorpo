@@ -9,12 +9,13 @@ export class UserService {
     constructor(private http: HttpClient) { }
 
 
-    getAllUsers() {
-        return this.http.get<any>(appConfig.apiUrl + '/user/getAllUsers')
+    getAllRegisterdUsers() {
+        return this.http.get<any>(appConfig.apiUrl + '/user/getAllRegisterdUsers')
             .map(res => {
                 return res;
             });
     }
+
 
     deleteUser(user) {
         return this.http.post<any>(appConfig.apiUrl + '/user/deleteUser', user)
@@ -45,7 +46,7 @@ export class UserService {
     }
 
     createUser(user) {
-        return this.http.post<any>(appConfig.apiUrl + '/user/createUser', user)
+        return this.http.post<any>(appConfig.apiUrl + '/auth/register', user)
             .map(res => {
                 return res;
             });

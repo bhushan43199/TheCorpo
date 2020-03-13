@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'app/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -8,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
 export class RegistrationComponent implements OnInit {
   public data: any;
   public user: any = {};
+  loading:any;
+  userlist:any = [];
   public userRoles = [
     { label: "Admin", value: 1 },
     { label: "Venue Provider", value: 2 },
@@ -17,7 +21,7 @@ export class RegistrationComponent implements OnInit {
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
   ]
-  constructor() { }
+  constructor(private _user_service:UserService, public _router:Router) { }
 
   ngOnInit() {
 
@@ -56,11 +60,36 @@ export class RegistrationComponent implements OnInit {
       },
 
 
-    ]
+    ];
+    this.getAllRegisterdUsers();
   }
 
   createUser() {
     console.log(this.user)
+    this.loading = true;
+    this._user_service.createUser(this.user)
+      .subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          // this.showError(error.statusText);
+          this.loading = false;
+        });
+  }
+
+  getAllRegisterdUsers(){
+    this.loading = true;
+    this._user_service.getAllRegisterdUsers()
+      .subscribe(
+        data => {
+          console.log(data);
+          this.userlist = data.data;
+        },
+        error => {
+          // this.showError(error.statusText);
+          this.loading = false;
+        });
   }
 
 }

@@ -8,21 +8,23 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
-    getAllVenueProviders(){
+    getAllVenueProviders() {
         return this.http.get<any>(appConfig.apiUrl + '/user/getAllVanueProviders')
-        .map(res => {
-            return res;
-        });
-    }
-    getAllUsers() {
-        return this.http.get<any>(appConfig.apiUrl + '/user/getAllUsers')
             .map(res => {
                 return res;
             });
     }
 
+    getAllRegisterdUsers() {
+        return this.http.get<any>(appConfig.apiUrl + '/user/getAllRegisterdUsers')
+            .map(res => {
+                return res;
+            });
+    }
+
+
     deleteUser(user) {
-        return this.http.post<any>(appConfig.apiUrl + '/user/deleteUser', user)
+        return this.http.post<any>(appConfig.apiUrl + '/user/delete', user)
             .map(res => {
                 return res;
             });
@@ -50,7 +52,7 @@ export class UserService {
     }
 
     createUser(user) {
-        return this.http.post<any>(appConfig.apiUrl + '/user/createUser', user)
+        return this.http.post<any>(appConfig.apiUrl + '/auth/register', user)
             .map(res => {
                 return res;
             });

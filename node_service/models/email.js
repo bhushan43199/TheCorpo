@@ -16,7 +16,9 @@ var transporter;
 
 const emailschema = mongoose.Schema({
 
-    EMAIL: { type: String, require: true },
+    // EMAIL: { type: String, require: true },
+    TO: { type: String, require: true },
+    FROM: { type: String, require: true },
     SUBJECT: { type: String, require: true },
     MESSAGE: { type: String, require: true },
     ISREAD: { type: Boolean, require: true },
@@ -27,25 +29,6 @@ const emailschema = mongoose.Schema({
 
 var EmailSchema = module.exports = mongoose.model('Email', emailschema);
 
-
-/* Loading modules done. */
-
-// function massMailer() {
-//     var self = this;
-//     transporter = nodemailer.createTransport({
-//         service: 'gmail',
-//         auth: {
-//             user: 'genesis71318@gmail.com',
-//             pass: '71318@genesis'
-//         }
-//     });
-//     // Fetch all the emails from database and push it in listofemails
-//     // Will do it later.
-//     self.invokeOperation();
-
-
-// };
-
 /* Invoking email sending operation at once */
 /*
 * This function will be called by multiple instance.
@@ -53,7 +36,7 @@ var EmailSchema = module.exports = mongoose.model('Email', emailschema);
 * After successfull email operation, it will be pushed in failed or success array.
 */
 
- function SendEmail(Email, callback) {
+function SendEmail(Email, callback) {
     console.log("Sending email to " + Email);
     var self = this;
     self.status = false;
@@ -78,7 +61,7 @@ var EmailSchema = module.exports = mongoose.model('Email', emailschema);
                 } else {
                     self.status = true;
                     success_email.push(Email);
-                   
+
                 }
                 callback(null, self.status, Email);
             });
@@ -86,11 +69,13 @@ var EmailSchema = module.exports = mongoose.model('Email', emailschema);
         function (statusCode, Email, callback) {
             console.log("Will update DB here for " + Email + "With " + statusCode);
             var data = {
-                EMAIL: Email,
+                TO: Email,
+                FROM: mailData.FROM,
                 SUBJECT: mailData.SUBJECT,
                 MESSAGE: mailData.MESSAGE,
-                STATUS:true,
-                CREATED_DATE:new Date()
+                STATUS: true,
+                ISREAD: false,
+                CREATED_DATE: new Date()
             };
             var email = new EmailSchema(data);
             email.save(callback);
@@ -101,8 +86,6 @@ var EmailSchema = module.exports = mongoose.model('Email', emailschema);
         callback();
     });
 }
-
-
 
 module.exports.sendEmails = function (data, callback) {
     // User.update({ _id: userId }, { $set: query }, callback);
@@ -123,5 +106,15 @@ module.exports.sendEmails = function (data, callback) {
         // console.log(failure_email);
         callback(null, true);
     });
-    
+
+}
+
+module.exports.updateEmail = function (email, callback) {
+    EmailSchema.updateOne({ _id: email._id }, { $set: email }, callback);
+}
+
+module.exports.getAllEmailByUser = function (user, callback) {
+
+    var query = { 'FROM': { $e: user.EMAIL }, 'STATUS':true };
+    EmailSchema.find(query, callback);
 }

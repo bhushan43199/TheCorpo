@@ -63,6 +63,13 @@ export class LoginComponent {
         });
   }
 
+  showSuccess(msg) {
+    this.toasterService.pop('Login!', 'successfully!', msg);
+  }
+
+  showError(msg) {
+    this.toasterService.pop('Username Or Password Invalid', 'error!', msg);
+  }
   // doLogin(){
   //   if (this.user.username == "admin" && this.user.password == "admin")
   //   {

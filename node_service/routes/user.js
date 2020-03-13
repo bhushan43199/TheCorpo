@@ -105,7 +105,8 @@ module.exports = function (passport) {
             } else {
                 var data = req.body;
                 var userId = req.body._id;
-                User.find({ '_id': userId }, function (err, user) {
+                console.log(userId)
+                User.findOne({ '_id': userId }, function (err, user) {
                     if (err) {
                         return res.json({
                             verify: 0,
@@ -113,9 +114,10 @@ module.exports = function (passport) {
                             data: null
                         });
                     }
-                    user = user[0];
+                    console.log("user", user)
                     user.FIRST_NAME = data.FIRST_NAME;
                     user.LAST_NAME = data.LAST_NAME;
+                    user.EMAIL = data.EMAIL;
                     user.ROLE = data.ROLE;
                     user.GENDER = data.GENDER;
                     user.ADDRESS = data.ADDRESS;

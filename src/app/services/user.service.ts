@@ -31,12 +31,19 @@ export class UserService {
             });
     }
 
-    activeInactiveUser(user) {
-        return this.http.post<any>(appConfig.apiUrl + '/user/activeInactiveUser', user)
-            .map(res => {
-                return res;
-            });
+    getEmails(){
+        return this.http.get<any>(appConfig.apiUrl + '/email/getAllEmailByUser')
+        .map(res => {
+            return res;
+        });
     }
+
+    // activeInactiveUser(user) {
+    //     return this.http.post<any>(appConfig.apiUrl + '/user/activeInactiveUser', user)
+    //         .map(res => {
+    //             return res;
+    //         });
+    // }
 
     updateUser(user) {
         return this.http.post<any>(appConfig.apiUrl + '/user/updateUser', user)
@@ -52,17 +59,17 @@ export class UserService {
             });
     }
 
-    sendemail(user) {
-        return this.http.post<any>(appConfig.apiUrl + '/user/sendMultipleEmail', user)
-            .map(res => {
-                return res;
-            });
-    }
+    // sendemail(user) {
+    //     return this.http.post<any>(appConfig.apiUrl + '/user/sendMultipleEmail', user)
+    //         .map(res => {
+    //             return res;
+    //         });
+    // }
 
-    getLoggedInUser() {
-        return this.http.get<any>(appConfig.apiUrl + '/user/getUser')
-            .map(res => {
-                return res;
-            });
-    }
+    // getLoggedInUser() {
+    //     return this.http.get<any>(appConfig.apiUrl + '/user/getUser')
+    //         .map(res => {
+    //             return res;
+    //         });
+    // }
   }

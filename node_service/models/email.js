@@ -18,7 +18,7 @@ const emailschema = mongoose.Schema({
 
     // EMAIL: { type: String, require: true },
     TO: { type: String, require: true },
-    FROM: { type: String, require: true },
+    FROM: { type: String },
     SUBJECT: { type: String, require: true },
     MESSAGE: { type: String, require: true },
     ISREAD: { type: Boolean, require: true },
@@ -89,7 +89,7 @@ function SendEmail(Email, callback) {
 
 module.exports.sendEmails = function (data, callback) {
     // User.update({ _id: userId }, { $set: query }, callback);
-    listofemails = data.EMAIL;
+    listofemails = data.TO;
     mailData = data;
     transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -115,6 +115,16 @@ module.exports.updateEmail = function (email, callback) {
 
 module.exports.getAllEmailByUser = function (user, callback) {
 
-    var query = { 'FROM': { $e: user.EMAIL }, 'STATUS':true };
-    EmailSchema.find(query, callback);
+    if(user.ROLE === 0){
+         var query = { 'STATUS':true };
+        // EmailSchema.find(query, callback);
+        EmailSchema.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
+    }else {
+        var query = { 'FROM': user.EMAIL, 'STATUS':true };
+        EmailSchema.find(query, callback);
+    }
+    
 }

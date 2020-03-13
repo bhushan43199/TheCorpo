@@ -39,7 +39,7 @@ module.exports.createUser = function (newUser, callback) {
 }
 
 module.exports.getAllRegisterdUsers = function (userObj, callback) {
-    var query = { 'STATUS': true };
+    var query = { 'ROLE': { $ne: 0 }, 'STATUS': true };
     User.find(query, callback);
 }
 

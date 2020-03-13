@@ -18,7 +18,7 @@ export class UserService {
 
 
     deleteUser(user) {
-        return this.http.post<any>(appConfig.apiUrl + '/user/deleteUser', user)
+        return this.http.post<any>(appConfig.apiUrl + '/user/delete', user)
             .map(res => {
                 return res;
             });

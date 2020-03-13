@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">Registration
       <button class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add User"
-        (click)="successModal.show();">
+        (click)="successModal.show(); openAddUserModal();">
         <i class="fa fa-plus fa-lg"></i>
       </button>
     </div>
@@ -56,10 +56,11 @@
             <td><a routerLink="/compose-mail">{{user.EMAIL}}</a></td>
             <td><i class="fa fa-map-marker"></i> {{user.ADDRESS}}</td>
             <td> <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
-                tooltip="Edit User" (click)="successModal.show()">
+                tooltip="Edit User" (click)="successModal.show(); openEditUserModal(user)">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-danger btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal" tooltip="Delete user" (click)="deleteUser(user)">
+              <button class="btn btn-danger btn-sm" style="margin-bottom: 4px" type="button"
+               data-toggle="modal" tooltip="Delete user" (click)="deleteUser(user)">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>
             </td>
@@ -135,7 +136,7 @@
                       is required and format should be
                       <i>john@doe.com</i>.</span>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4" *ngIf="user._id === undefined">
                     <label for="password">Password :</label>
                     <input type="password" class="form-control" [(ngModel)]="user.PASSWORD" name="PASSWORD"
                       #PASSWORD="ngModel" (change)="confirmPassword.control.updateValueAndValidity()"
@@ -144,7 +145,7 @@
                       *ngIf="PASSWORD.errors && (PASSWORD.touched || PASSWORD.dirty && userRegiForm.submitted)">Password
                       is required</span>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4" *ngIf="user._id === undefined">
                     <label for="password">Repeat Password :</label>
                     <input type="password" class="form-control" [(ngModel)]="user.confirmPassword"
                       name="confirmPassword" #confirmPassword="ngModel" validateEqual="PASSWORD"
@@ -187,14 +188,14 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <div class="col-md-4" *ngIf="user.ROLE!='admin'">
+                  <div class="col-md-4" *ngIf="user.ROLE != 1 && user.ROLE != 3">
                     <label for="address">Company Name :</label>
                     <input type="text" class="form-control" placeholder="Enter Company Name" [(ngModel)]="user.COMP_NAME"
                       name="COMP_NAME" #COMP_NAME="ngModel" required>
                     <span class="help-block" style="color: red;"
                       *ngIf="COMP_NAME.errors && (COMP_NAME.touched || userRegiForm.submitted)">Company Name is required</span>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-md-4" *ngIf="user.ROLE != 1 && user.ROLE != 2">
                     <label for="address">Qualification:</label>
                     <input type="text" class="form-control" placeholder="Enter Qaulification" [(ngModel)]="user.QUALIFICATION"
                       name="QUALIFICATION" #QUALIFICATION="ngModel" required>
@@ -209,9 +210,9 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
-          <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid" *ngIf="!formFlag"
+          <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid" *ngIf="user._id === undefined"
             (click)="createUser(); successModal.hide()">Save</button>
-          <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid" *ngIf="formFlag"
+          <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid" *ngIf="user._id != undefined"
             (click)="updateUser(); successModal.hide()">Update</button>
         </div>
       </form>

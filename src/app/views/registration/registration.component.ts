@@ -64,8 +64,15 @@ export class RegistrationComponent implements OnInit {
     this.getAllRegisterdUsers();
   }
 
+  openAddUserModal(){
+    this.user = {};
+  }
+
+  openEditUserModal(user){
+    this.user = user;
+  }
+
   createUser() {
-    console.log(this.user)
     this.loading = true;
     this._user_service.createUser(this.user)
       .subscribe(
@@ -85,6 +92,34 @@ export class RegistrationComponent implements OnInit {
         data => {
           console.log(data);
           this.userlist = data.data;
+        },
+        error => {
+          // this.showError(error.statusText);
+          this.loading = false;
+        });
+  }
+
+  updateUser(){
+    this.loading = true;
+    this._user_service.updateUser(this.user)
+      .subscribe(
+        data => {
+          // console.log(data);
+          this.getAllRegisterdUsers();
+        },
+        error => {
+          // this.showError(error.statusText);
+          this.loading = false;
+        });
+  }
+
+  deleteUser(user){
+    this.loading = true;
+    this._user_service.deleteUser(user)
+      .subscribe(
+        data => {
+          // console.log(data);
+          this.getAllRegisterdUsers();
         },
         error => {
           // this.showError(error.statusText);

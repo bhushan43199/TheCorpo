@@ -17,8 +17,11 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   loading: any;
   emails: any = [];
   interval: any;
+  loggedInUser:any = {};
 
   ngOnInit() {
+    this.loggedInUser = JSON.parse(localStorage.getItem("user"));
+    console.log(this.loggedInUser)
     this.getEmails();
   }
 

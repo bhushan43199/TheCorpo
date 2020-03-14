@@ -39,7 +39,8 @@
                           <span class="action"><i class="fa fa-star-o"></i></span>
                       </div>
                       <div class="header">
-                          <span class="from">{{email.TO}}</span>
+                          <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
+                          <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
                           <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
                       </div>
                       <div class="title">

@@ -16,7 +16,7 @@ export class AuthenticationService {
                 console.log(user)
                 if (user && user.token) {
                     console.log(user);
-                    localStorage.setItem('currentUser', user.user);
+                    localStorage.setItem('user', JSON.stringify(user.user));
                     localStorage.setItem('token', JSON.stringify(user.token));
                     localStorage.setItem('ROLE', JSON.stringify(user.user.ROLE));
                 }

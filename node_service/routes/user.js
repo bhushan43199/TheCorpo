@@ -114,7 +114,6 @@ module.exports = function (passport) {
                             data: null
                         });
                     }
-                    console.log("user", user)
                     user.FIRST_NAME = data.FIRST_NAME;
                     user.LAST_NAME = data.LAST_NAME;
                     user.EMAIL = data.EMAIL;
@@ -177,6 +176,56 @@ module.exports = function (passport) {
         });
     });
 
+    router.post('/updateProfile', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                // return res.status(403);
+                return res.json({
+                    message: err.message,
+                    status: 0,
+                    result: {}
+                });
+            } else {
+                var data = req.body;
+                var userId = req.body._id;
+                User.findOne({ '_id': userId }, function (err, user) {
+                    if (err) {
+                        return res.json({
+                            message: err.message,
+                            status: 0,
+                            result: {}
+                        });
+                    }
+
+                    user.FIRST_NAME = data.FIRST_NAME;
+                    user.LAST_NAME = data.LAST_NAME;
+                    user.EMAIL = data.EMAIL;
+                    user.DOB = data.DOB;
+                    user.ADDRESS = data.ADDRESS;
+                    user.PHONE = data.PHONE;
+                    user.PRICE = data.PRICE;
+                    User.updateUser(user, function (err, result) {
+                        if (err) {
+                            return res.json({
+                                message: err.message,
+                                status: 0,
+                                result: {}
+                            });
+                        }
+                        if (result) {
+                            return res.json({
+                                verify: 1,
+                                message: "Profile update success.",
+                                data: user
+                            });
+                        }
+                    });
+
+                });
+            }
+        });
+    });
 
     // Old -------------------------------------------------------
 
@@ -204,109 +253,6 @@ module.exports = function (passport) {
             }
         });
     });
-
-    router.post('/updateProfile', verifyToken, (req, res) => {
-
-        jwt.verify(req.token, secret, function (err, loggedInUser) {
-            if (err) {
-                // return res.status(403);
-                return res.json({
-                    message: err.message,
-                    status: 0,
-                    result: {}
-                });
-            } else {
-                // var loggedInUser = user;
-                var data = req.body;
-                var userId = req.body._id;
-                var companyId = req.body.companyId;
-                User.find({ '_id': userId }, function (err, user) {
-                    if (err) {
-                        return res.json({
-                            message: err.message,
-                            status: 0,
-                            result: {}
-                        });
-                    }
-
-                    user = user[0];
-                    user.fname = data.fname;
-                    user.lname = data.lname;
-                    user.email = data.email;
-                    user.address = data.address;
-                    user.phone = data.phone;
-                    User.updateUser(user, function (err, result) {
-                        if (err) {
-                            return res.json({
-                                message: err.message,
-                                status: 0,
-                                result: {}
-                            });
-                        }
-                        if (result) {
-                            Company.find({ '_id': companyId }, function (err, company) {
-                                if (err) {
-                                    return res.json({
-                                        message: err.message,
-                                        status: 0,
-                                        result: {}
-                                    });
-                                }
-
-                                company = company[0];
-                                company.comp_name = data.comp_name;
-                                company.comp_address = data.comp_address;
-                                company.acc_no = data.acc_no;
-                                company.acc_type = data.acc_type;
-                                company.ifsc_code = data.ifsc_code;
-                                company.branch_name = data.branch_name;
-                                company.yearestablish = data.yearestablish;
-                                company.website = data.website;
-                                company.comp_phone = data.comp_phone;
-                                company.comp_email = data.comp_email;
-                                company.type = data.type;
-
-                                Company.updateCompany(company, function (err, result) {
-                                    if (err) {
-                                        return res.json({
-                                            message: err.message,
-                                            status: 0,
-                                            result: {}
-                                        });
-                                    }
-                                    if (result) {
-                                        return res.json({
-                                            message: "Update success",
-                                            status: 1,
-                                            result: result
-                                        })
-                                    }
-
-                                });
-
-                            });
-
-                        }
-                    });
-
-                });
-
-                // const company = req.body;
-                // company.updatedBy = loggedInUser.user._id;
-                // company.updatedDate = new Date();
-                // User.updateUser(updateUser, function (err, user) {
-                //     if (err) throw err;
-                //     if (user) {
-                //         return res.json({
-                //             message: 'Update success..!',
-                //             user
-                //         });
-                //     }
-                // });
-            }
-        });
-    });
-
 
     router.post('/acceptRequest', verifyToken, (req, res) => {
         jwt.verify(req.token, secret, function (err, loggedInUser) {

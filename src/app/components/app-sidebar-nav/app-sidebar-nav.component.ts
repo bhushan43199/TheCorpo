@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 // Import navigation elements
-import { navigation } from './../../_nav';
+import { navigation, venueProvider, normalUser } from './../../_nav';
 
 @Component({
   selector: 'app-sidebar-nav',
@@ -21,7 +21,7 @@ import { navigation } from './../../_nav';
     </nav>`
 })
 export class AppSidebarNavComponent {
-
+  public userType:any;
   public navigation = navigation;
 
   public isDivider(item) {
@@ -32,7 +32,19 @@ export class AppSidebarNavComponent {
     return item.title ? true : false
   }
 
-  constructor() { }
+  public loggedUserType (){
+    
+    this.userType = localStorage.getItem('ROLE');
+    if (this.userType == 0 || this.userType == 1){
+      this.navigation = navigation;
+    }else if(this.userType == 2){
+      this.navigation = venueProvider;
+    }else if(this.userType == 3){
+      this.navigation = normalUser;
+    }   
+  }
+
+  constructor() {this.loggedUserType(); }
 }
 
 import { Router } from '@angular/router';

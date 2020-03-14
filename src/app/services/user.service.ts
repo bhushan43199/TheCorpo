@@ -8,6 +8,14 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+
+    sendMail(obj){
+        return this.http.post<any>(appConfig.apiUrl + '/email/sendEmail',obj)
+        .map(res => {
+            return res;
+        });
+    }
+
     getAllVenueProviders() {
         return this.http.get<any>(appConfig.apiUrl + '/user/getAllVanueProviders')
             .map(res => {

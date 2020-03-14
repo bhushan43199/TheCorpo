@@ -5,6 +5,7 @@ import { P404Component } from './404.component';
 import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
+import { HomeComponent } from './home.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,13 @@ const routes: Routes = [
       title: 'Example Pages'
     },
     children: [
+      {
+        path: 'home',
+        component: HomeComponent,
+        data: {
+          title: 'Home'
+        }
+      },
       {
         path: '404',
         component: P404Component,

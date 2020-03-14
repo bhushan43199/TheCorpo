@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/services';
-import { ToasterService } from 'angular2-toaster';
+import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Component({
   selector: 'app-venue-provider',
@@ -16,6 +16,11 @@ export class VenueProviderComponent implements OnInit {
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
   ]
+  public toasterconfig: ToasterConfig =
+  new ToasterConfig({
+    tapToDismiss: true,
+    timeout: 5000
+  });
   constructor(public userService: UserService, private toasterService: ToasterService) {
     this.getAllVenueProviders()
   }

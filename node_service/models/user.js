@@ -21,6 +21,7 @@ const userSchema = mongoose.Schema({
     PRICE:{ type: Number, require: true },
     DOB:{ type: Date },
     QUALIFICATION: { type: String },
+    LOGO:{ type: String },
     STATUS: { type: Boolean, require: true },
     CREATED_BY: { type: String, require: true },
     CREATED_DATE: { type: Date, require: true },

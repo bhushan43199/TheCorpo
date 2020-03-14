@@ -1,3 +1,4 @@
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
 <div class="container-fluid">
   <div class="row clearfix">
     <div class="col-lg-4 col-md-12">
@@ -39,7 +40,9 @@
             <div class="col-md-12 text-right">
               <button class="btn btn-primary" *ngIf="toggleButton==true" (click)="enable()"><i
                   class="fa fa-edit fa-lg"></i></button>
-              <button class="btn btn-success" *ngIf="toggleButton==false" (click)="disable()"><i
+                  <button class="btn btn-danger" *ngIf="toggleButton==false" (click)="disable()"><i
+                    class="fa fa-remove fa-lg"></i></button>
+              <button class="btn btn-success" (click)="updateProfile()" *ngIf="toggleButton==false" (click)="disable()"><i
                   class="fa fa-check fa-lg"></i></button>
             </div>
           </div>
@@ -50,39 +53,47 @@
           <div class="row">
             <div class="form-group col-sm-6">
               <label for="city">First Name</label>
-              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter First Name">
+              <input type="text" class="form-control" [(ngModel)]="user.FIRST_NAME" name="FIRST_NAME"
+                #FIRST_NAME="ngModel" required [disabled]='toggleButton' placeholder="Enter First Name">
             </div>
             <div class="form-group col-sm-6">
               <label for="postal-code">Last Name</label>
-              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter Last Name">
+              <input type="text" class="form-control" [(ngModel)]="user.LAST_NAME" name="LAST_NAME" #LAST_NAME="ngModel"
+                required [disabled]='toggleButton' placeholder="Enter Last Name">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6">
               <label for="city">Email</label>
-              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter Email">
+              <input type="text" class="form-control" [(ngModel)]="user.EMAIL" name="EMAIL" #EMAIL="ngModel"
+                placeholder="Enter email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required
+                [disabled]='toggleButton' placeholder="Enter Email">
             </div>
             <div class="form-group col-sm-6">
               <label for="postal-code">Phone</label>
-              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter Phone">
+              <input type="text" class="form-control" [(ngModel)]="user.PHONE" name="PHONE" #PHONE="ngModel"
+                (keypress)="keyPress($event)" minlength=10 maxlength=10 [disabled]='toggleButton'
+                placeholder="Enter Phone">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-6">
               <label for="city">Date of Birth</label>
-              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="03/03/2020">
+              <!-- <input type="text" class="form-control" [disabled]='toggleButton' placeholder="03/03/2020"> -->
+              <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="user.DOB" name="DOB" #DOB="ngModel" #dp="bsDatepicker"
+                bsDatepicker>
             </div>
             <div class="form-group col-sm-6">
-              <label for="street">Street</label>
+              <label for="street">Address</label>
               <!-- <input type="text" class="form-control" id="street" placeholder="Enter street name"> -->
-              <textarea class="form-control" [disabled]='toggleButton' rows="2"
-                placeholder="Enter street name"></textarea>
+              <textarea class="form-control" [(ngModel)]="user.ADDRESS" name="ADDRESS" #ADDRESS="ngModel" [disabled]='toggleButton' rows="2"
+                placeholder="Enter your address"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-8">
               <label for="price">Price</label>
-              <input type="text" class="form-control" [disabled]='toggleButton' placeholder="Enter your Price">
+              <input type="text" class="form-control" [(ngModel)]="user.PRICE" name="PRICE" #PRICE="ngModel" [disabled]='toggleButton' placeholder="Enter your Price">
             </div>
 
           </div>

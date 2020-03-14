@@ -66,6 +66,15 @@ export class UserService {
             });
     }
 
+    updateProfile(user) {
+        return this.http.post<any>(appConfig.apiUrl + '/user/updateProfile', user)
+            .map(res => {
+                return res;
+            });
+    }
+
+    
+
     createUser(user) {
         return this.http.post<any>(appConfig.apiUrl + '/auth/register', user)
             .map(res => {

@@ -18,6 +18,8 @@ const userSchema = mongoose.Schema({
     ADDRESS: { type: String },
     PHONE: { type: Number, require: true },
     COMP_NAME: { type: String },
+    PRICE:{ type: Number, require: true },
+    DOB:{ type: Date },
     QUALIFICATION: { type: String },
     STATUS: { type: Boolean, require: true },
     CREATED_BY: { type: String, require: true },

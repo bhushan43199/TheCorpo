@@ -123,6 +123,7 @@ module.exports.getAllEmailByUser = function (user, callback) {
         sort({ CREATED_DATE: -1 }).
         exec(callback);
     }else {
+        console.log(user)
         var query = { 'FROM': user.EMAIL, 'STATUS':true };
         EmailSchema.find(query, callback);
     }

@@ -73,6 +73,7 @@ import { AuthenticationService, UserService } from './services';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './helpers';
 import { AuthGuard } from './guards';
+import { DataService } from './services/data.service';
 
 @NgModule({
   imports: [
@@ -95,6 +96,7 @@ import { AuthGuard } from './guards';
     AuthenticationService,
     UserService,
     AuthGuard,
+    DataService,
     {
     provide: LocationStrategy,
     useClass: HashLocationStrategy

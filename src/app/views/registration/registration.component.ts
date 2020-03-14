@@ -37,7 +37,8 @@ export class RegistrationComponent implements OnInit {
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
   ]
-  constructor(private modalService: BsModalService, private toasterService: ToasterService, private _user_service: UserService, public _router: Router) { }
+  constructor(private modalService: BsModalService, private toasterService: ToasterService,
+     private _user_service: UserService, public _router: Router) { }
 
   ngOnInit() {
     this.getAllRegisterdUsers();

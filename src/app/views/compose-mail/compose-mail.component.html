@@ -1,3 +1,5 @@
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+
 <div class="animated fadeIn">
   <div class="email-app">
     <!-- <nav>
@@ -37,7 +39,7 @@
         <div class="form-row mb-3">
           <label for="to" class="col-2 col-sm-1 col-form-label">To:</label>
           <div class="col-10 col-sm-11">
-            <ng-select [items]="usersFilterList" bindLabel="label" bindValue="value" multiple="true" placeholder="Select mails"
+            <ng-select [items]="usersFilterList" [(ngModel)]="composeObj.TO" name="TO" #TO="ngModel" bindLabel="label" bindValue="value" multiple="true" placeholder="Select mails"
             required>
           </ng-select>
           </div>
@@ -45,7 +47,7 @@
         <div class="form-row mb-3">
           <label for="cc" class="col-2 col-sm-1 col-form-label">Subject:</label>
           <div class="col-10 col-sm-11">
-            <input type="text" class="form-control"  placeholder="Subject">
+            <input type="text" class="form-control" [(ngModel)]="composeObj.SUBJECT" name="SUBJECT" #SUBJECT="ngModel"  placeholder="Subject">
           </div>
         </div>
 
@@ -87,10 +89,10 @@
             </div>
           </div>
           <div class="form-group mt-4">
-            <textarea class="form-control" id="message" name="body" rows="12" placeholder="Click here to reply"></textarea>
+            <textarea class="form-control" id="message" name="body" rows="12" [(ngModel)]="composeObj.MESSAGE" name="MESSAGE" #MESSAGE="ngModel"  placeholder="Click here to reply"></textarea>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-success">Send</button>
+            <button type="button" class="btn btn-success" (click)="sendMail()" >Send</button>
             <button type="submit" class="btn btn-light">Draft</button>
             <button type="submit" class="btn btn-danger">Discard</button>
           </div>

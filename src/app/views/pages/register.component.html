@@ -1,53 +1,226 @@
-<div class="app flex-row align-items-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card mx-4">
-          <div class="card-body p-4">
-            <h1>Register</h1>
-            <p class="text-muted">Create your account</p>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="icon-user"></i></span>
-              </div>
-              <input type="text" class="form-control" placeholder="Username">
-            </div>
+<!-- <form #userRegiForm="ngForm" name="updateUserForm" novalidate>
+  <div class="modal-header">
+    <h4 class="modal-title">Registration</h4>
+    <button type="button" class="close" (click)="successModal.hide()" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group row">
 
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">@</span>
-              </div>
-              <input type="text" class="form-control" placeholder="Email">
-            </div>
+            <div class="col-md-4">
 
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="icon-lock"></i></span>
-              </div>
-              <input type="password" class="form-control" placeholder="Password">
             </div>
+            <div class="col-md-4">
 
-            <div class="input-group mb-4">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="icon-lock"></i></span>
-              </div>
-              <input type="password" class="form-control" placeholder="Repeat password">
             </div>
+            <div class="col-md-4">
 
-            <button type="button" class="btn btn-block btn-success">Create Account</button>
+            </div>
           </div>
-          <div class="card-footer p-4">
-            <div class="row">
-              <div class="col-6">
-                <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
-              </div>
-              <div class="col-6">
-                <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
-              </div>
+          <div class="form-group row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+
+          </div>
+          <div class="form-group row">
+            <div class="col-md-4">
+
+            </div>
+            <div class="col-md-4" *ngIf="user.ROLE != 1 && user.ROLE != 3">
+
+            </div>
+            <div class="col-md-4" *ngIf="user.ROLE != 1 && user.ROLE != 2">
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-4" *ngIf="user._id === undefined">
+
+            </div>
+            <div class="col-md-4" *ngIf="user._id === undefined">
+
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="successModal.hide()">Close</button>
+    <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid"
+      *ngIf="user._id === undefined" (click)="createUser(); successModal.hide()">Save</button>
+    <button type="button" class="btn btn-primary px-4" [disabled]="!userRegiForm.form.valid"
+      *ngIf="user._id != undefined" (click)="updateUser(); successModal.hide()">Update</button>
+  </div>
+</form> -->
+
+<toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+<div class="app flex-row align-items-center">
+  <div class="container">
+    <form #userRegiForm="ngForm" name="updateUserForm" novalidate>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card mx-4">
+            <div class="card-body p-4">
+              <h1>Register</h1>
+              <p class="text-muted">Create your account</p>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="fname">First name :</label>
+                  <input type="text" class="form-control" placeholder="Enter First name" [(ngModel)]="user.FIRST_NAME"
+                    name="FIRST_NAME" #FIRST_NAME="ngModel" required>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="FIRST_NAME.errors && (FIRST_NAME.touched || userRegiForm.submitted)">First Name is
+                    required</span>
+                </div>
+                <div class="col-md-6">
+                  <label for="lname">Last name :</label>
+                  <input type="text" class="form-control" placeholder="Enter Last name" [(ngModel)]="user.LAST_NAME"
+                    name="LAST_NAME" #LAST_NAME="ngModel" required>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="LAST_NAME.errors && (LAST_NAME.touched || userRegiForm.submitted)">Last Name is
+                    required</span>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="type">User Role :
+                  </label>
+                  <ng-select [items]="userRoles" bindLabel="label" bindValue="value" placeholder="Select User Role"
+                    [(ngModel)]="user.ROLE" #ROLE="ngModel" name="ROLE" required>
+                  </ng-select>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="ROLE.errors && (ROLE.touched || userRegiForm.submitted)">User role is
+                    required</span>
+                </div>
+                <div class="col-md-6">
+                  <label for="email">Email :</label>
+                  <input type="email" class="form-control" [(ngModel)]="user.EMAIL" name="EMAIL" #EMAIL="ngModel"
+                    placeholder="Enter email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="EMAIL.errors && (EMAIL.valid || EMAIL.dirty || EMAIL.touched || userRegiForm.submitted)">Email
+                    is required and format should be
+                    <i>john@doe.com</i>.</span>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="password">Password :</label>
+                  <div class="input-group">
+                    <input [type]="passwordType" class="form-control" [(ngModel)]="user.PASSWORD" name="PASSWORD"
+                      #PASSWORD="ngModel" (change)="confirmPassword.control.updateValueAndValidity()"
+                      placeholder="Enter password" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text" (click)="togglePassword()"><i [class]="eyeIcon"></i></span>
+                    </div>
+                  </div>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="PASSWORD.errors && (PASSWORD.touched || PASSWORD.dirty && userRegiForm.submitted)">Password
+                    is required</span>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="password">Repeat Password :</label>
+                  <div class="input-group">
+                    <input [type]="passwordType2" class="form-control" [(ngModel)]="user.confirmPassword"
+                      name="confirmPassword" #confirmPassword="ngModel" validateEqual="PASSWORD"
+                      placeholder="Repeat password" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text" (click)="togglePassword2()"><i [class]="eyeIcon2"></i></span>
+                    </div>
+                  </div>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.required && userRegiForm.submitted)">Password
+                    is required</span>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty && confirmPassword.errors?.notEqual && !confirmPassword.errors?.required)">Password
+                    is not match</span>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="gender">Gender :
+                  </label>
+                  <ng-select [items]="genders" bindLabel="label" bindValue="value" placeholder="Select Gender"
+                    [(ngModel)]="user.GENDER" #GENDER="ngModel" name="GENDER" required>
+                  </ng-select>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="GENDER.errors && (GENDER.touched || userRegiForm.submitted)">Gender is
+                    required</span>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone">Phone :</label>
+                  <input type="text" class="form-control" [(ngModel)]="user.PHONE" name="PHONE" #PHONE="ngModel"
+                    (keypress)="keyPress($event)" minlength=10 maxlength=10 placeholder="Enter your phone">
+                  <span class="help-block" style="color: red;"
+                    *ngIf="PHONE.errors && (PHONE.touched || userRegiForm.submitted)">Phone is
+                    required. </span>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="address">Address :</label>
+                  <textarea class="form-control" placeholder="Enter Address" [(ngModel)]="user.ADDRESS" name="ADDRESS"
+                    #ADDRESS="ngModel" required></textarea>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="ADDRESS.errors && (ADDRESS.touched || userRegiForm.submitted)">Address is required</span>
+                </div>
+
+              </div>
+
+              <div class="form-group row">
+                <div class="col-md-6" *ngIf="user.ROLE != 1 && user.ROLE != 2">
+                  <label for="address">Qualification:</label>
+                  <input type="text" class="form-control" placeholder="Enter Qaulification"
+                    [(ngModel)]="user.QUALIFICATION" name="QUALIFICATION" #QUALIFICATION="ngModel" required>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="QUALIFICATION.errors && (QUALIFICATION.touched || userRegiForm.submitted)">Qaulification is
+                    required</span>
+                </div>
+                <div class="col-md-6" *ngIf="user.ROLE != 1 && user.ROLE != 3">
+                  <label for="address">Company Name :</label>
+                  <input type="text" class="form-control" placeholder="Enter Company Name" [(ngModel)]="user.COMP_NAME"
+                    name="COMP_NAME" #COMP_NAME="ngModel" required>
+                  <span class="help-block" style="color: red;"
+                    *ngIf="COMP_NAME.errors && (COMP_NAME.touched || userRegiForm.submitted)">Company Name is
+                    required</span>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer p-4">
+              <div class="row">
+                <div class="col-md-12">
+                <button type="button" [disabled]="!userRegiForm.form.valid" (click)="createUser(); "
+                  class="btn btn-block btn-success">Create Account</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  <span class="text-muted">Already have an Account?</span>
+                  <p><a routerLink="/pages/login" >Go to Login</a></p>
+                </div>
+                
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </form>
+
+
   </div>
 </div>

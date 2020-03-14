@@ -32,9 +32,9 @@ export class LoginComponent {
     });
 
   ngOnInit() {
-    this.authenticationService.isLogout();
-    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
-    this._router.navigate([this.returnUrl]);
+    // this.authenticationService.isLogout();
+    // this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+    // this._router.navigate([this.returnUrl]);
   }
 
   togglePassword() {

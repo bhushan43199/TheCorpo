@@ -26,7 +26,7 @@
       </ul>
     </nav> -->
     <main>
-      <p class="text-center">New Message</p>
+      <h4 class="text-center">New Message</h4>
       <form>
         <div class="form-row mb-3">
           <label for="to" class="col-2 col-sm-1 col-form-label">UserType:</label>
@@ -50,7 +50,12 @@
             <input type="text" class="form-control" [(ngModel)]="composeObj.SUBJECT" name="SUBJECT" #SUBJECT="ngModel"  placeholder="Subject">
           </div>
         </div>
-
+        <div class="form-row mb-3">
+          <label for="cc" class="col-2 col-sm-1 col-form-label">Price(₹):</label>
+          <div class="col-10 col-sm-11">
+            <input type="text" class="form-control" [(ngModel)]="composeObj.PRICE" name="PRICE" #PRICE="ngModel"  placeholder="Price in Rs.">
+          </div>
+        </div>
       </form>
       <div class="row">
         <div class="col-sm-11 ml-auto">

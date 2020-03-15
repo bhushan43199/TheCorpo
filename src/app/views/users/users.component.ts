@@ -1,19 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { UserService } from 'app/services';
+import { ToasterConfig, ToasterService } from 'angular2-toaster';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss','../../../scss/vendors/toastr/toastr.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UsersComponent implements OnInit {
-
+  userlist: any = [];
   public data: any;
   public user:any={};
   public genders= [
     {label:"Male", value:"male"},
     {label:"Female", value:"female"}
   ]
-  constructor() { }
+  public toasterconfig: ToasterConfig =
+  new ToasterConfig({
+    tapToDismiss: true,
+    timeout: 5000
+  });
+  constructor(private _user_service: UserService,private toasterService: ToasterService) { 
+    this.getAllRegisterdUsers();
+  }
 
   ngOnInit() {
     this.data = [
@@ -48,6 +58,27 @@ export class UsersComponent implements OnInit {
 
 
     ]
+  }
+
+  
+  getAllRegisterdUsers() {
+   
+    this._user_service.getAllRegisterdUsers()
+      .subscribe(
+        data => {
+          if (data.verify == '1') {
+            
+            this.userlist = data.data;
+            this.userlist = this.userlist.filter(data=>data.ROLE == 3);
+        
+          } else {
+            this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
+          }
+        },
+        error => {
+          console.log(error);
+          this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
+        });
   }
 
 }

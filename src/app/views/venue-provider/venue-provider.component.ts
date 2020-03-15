@@ -11,7 +11,10 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
 export class VenueProviderComponent implements OnInit {
   public data: any;
   public user: any = {};
-  public venueProviderList:any ;
+  public venueProviderList:any;
+  public venueProviderDetail:any = {};
+  seeVenueDetPage = false;
+
   public genders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
@@ -23,6 +26,15 @@ export class VenueProviderComponent implements OnInit {
   });
   constructor(public userService: UserService, private toasterService: ToasterService) {
     this.getAllVenueProviders()
+  }
+
+  hideVenueId(){
+    this.seeVenueDetPage = false;
+  }
+  seeVenueId(venueData){
+    this.seeVenueDetPage = true;
+    console.log(venueData);
+    this.venueProviderDetail = venueData; 
   }
 
   ngOnInit() {

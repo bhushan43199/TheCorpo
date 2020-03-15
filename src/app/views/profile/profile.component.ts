@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
-
+import { FileUploader } from 'ng2-file-upload';
+import { appConfig } from 'app/app.config';
+import { HttpResponse, HttpEventType, HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -11,6 +13,10 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
   encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent implements OnInit {
+  public uploader: FileUploader = new FileUploader({
+    isHTML5: true
+  });
+  public uploadfile: FileUploader;
 
   public toggleButton: boolean = true;
   public imgURL;
@@ -22,7 +28,7 @@ export class ProfileComponent implements OnInit {
       tapToDismiss: true,
       timeout: 5000
     });
-  constructor(private _user_service: UserService, private toasterService: ToasterService) {
+  constructor(private _user_service: UserService, private toasterService: ToasterService,private http: HttpClient) {
     this.imgURL = "assets/img/avatars/8.jpg";
 
   }
@@ -30,6 +36,34 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("user"))
     this.user.DOB = new Date();
+  }
+
+  uploadFile(data: FormData, item) {
+    var eventID = item.ID;
+    this.http.post(appConfig.apiUrl + '/event/fileUpload/' + eventID, data, { reportProgress: true, observe: 'events' })
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+        } else if (event instanceof HttpResponse) {
+        }
+      });
+  }
+
+  uploadSubmit(event) {
+    for (let i = 0; i < this.uploader.queue.length; i++) {
+      let fileItem = this.uploader.queue[i]._file;
+      if (fileItem.size > 10000000) {
+        alert("Each File should be less than 10 MB of size.");
+        return;
+      }
+    }
+    for (let j = 0; j < this.uploader.queue.length; j++) {
+      let data = new FormData();
+      let fileItem = this.uploader.queue[j]._file;
+      // console.log(fileItem.name);
+      data.append('file', fileItem);
+      this.uploadFile(data, event);
+    }
+    this.uploader.clearQueue();
   }
   enable() {
     this.toggleButton = false;

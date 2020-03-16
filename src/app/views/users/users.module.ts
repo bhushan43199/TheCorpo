@@ -7,6 +7,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { UserDataFilterPipe } from './datafilterpipe';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ToasterModule } from 'angular2-toaster';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     DataTableModule,
     FormsModule,
     NgSelectModule,
+    ToasterModule
   ],
   declarations: [UsersComponent, UserDataFilterPipe]
 })

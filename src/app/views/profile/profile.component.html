@@ -4,9 +4,11 @@
     <div class="col-lg-4 col-md-12">
       <div class="card mcard_3">
         <div class="card-body">
-          <img [src]="imgURL" class="rounded-circle shadow " width="130px" alt="profile-image">
+          <img [src]="imgURL" class="rounded-circle shadow " width="130px" height="130px" alt="profile-image">
           <div class="main-file-input">
-            <input type="file" (change)="onAdd($event)" [hidden]="toggleButton" class="custom-file-input">
+            <!-- <input type="file" (change)="onAdd($event)" [hidden]="toggleButton" class="custom-file-input"> -->
+            <input type="file" ng2FileSelect [uploader]="uploader" [hidden]="toggleButton" (change)="onAdd($event)"
+              class="custom-file-input" />
           </div>
           <h4 class="m-t-10">{{user.FIRST_NAME}} {{user.LAST_NAME}}</h4>
 
@@ -26,6 +28,7 @@
             <div class="col-md-12">
               <small class="text-muted">Phone: </small>
               <p>+ {{user.PHONE}}</p>
+              <p>{{user.PHONE}}</p>
             </div>
 
           </div>
@@ -37,13 +40,16 @@
       <div class="card">
         <div class="card-header">
           <div class="row">
-            <div class="col-md-12 text-right">
+            <div class="col-md-6">
+              <span class="name-header"> {{user.FIRST_NAME}} {{user.LAST_NAME}}</span>
+            </div>
+            <div class="col-md-6 text-right">
               <button class="btn btn-primary" *ngIf="toggleButton==true" (click)="enable()"><i
                   class="fa fa-edit fa-lg"></i></button>
-                  <button class="btn btn-danger" *ngIf="toggleButton==false" (click)="disable()"><i
-                    class="fa fa-remove fa-lg"></i></button>
-              <button class="btn btn-success" (click)="updateProfile()" *ngIf="toggleButton==false" (click)="disable()"><i
-                  class="fa fa-check fa-lg"></i></button>
+              <button class="btn btn-danger" *ngIf="toggleButton==false" (click)="disable()"><i
+                  class="fa fa-remove fa-lg"></i></button>
+              <button class="btn btn-success" (click)="updateProfile()" *ngIf="toggleButton==false"
+                (click)="disable()"><i class="fa fa-check fa-lg"></i></button>
             </div>
           </div>
         </div>
@@ -80,20 +86,21 @@
             <div class="form-group col-sm-6">
               <label for="city">Date of Birth</label>
               <!-- <input type="text" class="form-control" [disabled]='toggleButton' placeholder="03/03/2020"> -->
-              <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="user.DOB" name="DOB" #DOB="ngModel" #dp="bsDatepicker"
-                bsDatepicker>
+              <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="user.DOB" name="DOB"
+                #DOB="ngModel" #dp="bsDatepicker" bsDatepicker>
             </div>
             <div class="form-group col-sm-6">
               <label for="street">Address</label>
               <!-- <input type="text" class="form-control" id="street" placeholder="Enter street name"> -->
-              <textarea class="form-control" [(ngModel)]="user.ADDRESS" name="ADDRESS" #ADDRESS="ngModel" [disabled]='toggleButton' rows="2"
-                placeholder="Enter your address"></textarea>
+              <textarea class="form-control" [(ngModel)]="user.ADDRESS" name="ADDRESS" #ADDRESS="ngModel"
+                [disabled]='toggleButton' rows="2" placeholder="Enter your address"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-8">
               <label for="price">Price</label>
-              <input type="text" class="form-control" [(ngModel)]="user.PRICE" name="PRICE" #PRICE="ngModel" [disabled]='toggleButton' placeholder="Enter your Price">
+              <input type="text" class="form-control" [(ngModel)]="user.PRICE" name="PRICE" #PRICE="ngModel"
+                [disabled]='toggleButton' placeholder="Enter your Price">
             </div>
 
           </div>

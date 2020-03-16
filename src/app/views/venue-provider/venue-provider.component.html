@@ -1,5 +1,5 @@
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
-<div class="animated fadeIn">
+<div class="animated fadeIn" *ngIf="seeVenueDetPage == false">
   <div class="card">
     <div class="card-header">Venue Providers
       <button class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add Venue"
@@ -53,7 +53,7 @@
             <td><i class="fa fa-whatsapp" aria-hidden="true"></i> {{venueProvider.PHONE}}</td>
             <td>{{venueProvider.EMAIL}}</td>
             <td><i class="fa fa-map-marker"></i> {{venueProvider.ADDRESS}}</td>
-            <td><button class="btn btn-warning btn-sm" routerLink="/myvenue">See Venue</button>
+            <td><button class="btn btn-warning btn-sm" (click)="seeVenueId(venueProvider)">See Venue</button>
               <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Edit User" (click)="successModal.show()">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
@@ -199,4 +199,47 @@
     <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="animated fadeIn" *ngIf="seeVenueDetPage == true">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="row">
+              <div class="col-md-6">
+                <h4>{{venueProviderDetail.FIRST_NAME}} {{venueProviderDetail.LAST_NAME}}</h4>
+              </div>
+              <div class="col-md-6 text-right">
+                <button class="btn btn-danger" (click)="hideVenueId()"><i class="fa fa-arrow-left"></i></button>
+              </div>
+            </div>
+          </div>
+            <div class="card-body">
+                <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/1.jpg"> <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/1.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/2.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/2.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/3.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/3.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/4.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/4.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/5.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/5.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/6.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/6.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/7.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/7.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/8.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/8.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/9.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/9.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/10.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/10.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/11.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/11.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/12.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/12.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/13.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/13.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/14.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/14.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/15.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/15.jpg" alt=""> </a> </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30">
+                     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

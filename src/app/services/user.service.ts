@@ -8,12 +8,19 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+    emailReadStatus(obj) {
+        return this.http.post<any>(appConfig.apiUrl + '/email/isRead', obj)
+            .map(res => {
+                return res;
+            });
+    }
 
-    sendMail(obj){
-        return this.http.post<any>(appConfig.apiUrl + '/email/sendEmail',obj)
-        .map(res => {
-            return res;
-        });
+
+    sendMail(obj) {
+        return this.http.post<any>(appConfig.apiUrl + '/email/sendEmail', obj)
+            .map(res => {
+                return res;
+            });
     }
 
     getAllVenueProviders() {
@@ -45,11 +52,11 @@ export class UserService {
             });
     }
 
-    getEmails(){
+    getEmails() {
         return this.http.get<any>(appConfig.apiUrl + '/email/getAllEmailByUser')
-        .map(res => {
-            return res;
-        });
+            .map(res => {
+                return res;
+            });
     }
 
     // activeInactiveUser(user) {
@@ -73,7 +80,7 @@ export class UserService {
             });
     }
 
-    
+
 
     createUser(user) {
         return this.http.post<any>(appConfig.apiUrl + '/auth/register', user)
@@ -95,4 +102,4 @@ export class UserService {
     //             return res;
     //         });
     // }
-  }
+}

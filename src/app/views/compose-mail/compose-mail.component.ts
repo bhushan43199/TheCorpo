@@ -85,6 +85,14 @@ export class ComposeMailComponent implements OnInit {
         });
   
 }
+keyPress(event: any) {
+  const pattern = /[0-9\+\-\ ]/;
+  const inputChar = String.fromCharCode(event.charCode);
+  if (event.keyCode !== 8 && !pattern.test(inputChar)) {
+    event.preventDefault();
+  }
+}
+
 filterUsers(data) {
 
   if (data.value == 1) {

@@ -123,9 +123,25 @@ module.exports.getAllEmailByUser = function (user, callback) {
         sort({ CREATED_DATE: -1 }).
         exec(callback);
     }else {
-        console.log(user)
+        // console.log(user)
         var query = { 'FROM': user.EMAIL, 'STATUS':true };
-        EmailSchema.find(query, callback);
+        EmailSchema.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
+        // EmailSchema.find(query, callback);
     }
     
 }
+
+module.exports.getEmailDataById = function (_id, callback) {
+
+         var query = { 'STATUS':true, '_id':_id };
+        // EmailSchema.find(query, callback);
+        EmailSchema.
+        find(query).
+        exec(callback);
+    
+}
+
+

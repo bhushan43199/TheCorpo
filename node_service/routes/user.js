@@ -1,10 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Vanue = require('../models/vanue');
 const jwt = require('jsonwebtoken');
 var fs = require('fs');
 var secret = 'corporate-token';
 var generator = require('generate-password');
+
+var path = require('path');
+var fs = require('fs');
+var multer = require('multer');
+
+const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/corporate_connection_angular_admin/src/assets/uploads';
+const DBIMGPATH = 'assets/uploads';
+
+// const DOCPATH = '/var/www/files_sports_master/upload';
+// const DBIMGPATH = '/upload';
+
 
 
 module.exports = function (passport) {
@@ -222,91 +234,42 @@ module.exports = function (passport) {
 
                 });
             }
+
         });
     });
 
-    router.post('/profilePic/:_id', (req, res, next) => {
+    router.post('/profilePic/:_id', verifyToken, (req, res) => {
 
-        var userId = req.params._id;
-        var mainPath = DOCPATH;
-        var imgPath = '/' + userId;
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                // return res.status(403);
+                return res.json({
+                    message: err.message,
+                    status: 0,
+                    result: {}
+                });
+            } else {
+                var userId = req.params._id;
+                var mainPath = DOCPATH;
+                var imgPath = '/' + userId;
 
-        var imgFullPath = mainPath + imgPath;
-        var filepath = '';
-        console.log(imgFullPath)
+                var imgFullPath = mainPath + imgPath;
+                var filepath = '';
+                console.log(imgFullPath)
 
-        if (fs.existsSync(imgFullPath)) {
+                if (fs.existsSync(imgFullPath)) {
 
-            var final_path = imgFullPath;
+                    var final_path = imgFullPath;
 
-            var storage = multer.diskStorage({
-                destination: function (req, file, callback) {
-                    callback(null, final_path)
-                },
-                filename: function (req, file, callback) {
-                    filepath = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
-                    callback(null, filepath);
-                }
-            });
-            var upload = multer({
-                storage: storage,
-                limits: { fileSize: 100000000 },
-                fileFilter: function (req, file, callback) {
-                    var ext = path.extname(file.originalname)
-                    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
-                        return callback(res.end('Only Images are allowed'), null)
-                    }
-                    return callback(null, true);
-                }
-            }).single('file');
-            upload(req, res, function (err) {
-                if (err) {
-                    return res.json({
-                        verify: 0,
-                        message: err.message,
-                        data: {}
-                    });
-                }
-
-                User.findOne({ '_id': userId }, function (err, mypro) {
-                    if (err) {
-                        return res.json({
-                            verify: 0,
-                            message: err.message,
-                            data: {}
-                        });
-                    }
-
-                    mypro.LOGO = DBIMGPATH + '/' + filepath;
-                    User.updateUser(mypro, function (err, updatecomp) {
-                        if (err) throw err;
-                        if (updatecomp) {
-                            return res.json({
-                                verify: 0,
-                                message: "Profile picture upload",
-                                data: mypro
-                            });
+                    var storage = multer.diskStorage({
+                        destination: function (req, file, callback) {
+                            callback(null, final_path)
+                        },
+                        filename: function (req, file, callback) {
+                            filepath = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                            callback(null, filepath);
                         }
                     });
-                });
-            });
-        } else {
-            var final_path = imgFullPath;
-            var storage = multer.diskStorage({
-                destination: function (req, file, callback) {
-                    callback(null, final_path)
-                },
-                filename: function (req, file, callback) {
-                    filepath = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
-                    callback(null, filepath);
-                }
-            });
-
-            fs.mkdir(final_path, function (err) {
-                if (err) {
-                    console.log('failed to create directory', err);
-                } else {
-
                     var upload = multer({
                         storage: storage,
                         limits: { fileSize: 100000000 },
@@ -318,9 +281,14 @@ module.exports = function (passport) {
                             return callback(null, true);
                         }
                     }).single('file');
-
                     upload(req, res, function (err) {
-                        if (err) return res.json({ err, status: 'error' });
+                        if (err) {
+                            return res.json({
+                                verify: 0,
+                                message: err.message,
+                                data: {}
+                            });
+                        }
 
                         User.findOne({ '_id': userId }, function (err, mypro) {
                             if (err) {
@@ -344,10 +312,380 @@ module.exports = function (passport) {
                             });
                         });
                     });
+                } else {
+                    var final_path = imgFullPath;
+                    var storage = multer.diskStorage({
+                        destination: function (req, file, callback) {
+                            callback(null, final_path)
+                        },
+                        filename: function (req, file, callback) {
+                            filepath = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                            callback(null, filepath);
+                        }
+                    });
+
+                    fs.mkdir(final_path, function (err) {
+                        if (err) {
+                            console.log('failed to create directory', err);
+                        } else {
+
+                            var upload = multer({
+                                storage: storage,
+                                limits: { fileSize: 100000000 },
+                                fileFilter: function (req, file, callback) {
+                                    var ext = path.extname(file.originalname)
+                                    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+                                        return callback(res.end('Only Images are allowed'), null)
+                                    }
+                                    return callback(null, true);
+                                }
+                            }).single('file');
+
+                            upload(req, res, function (err) {
+                                if (err) return res.json({ err, status: 'error' });
+
+                                User.findOne({ '_id': userId }, function (err, mypro) {
+                                    if (err) {
+                                        return res.json({
+                                            verify: 0,
+                                            message: err.message,
+                                            data: {}
+                                        });
+                                    }
+
+                                    mypro.LOGO = DBIMGPATH + '/' + filepath;
+                                    User.updateUser(mypro, function (err, updatecomp) {
+                                        if (err) throw err;
+                                        if (updatecomp) {
+                                            return res.json({
+                                                verify: 0,
+                                                message: "Profile picture upload",
+                                                data: mypro
+                                            });
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                    });
                 }
-            });
-        }
+            }
+        });
+
     });
+
+    router.post('/venueImagesUpload', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                // return res.status(403);
+                return res.json({
+                    message: err.message,
+                    status: 0,
+                    result: {}
+                });
+            } else {
+                loggedInUser = loggedInUser.user;
+                var userId = loggedInUser._id;
+                var mainPath = DOCPATH;
+                var imgPath = '/' + userId;
+
+                var imgFullPath = mainPath + imgPath;
+                var newFilename = '';
+                console.log(imgFullPath);
+
+                if (fs.existsSync(imgFullPath)) {
+                    //File Upload
+                    var final_path = imgFullPath + "/vanueImages";
+
+                    var storage = multer.diskStorage({
+                        destination: function (req, file, callback) {
+                            callback(null, final_path)
+                        },
+                        filename: function (req, file, callback) {
+                            newFilename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                            callback(null, newFilename);
+                        }
+                    });
+                    if (fs.existsSync(final_path)) {
+                        // Do something
+                        var upload = multer({
+                            storage: storage,
+                            limits: { fileSize: 100000000 },
+                            fileFilter: function (req, file, callback) {
+                                var ext = path.extname(file.originalname)
+                                if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                    return callback(res.end('Only Images are allowed'), null)
+                                }
+                                return callback(null, true);
+                            }
+                        }).single('file');
+                        upload(req, res, function (err) {
+                            if (err) return res.json({ err, status: 'error' });
+
+                            var vanue = new Vanue();
+                            vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                            vanue.CREATED_BY = userId;
+                            vanue.STATUS = true;
+                            Vanue.create(vanue,
+                                function (err, result1) {
+                                    if (err) {
+                                        //Database connection error
+                                        return res.json({
+                                            success: false,
+                                            data: {
+                                                verified: 0,
+                                                status: err.message,
+                                                info: []
+                                            },
+                                        });
+                                    }
+
+                                    if (result1 === undefined || result1 === null || result1.length == 0) {
+                                        return res.json({
+                                            success: true,
+                                            data: {
+                                                verified: 0,
+                                                status: 'File upload failed.',
+                                                info: {}
+                                            },
+                                        });
+                                    }
+
+                                    return res.json({
+                                        success: true,
+                                        data: {
+                                            verified: 1,
+                                            status: 'File upload success.',
+                                            info: result1
+                                        },
+                                    });
+                                });
+                        });
+                    } else {
+                        fs.mkdir(final_path, function (err) {
+                            if (err) {
+                                console.log('failed to create directory', err);
+                            } else {
+
+                                var upload = multer({
+                                    storage: storage,
+                                    limits: { fileSize: 100000000 },
+                                    fileFilter: function (req, file, callback) {
+                                        var ext = path.extname(file.originalname)
+                                        if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                            return callback(res.end('Only Images are allowed'), null)
+                                        }
+                                        return callback(null, true);
+                                    }
+                                }).single('file');
+
+                                upload(req, res, function (err) {
+                                    if (err) return res.json({ err, status: 'error' });
+
+                                    var vanue = new Vanue();
+                                    vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                                    vanue.CREATED_BY = userId;
+                                    vanue.STATUS = true;
+                                    Vanue.create(vanue,
+                                        function (err, result1) {
+                                            if (err) {
+                                                //Database connection error
+                                                return res.json({
+                                                    success: false,
+                                                    data: {
+                                                        verified: 0,
+                                                        status: err.message,
+                                                        info: []
+                                                    },
+                                                });
+                                            }
+
+                                            if (result1 === undefined || result1 === null || result1.length == 0) {
+                                                return res.json({
+                                                    success: true,
+                                                    data: {
+                                                        verified: 0,
+                                                        status: 'File upload failed.',
+                                                        info: {}
+                                                    },
+                                                });
+                                            }
+
+                                            return res.json({
+                                                success: true,
+                                                data: {
+                                                    verified: 1,
+                                                    status: 'File upload success.',
+                                                    info: result1
+                                                },
+                                            });
+                                        });
+                                });
+                            }
+                        });
+                    }
+                } else {
+                    fs.mkdir(imgFullPath, function (err) {
+                        if (err) {
+                            console.log('failed to create directory', err);
+                        }
+
+                        var final_path = imgFullPath + "/vanueImages";;
+                        var storage = multer.diskStorage({
+                            destination: function (req, file, callback) {
+                                callback(null, final_path)
+                            },
+                            filename: function (req, file, callback) {
+                                newFilename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                                callback(null, newFilename);
+                            }
+                        });
+                        if (fs.existsSync(final_path)) {
+                            // Do something
+                            var upload = multer({
+                                storage: storage,
+                                limits: { fileSize: 100000000 },
+                                fileFilter: function (req, file, callback) {
+                                    var ext = path.extname(file.originalname)
+                                    if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                        return callback(res.end('Only Images are allowed'), null)
+                                    }
+                                    return callback(null, true);
+                                }
+                            }).single('file');
+
+                            upload(req, res, function (err) {
+                                if (err) return res.json({ err, status: 'error' });
+
+                                var vanue = new Vanue();
+                                vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                                vanue.CREATED_BY = userId;
+                                vanue.STATUS = true;
+                                Vanue.create(vanue,
+                                    function (err, result1) {
+                                        if (err) {
+                                            //Database connection error
+                                            return res.json({
+                                                success: false,
+                                                data: {
+                                                    verified: 0,
+                                                    status: err.message,
+                                                    info: []
+                                                },
+                                            });
+                                        }
+
+                                        if (result1 === undefined || result1 === null || result1.length == 0) {
+                                            return res.json({
+                                                success: true,
+                                                data: {
+                                                    verified: 0,
+                                                    status: 'File upload failed.',
+                                                    info: {}
+                                                },
+                                            });
+                                        }
+
+                                        return res.json({
+                                            success: true,
+                                            data: {
+                                                verified: 1,
+                                                status: 'File upload success.',
+                                                info: result1
+                                            },
+                                        });
+                                    });
+                            });
+                        } else {
+                            fs.mkdir(final_path, function (err) {
+                                if (err) {
+                                    console.log('failed to create directory', err);
+                                } else {
+
+                                    var upload = multer({
+                                        storage: storage,
+                                        limits: { fileSize: 100000000 },
+                                        fileFilter: function (req, file, callback) {
+                                            var ext = path.extname(file.originalname)
+                                            if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                                return callback(res.end('Only Images are allowed'), null)
+                                            }
+                                            return callback(null, true);
+                                        }
+                                    }).single('file');
+
+                                    upload(req, res, function (err) {
+                                        if (err) return res.json({ err, status: 'error' });
+                                        var vanue = new Vanue();
+                                        vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                                        vanue.CREATED_BY = userId;
+                                        vanue.STATUS = true;
+                                        Vanue.create(vanue,
+                                            function (err, result1) {
+                                                if (err) {
+                                                    //Database connection error
+                                                    return res.json({
+                                                        success: false,
+                                                        data: {
+                                                            verified: 0,
+                                                            status: err.message,
+                                                            info: []
+                                                        },
+                                                    });
+                                                }
+
+                                                if (result1 === undefined || result1 === null || result1.length == 0) {
+                                                    return res.json({
+                                                        success: true,
+                                                        data: {
+                                                            verified: 0,
+                                                            status: 'File upload failed.',
+                                                            info: {}
+                                                        },
+                                                    });
+                                                }
+
+                                                return res.json({
+                                                    success: true,
+                                                    data: {
+                                                        verified: 1,
+                                                        status: 'File upload success.',
+                                                        info: result1
+                                                    },
+                                                });
+                                            });
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
+    });
+
+    router.get('/getVanueImagesById/:_id', (req, res) => {
+        var _id = req.params._id
+        Vanue.getVanueImagesById(_id, function (err, list) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            }
+            if (list) {
+                return res.json({
+                    verify: 1,
+                    message: "",
+                    data: list
+                });
+            }
+        });
+    });
+
 
     // Old -------------------------------------------------------
 

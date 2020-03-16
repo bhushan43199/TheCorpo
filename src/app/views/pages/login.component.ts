@@ -54,11 +54,11 @@ export class LoginComponent {
     this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
       .subscribe(
         data => {
-          // this.showSuccess('Success login');                   
+          this.toasterService.pop('success','Login!', 'successfully!');                  
           this._router.navigate([this.returnUrl]);
         },
         error => {
-          // this.showError(error.statusText);
+          this.toasterService.pop('success','Oppss..', 'Something went wrong!');
           this.loading = false;
         });
   }

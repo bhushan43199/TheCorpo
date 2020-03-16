@@ -1,6 +1,6 @@
 <div class="animated fadeIn">
-  <div class="email-app mb-4">
-      <!-- <nav>
+    <div class="email-app mb-4">
+        <!-- <nav>
           <a class="btn btn-danger btn-block" (click)="largeModal.show()">New Email</a>
           <ul class="nav">
               <li class="nav-item">
@@ -24,34 +24,36 @@
               </li>
           </ul>
       </nav> -->
-      <main class="inbox">
-          <div class="toolbar">
-              <div class="btn-group">
-                  <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
-              </div>
-          </div>
+        <main class="inbox">
+            <div class="toolbar">
+                <div class="btn-group">
+                    <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
+                </div>
+            </div>
 
-          <ul class="messages">
-              <li class="message unread" (click)="viewBead()" *ngFor="let email of emails">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
-                          <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
-                          <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
-                      </div>
-                      <div class="title">
-                          {{email.SUBJECT}}
-                      </div>
-                      <div class="description">
-                          {{email.MESSAGE}}
-                      </div>
-                  </a>
-              </li>
-              <!-- <li class="message">
+            <ul class="messages">
+                <li class="message unread" (click)="viewBead(email)" *ngFor="let email of emails">
+                    <a>
+                        <div class="actions">
+                            <span class="action"><i class="fa fa-square-o"></i></span>
+                            <span class="action"><i class="fa fa-star-o"></i></span>
+                        </div>
+
+                        <div class="header">
+                            <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
+                            <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
+                            <h3 class="badge badge-pill badge-danger" *ngIf="email.ISREAD == false">New</h3>
+                            <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
+                        </div>
+                        <div class="title">
+                            {{email.SUBJECT}}
+                        </div>
+                        <div class="description">
+                            {{email.MESSAGE}}
+                        </div>
+                    </a>
+                </li>
+                <!-- <li class="message">
                   <a>
                       <div class="actions">
                           <span class="action"><i class="fa fa-square-o"></i></span>
@@ -204,9 +206,9 @@
                       </div>
                   </a>
               </li> -->
-          </ul>
-      </main>
-  </div>
+            </ul>
+        </main>
+    </div>
 </div>
 
 

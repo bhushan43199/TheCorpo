@@ -48,7 +48,17 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
 
   viewBead(email) {
     // this.route.navigate(['/view-bead', data:email]);
-    this.route.navigate(['/view-bead'], {relativeTo: email});
+    this._user_service.emailReadStatus(email)
+    .subscribe(
+      data=>{
+        this.route.navigate(['/view-bead'], {relativeTo: email});
+      },
+      error=>{
+        console.log(error);
+      }
+    )
+    
+   
   }
 
 }

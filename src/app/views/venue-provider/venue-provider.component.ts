@@ -14,7 +14,7 @@ export class VenueProviderComponent implements OnInit {
   public venueProviderList:any;
   public venueProviderDetail:any = {};
   seeVenueDetPage = false;
-
+  loggedInUserRole:any;
   public genders = [
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
@@ -25,7 +25,8 @@ export class VenueProviderComponent implements OnInit {
     timeout: 5000
   });
   constructor(public userService: UserService, private toasterService: ToasterService) {
-    this.getAllVenueProviders()
+    this.getAllVenueProviders();
+    this.loggedInUserRole = localStorage.getItem('ROLE')
   }
 
   hideVenueId(){
@@ -33,7 +34,6 @@ export class VenueProviderComponent implements OnInit {
   }
   seeVenueId(venueData){
     this.seeVenueDetPage = true;
-    console.log(venueData);
     this.venueProviderDetail = venueData; 
   }
 

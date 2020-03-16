@@ -11,7 +11,9 @@ import { Subscription, Observable } from 'rxjs';
 })
 export class BeadingInboxMailComponent implements OnInit, OnDestroy {
 
-  constructor(public route: Router, private _user_service: UserService) { }
+  constructor(public route: Router, private _user_service: UserService) {
+   
+   }
 
   private subscription: Subscription = new Subscription();
   loading: any;
@@ -21,8 +23,11 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loggedInUser = JSON.parse(localStorage.getItem("user"));
-    console.log(this.loggedInUser)
     this.getEmails();
+    for (let i = 0; i < this.emails.length; i++) {
+      this.emails.push(`item ${i}`);
+    }
+    
   }
 
   ngOnDestroy() {
@@ -47,18 +52,7 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   }
 
   viewBead(email) {
-    // this.route.navigate(['/view-bead', data:email]);
-    this._user_service.emailReadStatus(email)
-    .subscribe(
-      data=>{
-        this.route.navigate(['/view-bead'], {relativeTo: email});
-      },
-      error=>{
-        console.log(error);
-      }
-    )
-    
-   
+    this.route.navigate(['/view-bead' , {id : email._id} ]);
   }
-
+  
 }

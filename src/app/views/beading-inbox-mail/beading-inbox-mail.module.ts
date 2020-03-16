@@ -12,7 +12,7 @@ import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { ToasterModule } from 'angular2-toaster';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ViewBeadComponent } from './view-bead/view-bead.component';
-
+import {NgxPaginationModule} from 'ngx-pagination';
 
 @NgModule({
   imports: [
@@ -27,7 +27,8 @@ import { ViewBeadComponent } from './view-bead/view-bead.component';
     ModalModule.forRoot(),
     ToasterModule,
     TooltipModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    NgxPaginationModule
   ],
   declarations: [ BeadingInboxMailComponent ]
 })

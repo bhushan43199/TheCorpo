@@ -12,6 +12,7 @@ export class UsersComponent implements OnInit {
   userlist: any = [];
   public data: any;
   public user:any={};
+  loggedInUserRole:any;
   public genders= [
     {label:"Male", value:"male"},
     {label:"Female", value:"female"}
@@ -23,6 +24,7 @@ export class UsersComponent implements OnInit {
   });
   constructor(private _user_service: UserService,private toasterService: ToasterService) { 
     this.getAllRegisterdUsers();
+    this.loggedInUserRole = localStorage.getItem('ROLE')
   }
 
   ngOnInit() {

@@ -26,16 +26,26 @@
       </nav> -->
         <main class="inbox">
             <div class="toolbar">
-                <div class="btn-group">
-                    <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
                 </div>
+               
+               
             </div>
 
             <ul class="messages">
-                <li class="message unread" (click)="viewBead(email)" *ngFor="let email of emails">
+                <li class="message" [ngClass]="email.ISREAD == false? 'unread' : 'read'"  (click)="viewBead(email)" *ngFor="let email of emails | paginate: { itemsPerPage: 5, currentPage: p } ">
                     <a>
                         <div class="actions">
-                            <span class="action"><i class="fa fa-square-o"></i></span>
+                            <!-- <span class="action"><i class="fa fa-square-o"></i></span> -->
+                            <input  type="checkbox" class="action" />
                             <span class="action"><i class="fa fa-star-o"></i></span>
                         </div>
 
@@ -53,159 +63,7 @@
                         </div>
                     </a>
                 </li>
-                <!-- <li class="message">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date"><span class="fa fa-paper-clip"></span> Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li>
-              <li class="message">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li>
-              <li class="message unread">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li>
-              <li class="message">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-
-                  </a>
-              </li>
-              <li class="message">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li>
-              <li class="message unread">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li>
-              <li class="message">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li>
-              <li class="message">
-                  <a>
-                      <div class="actions">
-                          <span class="action"><i class="fa fa-square-o"></i></span>
-                          <span class="action"><i class="fa fa-star-o"></i></span>
-                      </div>
-                      <div class="header">
-                          <span class="from">Lukasz Holeczek</span>
-                          <span class="date">Today, 3:47 PM</span>
-                      </div>
-                      <div class="title">
-                          Lorem ipsum dolor sit amet.
-                      </div>
-                      <div class="description">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                      </div>
-                  </a>
-              </li> -->
+                
             </ul>
         </main>
     </div>

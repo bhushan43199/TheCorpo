@@ -2,7 +2,7 @@
 <div class="animated fadeIn" *ngIf="seeVenueDetPage == false">
   <div class="card">
     <div class="card-header">Venue Providers
-      <button class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add Venue"
+      <button *ngIf="loggedInUserRole === 1" class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add Venue"
       (click)="successModal.show();">
       <i class="fa fa-plus fa-lg"></i>
     </button>
@@ -54,11 +54,11 @@
             <td>{{venueProvider.EMAIL}}</td>
             <td><i class="fa fa-map-marker"></i> {{venueProvider.ADDRESS}}</td>
             <td><button class="btn btn-warning btn-sm" (click)="seeVenueId(venueProvider)">See Venue</button>
-              <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
+              <button *ngIf="loggedInUserRole === 1" class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Edit User" (click)="successModal.show()">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>
-              <button class="btn btn-danger btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
+              <button *ngIf="loggedInUserRole === 1" class="btn btn-danger btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Delete user" (click)="deleteUser(user)">
                 <i class="fa fa-trash-o" aria-hidden="true"></i>
               </button>

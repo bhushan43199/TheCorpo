@@ -8,6 +8,15 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+
+    getEmailDataById(id) {
+        
+        return this.http.get<any>(appConfig.apiUrl + '/user/getEmailDataByEmailId/'+ id)
+            .map(res => {
+                return res;
+            });
+    }
+
     emailReadStatus(obj) {
         return this.http.post<any>(appConfig.apiUrl + '/email/isRead', obj)
             .map(res => {

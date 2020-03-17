@@ -58,7 +58,7 @@ module.exports = function (passport) {
                             data: null
                         });
                     }
-                    
+                    console.log(email)
                     email.ISREAD = true;
                     Email.updateEmail(email, function (err, result) {
                         if (err) {
@@ -81,7 +81,7 @@ module.exports = function (passport) {
         });
     });
 
-    router.get('/getAllEmailByUser', verifyToken, (req, res) => {
+    router.get('/getAllSentEmailByUser', verifyToken, (req, res) => {
         jwt.verify(req.token, secret, function (err, userObj) {
             if (err) {
                 return res.json({
@@ -91,7 +91,7 @@ module.exports = function (passport) {
                 });
             } else {
                 var loggedIn = userObj.user;
-                Email.getAllEmailByUser(loggedIn, function (err, usersList) {
+                Email.getAllSentEmailByUser(loggedIn, function (err, usersList) {
                     if (err) {
                         return res.json({
                             verify: 0,
@@ -110,6 +110,69 @@ module.exports = function (passport) {
             }
         });
     });
+
+    router.get('/getAllInboxEmailByUser', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, userObj) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            } else {
+                var loggedIn = userObj.user;
+                Email.getAllInboxEmailByUser(loggedIn, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    router.get('/getEmailDataById/:_id', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, userObj) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            } else {
+                var loggedIn = userObj.user;
+                var _id = req.params._id;
+                Email.getEmailDataById(_id, function (err, email) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (email) {
+                        return res.json({
+                            verify: 1,
+                            message: "Email Data",
+                            data: email
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    
 
 
 

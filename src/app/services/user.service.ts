@@ -11,7 +11,7 @@ export class UserService {
 
     getEmailDataById(id) {
         
-        return this.http.get<any>(appConfig.apiUrl + '/user/getEmailDataByEmailId/'+ id)
+        return this.http.get<any>(appConfig.apiUrl + '/email/getEmailDataById/'+ id)
             .map(res => {
                 return res;
             });

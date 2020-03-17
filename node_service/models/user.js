@@ -18,9 +18,10 @@ const userSchema = mongoose.Schema({
     ADDRESS: { type: String },
     PHONE: { type: Number, require: true },
     COMP_NAME: { type: String },
-    PRICE:{ type: Number, require: true },
-    DOB:{ type: Date },
+    PRICE: { type: Number, require: true },
+    DOB: { type: Date },
     QUALIFICATION: { type: String },
+    LOGO: { type: String },
     STATUS: { type: Boolean, require: true },
     CREATED_BY: { type: String, require: true },
     CREATED_DATE: { type: Date, require: true },
@@ -42,26 +43,46 @@ module.exports.createUser = function (newUser, callback) {
 
 module.exports.getAllRegisterdUsers = function (userObj, callback) {
     var query = { 'ROLE': { $ne: 0 }, 'STATUS': true };
-    User.find(query, callback);
+    // User.find(query, callback);
+    User.
+    find(query).
+    sort({ CREATED_DATE: -1 }).
+    exec(callback);
 }
 
 module.exports.getAllUsers = function (user, callback) {
 
     if (user.ROLE == 0) {
         var query = { 'ROLE': { $ne: 0 } };
-        User.find(query, callback);
+        // User.find(query, callback);
+        User.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
     } else if (user.ROLE == 1) {
         var query = { 'ROLE': 1, 'STATUS': true }
-        User.find(query, callback);
+        // User.find(query, callback);
+        User.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
     } else if (user.ROLE == 2) {
         var query = { 'ROLE': 2, 'STATUS': true }
-        User.find(query, callback);
+        // User.find(query, callback);
+        User.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
     }
 }
 
 module.exports.getAllVanueProviders = function (callback) {
-    var query = { 'ROLE': 2,'STATUS': true };
-    User.find(query, callback);
+    var query = { 'ROLE': 2, 'STATUS': true };
+    // User.find(query, callback);
+    User.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
 }
 
 

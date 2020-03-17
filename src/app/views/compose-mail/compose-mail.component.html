@@ -6,10 +6,10 @@
       <a href="#" class="btn btn-danger btn-block">New Email</a>
       <ul class="nav">
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
+          <a class="nav-link"><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fa fa-star"></i> Stared</a>
+          <a class="nav-link" ><i class="fa fa-star"></i> Stared</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#"><i class="fa fa-rocket"></i> Sent</a>
@@ -54,6 +54,27 @@
           <label for="cc" class="col-2 col-sm-1 col-form-label">Price(₹):</label>
           <div class="col-10 col-sm-11">
             <input type="text" class="form-control" [(ngModel)]="composeObj.PRICE" name="PRICE" #PRICE="ngModel"  placeholder="Price in Rs.">
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <label for="cc" class="col-2 col-sm-1 col-form-label">Start Date:</label>
+          <div class="col-10 col-sm-5">
+            <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="composeObj.START_DATE" name="START_DATE"
+            #START_DATE="ngModel" #dp="bsDatepicker" bsDatepicker>
+            <!-- <input type="text" class="form-control" [(ngModel)]="composeObj.START_DATE" name="START_DATE" #START_DATE="ngModel"  placeholder="Price in Rs."> -->
+          </div>
+
+          <label for="cc" class="col-2 col-sm-1 col-form-label">End Date:</label>
+          <div class="col-10 col-sm-5">
+            <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="composeObj.END_DATE" name="END_DATE"
+            #END_DATE="ngModel" #dp="bsDatepicker" bsDatepicker>
+            <!-- <input type="text" class="form-control" [(ngModel)]="composeObj.END_DATE" name="PRICE" #START_DATE="ngModel"  placeholder="Price in Rs."> -->
+          </div>
+        </div>
+        <div class="form-row mb-3">
+          <label for="cc" class="col-2 col-sm-1 col-form-label">Place</label>
+          <div class="col-10 col-sm-11">
+            <input type="text" class="form-control" [(ngModel)]="composeObj.PLACE" name="PLACE" #PLACE="ngModel"  placeholder="Add Place">
           </div>
         </div>
       </form>

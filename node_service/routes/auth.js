@@ -4,11 +4,12 @@ const User = require('../models/user');
 // const Company = require('../models/company');
 const jwt = require('jsonwebtoken');
 var secret = 'corporate-token';
-// var multer = require('multer');
-// var path = require('path');
-// var fs = require('fs');
-// const DOCPATH = 'D:/Sahil/My Data/Genesis/Admin/services-nodejs/uploads';
-// const DBIMGPATH = 'assets/uploads';
+var multer = require('multer');
+var path = require('path');
+var fs = require('fs');
+const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/corporate_connection_angular_admin/src/assets/uploads';
+const DBIMGPATH = 'assets/uploads';
+
 
 module.exports = function (passport) {
 
@@ -85,9 +86,6 @@ module.exports = function (passport) {
         })(req, res, next);
 
     });
-
-
-
 
     // File uplaod of Company documents.
     router.post('/uploadDoc/:companyId', (req, res, next) => {

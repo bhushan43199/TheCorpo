@@ -1,12 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Vanue = require('../models/vanue');
 const jwt = require('jsonwebtoken');
 var fs = require('fs');
 var secret = 'corporate-token';
-const Client = require('../models/client');
-const Company = require('../models/company');
 var generator = require('generate-password');
+
+var path = require('path');
+var fs = require('fs');
+var multer = require('multer');
+
+const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/corporate_connection_angular_admin/src/assets/uploads';
+const DBIMGPATH = 'assets/uploads';
+
+// const DOCPATH = '/var/www/files_sports_master/upload';
+// const DBIMGPATH = '/upload';
+
 
 
 module.exports = function (passport) {
@@ -224,14 +234,13 @@ module.exports = function (passport) {
 
                 });
             }
+
         });
     });
 
-    // Old -------------------------------------------------------
+    router.post('/profilePic/:_id', verifyToken, (req, res) => {
 
-
-    router.get('/getProfile', verifyToken, function (req, res) {
-        jwt.verify(req.token, secret, function (err, user) {
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
             if (err) {
                 // return res.status(403);
                 return res.json({
@@ -240,273 +249,590 @@ module.exports = function (passport) {
                     result: {}
                 });
             } else {
-                User.getProfileData(user.userId, function (err, result) {
-                    if (err) throw err;
-                    if (result) {
-                        return res.json({
-                            message: "",
-                            status: 1,
-                            result: result
-                        })
-                    }
-                });
-            }
-        });
-    });
+                var userId = req.params._id;
+                var mainPath = DOCPATH;
+                var imgPath = '/' + userId;
 
-    router.post('/acceptRequest', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, loggedInUser) {
-            if (err) {
-                return res.status(403);
-            } else {
-                var nUser = req.body;
-                User.findById({ '_id': nUser._id }, function (err, user) {
-                    if (err) {
-                        return res.json({ message: err });
-                    }
+                var imgFullPath = mainPath + imgPath;
+                var filepath = '';
+                console.log(imgFullPath)
 
-                    if (user) {
-                        var password = generator.generate({
-                            length: 6,
-                            numbers: true
-                        });
+                if (fs.existsSync(imgFullPath)) {
 
-                        user.password = password;
-                        console.log(password)
-                        User.updateUserPassword(user, function (err, result) {
-                            if (err) throw err;
-                            if (result) {
-                                user.password = password;
-                                User.sendEmail(user, function (err, result) {
-                                    if (err) throw err;
-                                    if (result) {
-                                        return res.json({
-                                            message: "Request accept success",
-                                            status: 1,
-                                            result: result
-                                        })
-                                    }
-                                });
+                    var final_path = imgFullPath;
+
+                    var storage = multer.diskStorage({
+                        destination: function (req, file, callback) {
+                            callback(null, final_path)
+                        },
+                        filename: function (req, file, callback) {
+                            filepath = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                            callback(null, filepath);
+                        }
+                    });
+                    var upload = multer({
+                        storage: storage,
+                        limits: { fileSize: 100000000 },
+                        fileFilter: function (req, file, callback) {
+                            var ext = path.extname(file.originalname)
+                            if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+                                return callback(res.end('Only Images are allowed'), null)
                             }
-                        });
-                    }
-                });
+                            return callback(null, true);
+                        }
+                    }).single('file');
+                    upload(req, res, function (err) {
+                        if (err) {
+                            return res.json({
+                                verify: 0,
+                                message: err.message,
+                                data: {}
+                            });
+                        }
 
-
-                // User.updateUser(nUser, function (err, result) {
-                //     if (err) throw err;
-                //     if (result) {
-                //         return res.json({
-                //             message: "Request accept success",
-                //             status: 1,
-                //             result: result
-                //         })
-                //     }
-                // });
-            }
-        });
-    });
-
-    router.post('/activeInactiveUser', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, user) {
-            if (err) {
-                return res.status(403);
-            } else {
-                var loggedInUser = user;
-                if (req.body.status === true) {
-                    req.body.status = false;
-                } else {
-                    req.body.status = true;
-                }
-                console.log(req.body);
-                var nUser = req.body;
-                User.updateUser(nUser, function (err, result) {
-                    if (err) throw err;
-                    if (result) {
-                        return res.json({
-                            message: "Update success",
-                            status: 1,
-                            result: result
-                        })
-                    }
-                });
-            }
-        });
-    });
-
-    router.post('/changePassword', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, loggedInUser) {
-            if (err) {
-                return res.status(403);
-            } else {
-                var reqData = req.body;
-                User.findById(reqData._id, function (err, user) {
-                    if (err) throw err;
-                    if (user) {
-                        User.comparePassword(reqData.old_password, user.password, function (err, isMatch) {
-                            // console.log('comparePassword is calling..');
-                            if (err) throw err;
-                            if (isMatch) {
-                                // return done(null, user);  
-                                console.log(isMatch);
-                                User.changePassword(reqData, function (err, result) {
-                                    if (err) throw err;
-                                    if (result) {
-                                        return res.json({
-                                            message: "Password update success.",
-                                            status: 1,
-                                            result: {}
-                                        })
-                                    }
-                                });
-                            } else {
+                        User.findOne({ '_id': userId }, function (err, mypro) {
+                            if (err) {
                                 return res.json({
-                                    message: "Password is not match",
-                                    status: 0,
-                                    result: {}
-                                })
+                                    verify: 0,
+                                    message: err.message,
+                                    data: {}
+                                });
                             }
-                        })
-                    }
-                });
+
+                            mypro.LOGO = DBIMGPATH + '/' + filepath;
+                            User.updateUser(mypro, function (err, updatecomp) {
+                                if (err) throw err;
+                                if (updatecomp) {
+                                    return res.json({
+                                        verify: 0,
+                                        message: "Profile picture upload",
+                                        data: mypro
+                                    });
+                                }
+                            });
+                        });
+                    });
+                } else {
+                    var final_path = imgFullPath;
+                    var storage = multer.diskStorage({
+                        destination: function (req, file, callback) {
+                            callback(null, final_path)
+                        },
+                        filename: function (req, file, callback) {
+                            filepath = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                            callback(null, filepath);
+                        }
+                    });
+
+                    fs.mkdir(final_path, function (err) {
+                        if (err) {
+                            console.log('failed to create directory', err);
+                        } else {
+
+                            var upload = multer({
+                                storage: storage,
+                                limits: { fileSize: 100000000 },
+                                fileFilter: function (req, file, callback) {
+                                    var ext = path.extname(file.originalname)
+                                    if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
+                                        return callback(res.end('Only Images are allowed'), null)
+                                    }
+                                    return callback(null, true);
+                                }
+                            }).single('file');
+
+                            upload(req, res, function (err) {
+                                if (err) return res.json({ err, status: 'error' });
+
+                                User.findOne({ '_id': userId }, function (err, mypro) {
+                                    if (err) {
+                                        return res.json({
+                                            verify: 0,
+                                            message: err.message,
+                                            data: {}
+                                        });
+                                    }
+
+                                    mypro.LOGO = DBIMGPATH + '/' + filepath;
+                                    User.updateUser(mypro, function (err, updatecomp) {
+                                        if (err) throw err;
+                                        if (updatecomp) {
+                                            return res.json({
+                                                verify: 0,
+                                                message: "Profile picture upload",
+                                                data: mypro
+                                            });
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                    });
+                }
             }
         });
+
     });
 
+    router.post('/venueImagesUpload', verifyToken, (req, res) => {
 
-    // ---------------------Old---------------------------------------
-    router.get('/getUser', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, authData) {
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
             if (err) {
-                return res.status(403);
-            } else {
+                // return res.status(403);
                 return res.json({
-                    authData
+                    message: err.message,
+                    status: 0,
+                    result: {}
                 });
-            }
-        });
-    });
-
-    router.get('/getLoggedInUser', verifyToken, function (req, res) {
-        jwt.verify(req.token, secret, function (err, user) {
-            if (err) {
-                return res.status(403);
             } else {
-                return res.json({
-                    user
-                })
-            }
-        });
-    });
+                loggedInUser = loggedInUser.user;
+                var userId = loggedInUser._id;
+                var mainPath = DOCPATH;
+                var imgPath = '/' + userId;
 
-    router.post('/userStatus', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, userObj) {
-            if (err) {
-                return res.status(403);
-            } else {
-                var status = req.body;
-                User.userStatus(status, function (err, usersList) {
-                    if (err) throw err;
-                    if (usersList) {
+                var imgFullPath = mainPath + imgPath;
+                var newFilename = '';
+                console.log(imgFullPath);
 
-                        Client.userStatus(status, function (err, clientList) {
-                            if (err) throw err;
-                            if (clientList) {
-                                return res.json(clientList);
+                if (fs.existsSync(imgFullPath)) {
+                    //File Upload
+                    var final_path = imgFullPath + "/vanueImages";
+
+                    var storage = multer.diskStorage({
+                        destination: function (req, file, callback) {
+                            callback(null, final_path)
+                        },
+                        filename: function (req, file, callback) {
+                            newFilename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                            callback(null, newFilename);
+                        }
+                    });
+                    if (fs.existsSync(final_path)) {
+                        // Do something
+                        var upload = multer({
+                            storage: storage,
+                            limits: { fileSize: 100000000 },
+                            fileFilter: function (req, file, callback) {
+                                var ext = path.extname(file.originalname)
+                                if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                    return callback(res.end('Only Images are allowed'), null)
+                                }
+                                return callback(null, true);
+                            }
+                        }).single('file');
+                        upload(req, res, function (err) {
+                            if (err) return res.json({ err, status: 'error' });
+
+                            var vanue = new Vanue();
+                            vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                            vanue.CREATED_BY = userId;
+                            vanue.STATUS = true;
+                            Vanue.create(vanue,
+                                function (err, result1) {
+                                    if (err) {
+                                        //Database connection error
+                                        return res.json({
+                                            success: false,
+                                            data: {
+                                                verified: 0,
+                                                status: err.message,
+                                                info: []
+                                            },
+                                        });
+                                    }
+
+                                    if (result1 === undefined || result1 === null || result1.length == 0) {
+                                        return res.json({
+                                            success: true,
+                                            data: {
+                                                verified: 0,
+                                                status: 'File upload failed.',
+                                                info: {}
+                                            },
+                                        });
+                                    }
+
+                                    return res.json({
+                                        success: true,
+                                        data: {
+                                            verified: 1,
+                                            status: 'File upload success.',
+                                            info: result1
+                                        },
+                                    });
+                                });
+                        });
+                    } else {
+                        fs.mkdir(final_path, function (err) {
+                            if (err) {
+                                console.log('failed to create directory', err);
+                            } else {
+
+                                var upload = multer({
+                                    storage: storage,
+                                    limits: { fileSize: 100000000 },
+                                    fileFilter: function (req, file, callback) {
+                                        var ext = path.extname(file.originalname)
+                                        if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                            return callback(res.end('Only Images are allowed'), null)
+                                        }
+                                        return callback(null, true);
+                                    }
+                                }).single('file');
+
+                                upload(req, res, function (err) {
+                                    if (err) return res.json({ err, status: 'error' });
+
+                                    var vanue = new Vanue();
+                                    vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                                    vanue.CREATED_BY = userId;
+                                    vanue.STATUS = true;
+                                    Vanue.create(vanue,
+                                        function (err, result1) {
+                                            if (err) {
+                                                //Database connection error
+                                                return res.json({
+                                                    success: false,
+                                                    data: {
+                                                        verified: 0,
+                                                        status: err.message,
+                                                        info: []
+                                                    },
+                                                });
+                                            }
+
+                                            if (result1 === undefined || result1 === null || result1.length == 0) {
+                                                return res.json({
+                                                    success: true,
+                                                    data: {
+                                                        verified: 0,
+                                                        status: 'File upload failed.',
+                                                        info: {}
+                                                    },
+                                                });
+                                            }
+
+                                            return res.json({
+                                                success: true,
+                                                data: {
+                                                    verified: 1,
+                                                    status: 'File upload success.',
+                                                    info: result1
+                                                },
+                                            });
+                                        });
+                                });
                             }
                         });
-
                     }
-                });
-            }
-        });
-    });
+                } else {
+                    fs.mkdir(imgFullPath, function (err) {
+                        if (err) {
+                            console.log('failed to create directory', err);
+                        }
 
-
-
-    router.post('/updateUser', verifyToken, (req, res) => {
-
-        jwt.verify(req.token, secret, function (err, user) {
-            if (err) {
-                return res.status(403);
-            } else {
-                var loggedInUser = user;
-                const userId = req.body._id;
-                const updateUser = req.body;
-                updateUser.updatedBy = loggedInUser.user._id;
-                updateUser.updatedDate = new Date();
-                User.updateUser(userId, updateUser, function (err, user) {
-                    if (err) throw err;
-                    if (user) {
-                        return res.json({
-                            message: 'Update success..!',
-                            user
+                        var final_path = imgFullPath + "/vanueImages";;
+                        var storage = multer.diskStorage({
+                            destination: function (req, file, callback) {
+                                callback(null, final_path)
+                            },
+                            filename: function (req, file, callback) {
+                                newFilename = file.fieldname + '-' + Date.now() + path.extname(file.originalname);
+                                callback(null, newFilename);
+                            }
                         });
-                    }
-                });
+                        if (fs.existsSync(final_path)) {
+                            // Do something
+                            var upload = multer({
+                                storage: storage,
+                                limits: { fileSize: 100000000 },
+                                fileFilter: function (req, file, callback) {
+                                    var ext = path.extname(file.originalname)
+                                    if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                        return callback(res.end('Only Images are allowed'), null)
+                                    }
+                                    return callback(null, true);
+                                }
+                            }).single('file');
+
+                            upload(req, res, function (err) {
+                                if (err) return res.json({ err, status: 'error' });
+
+                                var vanue = new Vanue();
+                                vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                                vanue.CREATED_BY = userId;
+                                vanue.STATUS = true;
+                                Vanue.create(vanue,
+                                    function (err, result1) {
+                                        if (err) {
+                                            //Database connection error
+                                            return res.json({
+                                                success: false,
+                                                data: {
+                                                    verified: 0,
+                                                    status: err.message,
+                                                    info: []
+                                                },
+                                            });
+                                        }
+
+                                        if (result1 === undefined || result1 === null || result1.length == 0) {
+                                            return res.json({
+                                                success: true,
+                                                data: {
+                                                    verified: 0,
+                                                    status: 'File upload failed.',
+                                                    info: {}
+                                                },
+                                            });
+                                        }
+
+                                        return res.json({
+                                            success: true,
+                                            data: {
+                                                verified: 1,
+                                                status: 'File upload success.',
+                                                info: result1
+                                            },
+                                        });
+                                    });
+                            });
+                        } else {
+                            fs.mkdir(final_path, function (err) {
+                                if (err) {
+                                    console.log('failed to create directory', err);
+                                } else {
+
+                                    var upload = multer({
+                                        storage: storage,
+                                        limits: { fileSize: 100000000 },
+                                        fileFilter: function (req, file, callback) {
+                                            var ext = path.extname(file.originalname)
+                                            if (ext.toLowerCase() !== '.jpg' && ext.toLowerCase() !== '.jpeg' && ext.toLowerCase() !== '.png') {
+                                                return callback(res.end('Only Images are allowed'), null)
+                                            }
+                                            return callback(null, true);
+                                        }
+                                    }).single('file');
+
+                                    upload(req, res, function (err) {
+                                        if (err) return res.json({ err, status: 'error' });
+                                        var vanue = new Vanue();
+                                        vanue.IMG_PATH = DBIMGPATH + imgPath + '/vanueImages/' + newFilename;
+                                        vanue.CREATED_BY = userId;
+                                        vanue.STATUS = true;
+                                        Vanue.create(vanue,
+                                            function (err, result1) {
+                                                if (err) {
+                                                    //Database connection error
+                                                    return res.json({
+                                                        success: false,
+                                                        data: {
+                                                            verified: 0,
+                                                            status: err.message,
+                                                            info: []
+                                                        },
+                                                    });
+                                                }
+
+                                                if (result1 === undefined || result1 === null || result1.length == 0) {
+                                                    return res.json({
+                                                        success: true,
+                                                        data: {
+                                                            verified: 0,
+                                                            status: 'File upload failed.',
+                                                            info: {}
+                                                        },
+                                                    });
+                                                }
+
+                                                return res.json({
+                                                    success: true,
+                                                    data: {
+                                                        verified: 1,
+                                                        status: 'File upload success.',
+                                                        info: result1
+                                                    },
+                                                });
+                                            });
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
+
     });
 
-    router.post('/createUser', verifyToken, (req, res) => {
-        jwt.verify(req.token, secret, function (err, user) {
+    router.get('/getVanueImagesById/:_id', (req, res) => {
+        var _id = req.params._id
+        Vanue.getVanueImagesById(_id, function (err, list) {
             if (err) {
-                return res.status(403);
-            } else {
-                const createUser = new User({
-                    fname: req.body.fname,
-                    lname: req.body.lname,
-                    title: req.body.title,
-                    email: req.body.email,
-                    username: req.body.username,
-                    userID: req.body.userID,
-                    address: req.body.address,
-                    phone: req.body.phone,
-                    password: req.body.password,
-                    country: req.body.country,
-                    city: req.body.city,
-                    state: req.body.state,
-                    companyname: req.body.companyname,
-                    website: req.body.website,
-                    zip: req.body.zip,
-                    createdDate: new Date(),
-                    userType: req.body.userType,
-                    createdDateTime: new Date()
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
                 });
-                // createUser.userType = 1;
-                createUser.status = true;
-                createUser.createdBy = user.user._id;
-                createUser.companyId = user.user.companyId;
-                User.createUser(createUser, function (err, user) {
-
-                    if (user) {
-                        return res.json({
-                            message: ' User created..',
-                            user
-                        });
-                    }
+            }
+            if (list) {
+                return res.json({
+                    verify: 1,
+                    message: "",
+                    data: list
                 });
             }
         });
     });
 
-    router.post('/getFilteredUser', verifyToken, function (req, res) {
-        jwt.verify(req.token, secret, function (err) {
-            if (err) {
-                return res.status(403);
-            } else {
-                const user = req.body;
-                User.getFilteredUser(user, function (err, usertype) {
-                    if (err) return res.json({ err, status: 'error' });
-                    if (usertype) {
-                        return res.json(
-                            usertype
-                        );
-                    }
-                });
-            }
-        });
-    });
+
+    // Old -------------------------------------------------------
+
+
+    // router.get('/getProfile', verifyToken, function (req, res) {
+    //     jwt.verify(req.token, secret, function (err, user) {
+    //         if (err) {
+    //             // return res.status(403);
+    //             return res.json({
+    //                 message: err.message,
+    //                 status: 0,
+    //                 result: {}
+    //             });
+    //         } else {
+    //             User.getProfileData(user.userId, function (err, result) {
+    //                 if (err) throw err;
+    //                 if (result) {
+    //                     return res.json({
+    //                         message: "",
+    //                         status: 1,
+    //                         result: result
+    //                     })
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
+    // router.post('/acceptRequest', verifyToken, (req, res) => {
+    //     jwt.verify(req.token, secret, function (err, loggedInUser) {
+    //         if (err) {
+    //             return res.status(403);
+    //         } else {
+    //             var nUser = req.body;
+    //             User.findById({ '_id': nUser._id }, function (err, user) {
+    //                 if (err) {
+    //                     return res.json({ message: err });
+    //                 }
+
+    //                 if (user) {
+    //                     var password = generator.generate({
+    //                         length: 6,
+    //                         numbers: true
+    //                     });
+
+    //                     user.password = password;
+    //                     console.log(password)
+    //                     User.updateUserPassword(user, function (err, result) {
+    //                         if (err) throw err;
+    //                         if (result) {
+    //                             user.password = password;
+    //                             User.sendEmail(user, function (err, result) {
+    //                                 if (err) throw err;
+    //                                 if (result) {
+    //                                     return res.json({
+    //                                         message: "Request accept success",
+    //                                         status: 1,
+    //                                         result: result
+    //                                     })
+    //                                 }
+    //                             });
+    //                         }
+    //                     });
+    //                 }
+    //             });
+
+
+    //             // User.updateUser(nUser, function (err, result) {
+    //             //     if (err) throw err;
+    //             //     if (result) {
+    //             //         return res.json({
+    //             //             message: "Request accept success",
+    //             //             status: 1,
+    //             //             result: result
+    //             //         })
+    //             //     }
+    //             // });
+    //         }
+    //     });
+    // });
+
+    // router.post('/activeInactiveUser', verifyToken, (req, res) => {
+    //     jwt.verify(req.token, secret, function (err, user) {
+    //         if (err) {
+    //             return res.status(403);
+    //         } else {
+    //             var loggedInUser = user;
+    //             if (req.body.status === true) {
+    //                 req.body.status = false;
+    //             } else {
+    //                 req.body.status = true;
+    //             }
+    //             console.log(req.body);
+    //             var nUser = req.body;
+    //             User.updateUser(nUser, function (err, result) {
+    //                 if (err) throw err;
+    //                 if (result) {
+    //                     return res.json({
+    //                         message: "Update success",
+    //                         status: 1,
+    //                         result: result
+    //                     })
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
+    // router.post('/changePassword', verifyToken, (req, res) => {
+    //     jwt.verify(req.token, secret, function (err, loggedInUser) {
+    //         if (err) {
+    //             return res.status(403);
+    //         } else {
+    //             var reqData = req.body;
+    //             User.findById(reqData._id, function (err, user) {
+    //                 if (err) throw err;
+    //                 if (user) {
+    //                     User.comparePassword(reqData.old_password, user.password, function (err, isMatch) {
+    //                         // console.log('comparePassword is calling..');
+    //                         if (err) throw err;
+    //                         if (isMatch) {
+    //                             // return done(null, user);  
+    //                             console.log(isMatch);
+    //                             User.changePassword(reqData, function (err, result) {
+    //                                 if (err) throw err;
+    //                                 if (result) {
+    //                                     return res.json({
+    //                                         message: "Password update success.",
+    //                                         status: 1,
+    //                                         result: {}
+    //                                     })
+    //                                 }
+    //                             });
+    //                         } else {
+    //                             return res.json({
+    //                                 message: "Password is not match",
+    //                                 status: 0,
+    //                                 result: {}
+    //                             })
+    //                         }
+    //                     })
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
 
     //Verify Token
     function verifyToken(req, res, next) {

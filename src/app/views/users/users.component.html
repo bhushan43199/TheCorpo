@@ -1,7 +1,7 @@
 <div class="animated fadeIn">
   <div class="card">
-    <div class="card-header"><i class="fa fa-users"></i> Users
-      <button *ngIf="loggedInUserRole === 1" class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add User"
+    <div class="card-header"><i class="fa fa-users"></i> Users 
+      <button *ngIf="loggedInUserRole === '1' || loggedInUserRole === '0'" class="btn btn-primary float-right" type="button" data-toggle="modal" tooltip="Add User"
         (click)="successModal.show();">
         <i class="fa fa-plus fa-lg"></i>
       </button>
@@ -38,7 +38,7 @@
             <th>
               Address
             </th>
-            <th *ngIf="loggedInUserRole === 1">
+            <th *ngIf="loggedInUserRole === '1' || loggedInUserRole === '0'">
               Action
             </th>
           </tr>
@@ -51,7 +51,7 @@
             <td><i class="fa fa-whatsapp" aria-hidden="true"></i> {{user.PHONE}}</td>
             <td><a routerLink="/compose-mail">{{user.EMAIL}}</a></td>
             <td><i class="fa fa-map-marker"></i> {{user.ADDRESS}}</td>
-            <td *ngIf="loggedInUserRole === 1"> <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
+            <td *ngIf="loggedInUserRole === '1' || loggedInUserRole === '0'"> <button class="btn btn-primary btn-sm" style="margin-bottom: 4px" type="button" data-toggle="modal"
                 tooltip="Edit User" (click)="successModal.show()">
                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
               </button>

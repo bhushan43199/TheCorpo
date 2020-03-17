@@ -5,7 +5,8 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
-  styleUrls: ['./compose-mail.component.scss' , '../../../scss/vendors/toastr/toastr.scss'],
+  styleUrls: ['./compose-mail.component.scss' , '../../../scss/vendors/toastr/toastr.scss',
+  '../../../scss/vendors/bs-datepicker/bs-datepicker.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class ComposeMailComponent implements OnInit {

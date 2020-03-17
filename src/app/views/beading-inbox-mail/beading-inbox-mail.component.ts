@@ -45,6 +45,16 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
     );
   }
 
+  getSentEmails(){
+    this._user_service.getSentEmails()
+        .subscribe(
+          data => {
+            this.emails = data.data;
+            // this.subscribeToData();
+          })
+    
+  }
+
   subscribeToData() {
     this.subscription.add(
       Observable.timer(10000).subscribe(() => this.getEmails())

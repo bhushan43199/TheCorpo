@@ -93,6 +93,9 @@ clearData(){
   this.composeObj.SUBJECT = "";
   this.composeObj.PRICE = ""
   this.composeObj.MESSAGE = ""
+  this.composeObj.PLACE = ""
+  this.composeObj.START_DATE = new Date();
+  this.composeObj.END_DATE = new Date();
 }
 keyPress(event: any) {
   const pattern = /[0-9\+\-\ ]/;

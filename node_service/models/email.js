@@ -101,8 +101,8 @@ module.exports.sendEmails = function (data, callback) {
     transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'genesis71318@gmail.com',
-            pass: '71318@genesis'
+            user: 'flemingparmar7895@gmail.com',
+            pass: 'jesus7895#'
         }
     });
     // Fetch all the emails from database and push it in listofemails

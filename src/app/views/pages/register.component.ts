@@ -87,9 +87,9 @@ export class RegisterComponent {
     this._user_service.createUser(this.user)
       .subscribe(
         data => {
-          if (data.verify == '1') {
+          if (data.verify == '1') {            
+            this._router.navigate(['/pages/login']);
             this.toasterService.pop('success', 'Done', 'Registration Done');
-            this._router.navigate[('/pages/login')];
           } else {
             this.toasterService.pop('error', 'Oopps..', 'Something went wrong');
           }

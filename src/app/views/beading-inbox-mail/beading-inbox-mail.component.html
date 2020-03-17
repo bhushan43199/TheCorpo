@@ -1,38 +1,39 @@
 <div class="animated fadeIn">
     <div class="email-app mb-4">
-        <!-- <nav>
-          <a class="btn btn-danger btn-block" (click)="largeModal.show()">New Email</a>
+        <nav>
+            <button type="button" routerLink="/compose-mail" class="btn btn-primary  btn-block"> Create Project</button>
+
           <ul class="nav">
-              <li class="nav-item">
-                  <a class="nav-link"><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
+              <li class="nav-item" (click)="getEmails()">
+                  <a class="nav-link" ><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                   <a class="nav-link"><i class="fa fa-star"></i> Stared</a>
+              </li> -->
+              <li class="nav-item" (click)="getSentEmails()">
+                  <a class="nav-link" ><i class="fa fa-rocket"></i> Sent</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link"><i class="fa fa-rocket"></i> Sent</a>
-              </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                   <a class="nav-link"><i class="fa fa-trash-o"></i> Trash</a>
-              </li>
-              <li class="nav-item">
+              </li> -->
+              <!-- <li class="nav-item">
                   <a class="nav-link"><i class="fa fa-bookmark"></i> Important<span
             class="badge badge-info">5</span></a>
-              </li>
-              <li class="nav-item">
+              </li> -->
+              <!-- <li class="nav-item">
                   <a class="nav-link"><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
-              </li>
+              </li> -->
           </ul>
-      </nav> -->
+      </nav>
         <main class="inbox">
             <div class="toolbar">
                 <div class="row">
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="btn-group">
                             <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
                         </div>
-                    </div>
-                    <div class="col-md-6 text-right">
+                    </div> -->
+                    <div class="col-md-12 text-right">
                         <pagination-controls (pageChange)="p = $event"></pagination-controls>
                     </div>
                 </div>

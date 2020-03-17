@@ -67,6 +67,13 @@ export class UserService {
                 return res;
             });
     }
+    
+    getSentEmails() {
+        return this.http.get<any>(appConfig.apiUrl + '/email/getAllSentEmailByUser')
+            .map(res => {
+                return res;
+            });
+    }
 
     // activeInactiveUser(user) {
     //     return this.http.post<any>(appConfig.apiUrl + '/user/activeInactiveUser', user)

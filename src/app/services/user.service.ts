@@ -67,6 +67,7 @@ export class UserService {
                 return res;
             });
     }
+    
     getSentEmails() {
         return this.http.get<any>(appConfig.apiUrl + '/email/getAllSentEmailByUser')
             .map(res => {

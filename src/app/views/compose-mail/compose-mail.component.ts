@@ -74,6 +74,7 @@ export class ComposeMailComponent implements OnInit {
           if (data.verify == '1') {
             // this.usersList = data.data;
             this.toasterService.pop('success', 'Done', 'Email send...')
+            this.clearData();
           } else {
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
           }
@@ -84,6 +85,13 @@ export class ComposeMailComponent implements OnInit {
           this.loading = false;
         });
   
+}
+clearData(){
+  this.userType = [];
+  this.composeObj.TO = [];
+  this.composeObj.SUBJECT = "";
+  this.composeObj.PRICE = ""
+  this.composeObj.MESSAGE = ""
 }
 keyPress(event: any) {
   const pattern = /[0-9\+\-\ ]/;

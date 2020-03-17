@@ -1,3 +1,5 @@
+
+var unreadmail = localStorage.getItem('UnreadEmails');
 export const navigation = [
   {
     title: true,
@@ -13,8 +15,8 @@ export const navigation = [
     url: '/beading-inbox-mail',
     icon: 'icon-envelope-open',
     badge: {
-      variant: 'primary',
-      text: '6'
+      variant: 'warning',
+      text: unreadmail
     }
   },
   {
@@ -59,8 +61,8 @@ export const venueProvider = [
     url: '/beading-inbox-mail',
     icon: 'icon-envelope-open',
     badge: {
-      variant: 'primary',
-      text: '6'
+      variant: 'warning',
+      text: unreadmail
     }
   },
   {
@@ -95,8 +97,8 @@ export const normalUser = [
     url: '/beading-inbox-mail',
     icon: 'icon-envelope-open',
     badge: {
-      variant: 'primary',
-      text: '6'
+      variant: 'warning',
+      text: unreadmail
     }
   },
   {

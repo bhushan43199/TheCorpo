@@ -2,7 +2,8 @@ import { Component, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
 
 // Import navigation elements
 import { navigation, venueProvider, normalUser } from './../../_nav';
-
+import { Router } from '@angular/router';
+import { UserService } from 'app/services';
 @Component({
   selector: 'app-sidebar-nav',
   template: `
@@ -21,9 +22,9 @@ import { navigation, venueProvider, normalUser } from './../../_nav';
     </nav>`
 })
 export class AppSidebarNavComponent {
-  public userType:any;
+  public userType: any;
   public navigation = navigation;
-
+  public UnreadEmailCounter = 0;
   public isDivider(item) {
     return item.divider ? true : false
   }
@@ -31,23 +32,47 @@ export class AppSidebarNavComponent {
   public isTitle(item) {
     return item.title ? true : false
   }
+  constructor(private _user_service: UserService) {
 
-  public loggedUserType (){
-    
+    this.loggedUserType();
+    this.getEmails();
+  }
+  public loggedUserType() {
+
     this.userType = localStorage.getItem('ROLE');
-    if (this.userType == 0 || this.userType == 1){
+    if (this.userType == 0 || this.userType == 1) {
       this.navigation = navigation;
-    }else if(this.userType == 2){
+    } else if (this.userType == 2) {
       this.navigation = venueProvider;
-    }else if(this.userType == 3){
+    } else if (this.userType == 3) {
       this.navigation = normalUser;
-    }   
+    }
+  }
+  getEmails() {
+
+    this._user_service.getEmails()
+      .subscribe(
+        data => {
+          
+          var emailList = data.data;
+          emailList.forEach(element => {
+            if (element.ISREAD === false) {
+              this.UnreadEmailCounter = this.UnreadEmailCounter + 1;
+            }
+          });
+          localStorage.setItem('UnreadEmails', this.UnreadEmailCounter.toString());
+        },
+        error => {
+          console.log(error)
+        })
   }
 
-  constructor() {this.loggedUserType(); }
+
+
+
 }
 
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sidebar-nav-item',
@@ -84,7 +109,7 @@ export class AppSidebarNavItemComponent {
     return this.router.isActive(this.thisUrl(), false)
   }
 
-  constructor( private router: Router )  { }
+  constructor(private router: Router) { }
 
 }
 
@@ -182,12 +207,12 @@ export class AppSidebarNavTitleComponent implements OnInit {
 
     this.renderer.addClass(li, 'nav-title');
 
-    if ( this.title.class ) {
+    if (this.title.class) {
       const classes = this.title.class;
       this.renderer.addClass(li, classes);
     }
 
-    if ( this.title.wrapper ) {
+    if (this.title.wrapper) {
       const wrapper = this.renderer.createElement(this.title.wrapper.element);
 
       this.renderer.appendChild(wrapper, name);

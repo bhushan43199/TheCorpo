@@ -57,13 +57,13 @@ $(document).ready(function () {
     scrollFunction()
   };
   
-  function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-      document.getElementById("scroll_btn").style.display = "block";
-    } else {
-      document.getElementById("scroll_btn").style.display = "none";
-    }
-  }
+  // function scrollFunction() {
+  //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+  //     document.getElementById("scroll_btn").style.display = "block";
+  //   } else {
+  //     document.getElementById("scroll_btn").style.display = "none";
+  //   }
+  // }
   $("#scroll_btn").click(function (event) {
     event.preventDefault();
     $("html, body").animate({

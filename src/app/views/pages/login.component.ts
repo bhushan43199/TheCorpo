@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthenticationService, UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
 @Component({
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+  styleUrls: ['../../../scss/vendors/toastr/toastr.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class LoginComponent {
   model: any = {};
@@ -54,8 +56,14 @@ export class LoginComponent {
     this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
       .subscribe(
         data => {
-          this.toasterService.pop('success','Login!', 'successfully!');                  
-          this._router.navigate([this.returnUrl]);
+
+          if(data.verify!=0){
+            this.toasterService.pop('success','Login!', 'successfully!');
+            this._router.navigate([this.returnUrl]);
+          }else{
+            this.toasterService.pop('error','Login failed', 'Username or Password not match!');
+          }            
+          // this._router.navigate([this.returnUrl]);
         },
         error => {
           this.toasterService.pop('success','Oppss..', 'Something went wrong!');
@@ -63,13 +71,6 @@ export class LoginComponent {
         });
   }
 
-  showSuccess(msg) {
-    this.toasterService.pop('Login!', 'successfully!', msg);
-  }
-
-  showError(msg) {
-    this.toasterService.pop('Username Or Password Invalid', 'error!', msg);
-  }
   // doLogin(){
   //   if (this.user.username == "admin" && this.user.password == "admin")
   //   {

@@ -120,7 +120,7 @@ module.exports.updateEmail = function (email, callback) {
     EmailSchema.updateOne({ _id: email._id }, { $set: email }, callback);
 }
 
-module.exports.getAllEmailByUser = function (user, callback) {
+module.exports.getAllSentEmailByUser = function (user, callback) {
 
     var query = { 'FROM': user.EMAIL, 'STATUS': true };
     EmailSchema.
@@ -144,6 +144,14 @@ module.exports.getAllEmailByUser = function (user, callback) {
     //     // EmailSchema.find(query, callback);
     // }
 
+}
+
+module.exports.getAllInboxEmailByUser = function (user, callback) {
+    var query = { 'TO': user.EMAIL, 'STATUS': true };
+    EmailSchema.
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
 }
 
 module.exports.getEmailDataById = function (_id, callback) {

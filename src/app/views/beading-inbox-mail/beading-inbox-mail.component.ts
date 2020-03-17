@@ -18,8 +18,11 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   loading: any;
   emails: any = [];
+  sentEmails:any = [];
   interval: any;
   loggedInUser:any = {};
+  inbox:any = true;
+  sent:any = false;
 
   ngOnInit() {
     this.loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -46,13 +49,19 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   }
 
   getSentEmails(){
+    this.inbox = false;
+    this.sent = true;
     this._user_service.getSentEmails()
         .subscribe(
           data => {
-            this.emails = data.data;
+            this.sentEmails = data.data;
             // this.subscribeToData();
-          })
-    
+          });
+  }
+
+  openInbox(){
+    this.inbox = true;
+    this.sent = false;
   }
 
   subscribeToData() {
@@ -61,8 +70,25 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
     );
   }
 
-  viewBead(email) {
+  viewBead(email, status) {
+    if(status){
+      this.statusChange(email);
+    }   
     this.route.navigate(['/view-bead' , {id : email._id} ]);
   }
   
+  statusChange(email) {
+    var data = {
+      _id:email._id
+    }
+    this._user_service.emailReadStatus(data)
+      .subscribe(
+        data => {
+          
+        },
+        error => {
+          console.log(error);
+        }
+      )
+  }
 }

@@ -2,30 +2,16 @@
     <div class="email-app mb-4">
         <nav>
             <button type="button" routerLink="/compose-mail" class="btn btn-primary  btn-block"> Create Project</button>
-
-          <ul class="nav">
-              <li class="nav-item" (click)="getEmails()">
-                  <a class="nav-link" ><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
-              </li>
-              <!-- <li class="nav-item">
-                  <a class="nav-link"><i class="fa fa-star"></i> Stared</a>
-              </li> -->
-              <li class="nav-item" (click)="getSentEmails()">
-                  <a class="nav-link" ><i class="fa fa-rocket"></i> Sent</a>
-              </li>
-              <!-- <li class="nav-item">
-                  <a class="nav-link"><i class="fa fa-trash-o"></i> Trash</a>
-              </li> -->
-              <!-- <li class="nav-item">
-                  <a class="nav-link"><i class="fa fa-bookmark"></i> Important<span
-            class="badge badge-info">5</span></a>
-              </li> -->
-              <!-- <li class="nav-item">
-                  <a class="nav-link"><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">4</span></a>
-              </li> -->
-          </ul>
-      </nav>
-        <main class="inbox">
+            <ul class="nav">
+                <li class="nav-item" (click)="openInbox()">
+                    <a class="nav-link"><i class="fa fa-inbox"></i> Inbox <span class="badge badge-danger">{{emails.length}}</span></a>
+                </li>
+                <li class="nav-item" (click)="getSentEmails()">
+                    <a class="nav-link"><i class="fa fa-rocket"></i> Sent</a>
+                </li>
+            </ul>
+        </nav>
+        <main class="inbox" *ngIf="inbox">
             <div class="toolbar">
                 <div class="row">
                     <!-- <div class="col-md-6">
@@ -37,16 +23,14 @@
                         <pagination-controls (pageChange)="p = $event"></pagination-controls>
                     </div>
                 </div>
-               
-               
             </div>
-
             <ul class="messages">
-                <li class="message" [ngClass]="email.ISREAD == false? 'unread' : 'read'"  (click)="viewBead(email)" *ngFor="let email of emails | paginate: { itemsPerPage: 5, currentPage: p } ">
+                <li class="message" [ngClass]="email.ISREAD == false? 'unread' : 'read'" (click)="viewBead(email, true)"
+                    *ngFor="let email of emails | paginate: { itemsPerPage: 5, currentPage: p } ">
                     <a>
                         <div class="actions">
                             <!-- <span class="action"><i class="fa fa-square-o"></i></span> -->
-                            <input  type="checkbox" class="action" />
+                            <input type="checkbox" class="action" />
                             <span class="action"><i class="fa fa-star-o"></i></span>
                         </div>
 
@@ -54,7 +38,8 @@
                             <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
                             <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
                             <h3 class="badge badge-pill badge-danger" *ngIf="email.ISREAD == false">New</h3>
-                            <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
+                            <span class="date"><span class="fa fa-paper-clip"></span>
+                                {{email.CREATED_DATE | date: 'medium'}}</span>
                         </div>
                         <div class="title">
                             {{email.SUBJECT}}
@@ -64,7 +49,48 @@
                         </div>
                     </a>
                 </li>
-                
+
+            </ul>
+        </main>
+        <main class="inbox" *ngIf="sent">
+            <div class="toolbar">
+                <div class="row">
+                    <!-- <div class="col-md-6">
+                        <div class="btn-group">
+                            <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
+                        </div>
+                    </div> -->
+                    <div class="col-md-12 text-right">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+            <ul class="messages">
+                <li class="message" (click)="viewBead(email, false)"
+                    *ngFor="let email of sentEmails | paginate: { itemsPerPage: 5, currentPage: p } ">
+                    <a>
+                        <div class="actions">
+                            <!-- <span class="action"><i class="fa fa-square-o"></i></span> -->
+                            <input type="checkbox" class="action" />
+                            <span class="action"><i class="fa fa-star-o"></i></span>
+                        </div>
+
+                        <div class="header">
+                            <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
+                            <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
+                            <!-- <h3 class="badge badge-pill badge-danger" *ngIf="email.ISREAD == false">New</h3> -->
+                            <span class="date"><span class="fa fa-paper-clip"></span>
+                                {{email.CREATED_DATE | date: 'medium'}}</span>
+                        </div>
+                        <div class="title">
+                            {{email.SUBJECT}}
+                        </div>
+                        <div class="description">
+                            {{email.MESSAGE}}
+                        </div>
+                    </a>
+                </li>
+
             </ul>
         </main>
     </div>

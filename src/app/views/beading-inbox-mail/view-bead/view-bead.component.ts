@@ -32,7 +32,7 @@ export class ViewBeadComponent implements OnInit {
     this.emailId = this.router.snapshot.paramMap.get('id');
     // console.log(this.emailId)
     this.getEmailDataById(this.emailId);
-    this.statusChange()
+    // this.statusChange()
   }
 
   editorOpen() {

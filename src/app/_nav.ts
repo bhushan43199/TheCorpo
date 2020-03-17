@@ -100,6 +100,11 @@ export const normalUser = [
     }
   },
   {
+    name: 'Calendar',
+    url: '/calendar',
+    icon: 'icon-calendar'
+  },
+  {
     name: 'Venue Provider',
     url: '/venueprovider',
     icon: 'icon-user'

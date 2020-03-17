@@ -16,12 +16,15 @@ var transporter;
 
 const emailschema = mongoose.Schema({
 
-    // EMAIL: { type: String, require: true },
     TO: { type: String, require: true },
     FROM: { type: String },
     SUBJECT: { type: String, require: true },
     MESSAGE: { type: String, require: true },
+    START_DATE: { type: Date, require: true },
+    END_DATE: { type: Date, require: true },
     ISREAD: { type: Boolean, require: true },
+    PLACE: { type: String, require: true },
+    ISACCEPT: { type: Boolean, require: true },
     STATUS: { type: Boolean, require: true },
     CREATED_BY: { type: String, require: true },
     CREATED_DATE: { type: Date, require: true }
@@ -73,8 +76,12 @@ function SendEmail(Email, callback) {
                 FROM: mailData.FROM,
                 SUBJECT: mailData.SUBJECT,
                 MESSAGE: mailData.MESSAGE,
+                START_DATE: mailData.START_DATE,
+                END_DATE: mailData.END_DATE,
+                PLACE: mailData.PLACE,
                 STATUS: true,
                 ISREAD: false,
+                ISACCEPT: false,
                 CREATED_DATE: new Date()
             };
             var email = new EmailSchema(data);
@@ -115,33 +122,34 @@ module.exports.updateEmail = function (email, callback) {
 
 module.exports.getAllEmailByUser = function (user, callback) {
 
-    if(user.ROLE === 0){
-         var query = { 'STATUS':true };
-        // EmailSchema.find(query, callback);
-        EmailSchema.
+    var query = { 'FROM': user.EMAIL, 'STATUS': true };
+    EmailSchema.
         find(query).
         sort({ CREATED_DATE: -1 }).
         exec(callback);
-    }else {
-        // console.log(user)
-        var query = { 'FROM': user.EMAIL, 'STATUS':true };
-        EmailSchema.
-        find(query).
-        sort({ CREATED_DATE: -1 }).
-        exec(callback);
-        // EmailSchema.find(query, callback);
-    }
-    
+    // if (user.ROLE === 0) {
+    //     var query = { 'FROM': user.EMAIL, 'STATUS': true };
+    //     // EmailSchema.find(query, callback);
+    //     EmailSchema.
+    //         find(query).
+    //         sort({ CREATED_DATE: -1 }).
+    //         exec(callback);
+    // } else {
+    //     // console.log(user)
+    //     var query = { 'FROM': user.EMAIL, 'STATUS': true };
+    //     EmailSchema.
+    //         find(query).
+    //         sort({ CREATED_DATE: -1 }).
+    //         exec(callback);
+    //     // EmailSchema.find(query, callback);
+    // }
+
 }
 
 module.exports.getEmailDataById = function (_id, callback) {
-
-         var query = { 'STATUS':true, '_id':_id };
-        // EmailSchema.find(query, callback);
-        EmailSchema.
-        find(query).
+    var query = { 'STATUS': true, '_id': _id };
+    EmailSchema.findOne(query).
         exec(callback);
-    
 }
 
 

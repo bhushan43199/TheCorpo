@@ -54,7 +54,7 @@ export class LoginComponent {
     this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
       .subscribe(
         data => {
-          this.toasterService.pop('success','Login!', 'successfully!');                  
+          // this.toasterService.pop('success','Login!', 'successfully!');                  
           this._router.navigate([this.returnUrl]);
         },
         error => {

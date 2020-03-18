@@ -11,8 +11,8 @@ var path = require('path');
 var fs = require('fs');
 var multer = require('multer');
 
-const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/corporate_connection_angular_admin/src/assets/uploads';
-const DBIMGPATH = 'assets/uploads';
+const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
+const DBIMGPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
 
 // const DOCPATH = '/var/www/files_sports_master/upload';
 // const DBIMGPATH = '/upload';
@@ -299,7 +299,7 @@ module.exports = function (passport) {
                                 });
                             }
 
-                            mypro.LOGO = DBIMGPATH + '/' + filepath;
+                            mypro.LOGO = DBIMGPATH + '/' + userId + '/' + filepath;
                             User.updateUser(mypro, function (err, updatecomp) {
                                 if (err) throw err;
                                 if (updatecomp) {
@@ -353,7 +353,7 @@ module.exports = function (passport) {
                                         });
                                     }
 
-                                    mypro.LOGO = DBIMGPATH + '/' + filepath;
+                                    mypro.LOGO = DBIMGPATH + '/' + userId + '/' + filepath;
                                     User.updateUser(mypro, function (err, updatecomp) {
                                         if (err) throw err;
                                         if (updatecomp) {
@@ -667,8 +667,8 @@ module.exports = function (passport) {
     });
 
     router.get('/getVanueImagesById/:_id', (req, res) => {
-        var _id = req.params._id
-        Vanue.getVanueImagesById(_id, function (err, list) {
+        var userId = req.params._id
+        Vanue.getVanueImagesById(userId, function (err, list) {
             if (err) {
                 return res.json({
                     verify: 0,

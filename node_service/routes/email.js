@@ -172,6 +172,80 @@ module.exports = function (passport) {
         });
     });
 
+    router.post('/isAccept', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var data = req.body;
+                var emailId = req.body._id;
+                Email.findOne({ '_id': emailId }, function (err, email) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: null
+                        });
+                    }
+                    console.log(email)
+                    email.ISACCEPT = true;
+                    Email.updateEmail(email, function (err, result) {
+                        if (err) {
+                            return res.json({
+                                message: err.message,
+                                status: 0,
+                                result: {}
+                            });
+                        }
+                        if (result) {
+                            return res.json({
+                                verify: 1,
+                                message: "Email update success.",
+                                data: result
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
+
+    router.post('/replyEmail', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var data = req.body;
+                Email.replyEmail(data, function (err, result) {
+                    if (err) {
+                        return res.json({
+                            message: err.message,
+                            status: 0,
+                            result: {}
+                        });
+                    }
+                    if (result) {
+                        return res.json({
+                            verify: 1,
+                            message: "Email send success.",
+                            data: null
+                        });
+                    }
+                });
+            }
+        });
+    });
+
     
 
 

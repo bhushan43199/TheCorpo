@@ -32,6 +32,21 @@ export class UserService {
             });
     }
 
+    
+    replyEmail(obj) {
+        return this.http.post<any>(appConfig.apiUrl + '/email/replyEmail', obj)
+            .map(res => {
+                return res;
+            });
+    }
+
+    isAccept(obj){
+        return this.http.post<any>(appConfig.apiUrl + '/email/isAccept', obj)
+        .map(res => {
+            return res;
+        });
+    }
+
     getAllVenueProviders() {
         return this.http.get<any>(appConfig.apiUrl + '/user/getAllVanueProviders')
             .map(res => {

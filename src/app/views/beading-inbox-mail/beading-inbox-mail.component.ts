@@ -73,7 +73,7 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   }
 
   viewBead(email, status) {
-    if(status){
+    if(!email.ISREAD){
       this.statusChange(email);
     }   
     this.route.navigate(['/view-bead' , {id : email._id} ]);

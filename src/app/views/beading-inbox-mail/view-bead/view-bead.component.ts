@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+
 @Component({
   selector: 'app-view-bead',
   templateUrl: './view-bead.component.html',
@@ -15,11 +15,19 @@ export class ViewBeadComponent implements OnInit {
   email: any = {};
   replyObj: any = {}
   emailId: any;
-  user:any = {};
-  constructor(public route: Router, public router: ActivatedRoute,
-     private spinnerService: Ng4LoadingSpinnerService, 
-     private toasterService: ToasterService, 
-     public user_service: UserService) {
+  constructor(public route: Router, public router: ActivatedRoute, private toasterService: ToasterService, public user_service: UserService) {
+    // var previousPageData = this.route.getCurrentNavigation();
+    // var data = {
+    //   _id: "5e6bc4a4b2d93f088405c0d6",
+    //   TO: "flemingparmar7895@gmail.com",
+    //   FROM: "sahilparmar1810@gmail.com",
+    //   SUBJECT: "Testing Mail",
+    //   MESSAGE: "Hello, Im doing testing for it ",
+    //   STATUS: true,
+    //   ISREAD: false,
+    //   CREATED_DATE: "2020-03-13T17:36:36.701Z"
+    // };
+    // this.email = data;
   }
   public toasterconfig: ToasterConfig =
   new ToasterConfig({
@@ -31,8 +39,7 @@ export class ViewBeadComponent implements OnInit {
     this.emailId = this.router.snapshot.paramMap.get('id');
     // console.log(this.emailId)
     this.getEmailDataById(this.emailId);
-    this.user = JSON.parse(localStorage.getItem('user'));
-    // this.statusChange()
+    this.statusChange()
   }
 
   editorOpen() {
@@ -41,7 +48,6 @@ export class ViewBeadComponent implements OnInit {
   editorClose() {
     this.editorFlag = false;
   }
-
   statusChange() {
     var data = {
       _id: this.emailId
@@ -56,68 +62,36 @@ export class ViewBeadComponent implements OnInit {
         }
       )
   }
-
   getEmailDataById(id) {
     this.user_service.getEmailDataById(id)
       .subscribe(
         data => {
           // console.log(data);
           this.email = data.data;
-          console.log(this.email);
         },
         error => {
           console.log(error)
         }
       )
   }
-
-  isAccept(){
-   
-    this.spinnerService.show();
-    this.user_service.isAccept(this.email)
-      .subscribe(
-        data => {
-          if (data.verify == '1') {
-            // this.usersList = data.data;
-            this.editorFlag = true;
-            this.toasterService.pop('success', 'Done', 'You have accepted this job..!!')
-            this.spinnerService.hide();
-          } else {
-            this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
-            this.spinnerService.hide();
-          }
-
-        },
-        error => {
-          this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
-          this.spinnerService.hide();
-          // this.loading = false;
-        });
-  }
-
-
   reply() {
-    this.spinnerService.show();
+
     this.replyObj.TO = this.email.FROM,
     this.replyObj.FROM = this.email.TO
-    this.replyObj.SUBJECT = this.email.SUBJECT;
-    this.user_service.replyEmail(this.replyObj)
+    this.user_service.sendMail(this.replyObj)
       .subscribe(
         data => {
           if (data.verify == '1') {
             // this.usersList = data.data;
             this.toasterService.pop('success', 'Done', 'Email send...')
-            this.spinnerService.hide();
 
           } else {
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
-            this.spinnerService.hide();
           }
 
         },
         error => {
           this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
-          this.spinnerService.hide();
           // this.loading = false;
         });
   }

@@ -174,6 +174,11 @@ module.exports.getEmailDataById = function (_id, callback) {
         exec(callback);
 }
 
+module.exports.getUsersWithAccept = function (user, callback) {
+    var query = { 'TO':user.EMAIL , 'ISACCEPT': true, 'STATUS': true };
+    EmailSchema.find(query, callback);
+}
+
 // module.exports.replyEmail = function (contact, callback) {
 
 //     /* 

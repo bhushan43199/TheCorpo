@@ -11,7 +11,8 @@
             <div class="card">
               <div class="card-header">
                 <div class="row">
-                  <div class="col-md-12 text-right">
+                  <div class="col-md-8 title">{{email.SUBJECT}}</div>
+                  <div class="col-md-4 text-right">
                     <button class="btn btn-danger" routerLink="/beading-inbox-mail"><i class="fa fa-arrow-left"></i>
                     </button>
                   </div>
@@ -39,9 +40,11 @@
                 <div class="card-body mb-2">
                   <h6 *ngIf="user.EMAIL === email.TO">Hello {{user.FIRST_NAME}} {{user.LAST_NAME}},</h6>
                   <br>
-                  <p>{{email.SUBJECT}}</p>
+                  <!-- <p>{{email.SUBJECT}}</p> -->
                   <ul>
-                    <li><div [innerHTML]="email.MESSAGE"></div></li>
+                    <li>
+                      <div [innerHTML]="email.MESSAGE"></div>
+                    </li>
                   </ul>
                   <!-- <p class="text-info">Purchase: Corporate Connection has not yet purchased this item from you.</p> -->
                   <!-- <div class="row file_folder">
@@ -73,8 +76,6 @@
                       </div>
                     </div>
                   </div> -->
-
-
                 </div>
                 <div class="row" *ngIf="user.ROLE === 3">
                   <div class="col-md-12">
@@ -84,7 +85,8 @@
                     <button class="btn btn-success text-white accept" *ngIf="email.ISACCEPT === true"><i
                         class="fa fa-check"></i>
                       <span>Accepted</span></button>
-                    <button *ngIf="email.ISACCEPT != true" class="btn btn-danger text-white reject" (click)="editorClose()"><i class="fa fa-close"></i>
+                    <button *ngIf="email.ISACCEPT != true" class="btn btn-danger text-white reject"
+                      (click)="editorClose()"><i class="fa fa-close"></i>
                       <span>No
                         Thanks</span></button>
                   </div>

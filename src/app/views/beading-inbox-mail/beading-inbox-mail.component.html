@@ -38,6 +38,7 @@
                             <span class="from" *ngIf="loggedInUser.EMAIL != email.FROM">{{email.FROM}}</span>
                             <h3 class="badge badge-pill badge-danger" *ngIf="email.ISREAD == false">New</h3>
                             <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
+                            <h3 class="badge badge-pill badge-success" *ngIf="email.ISACCEPTED === true">Accepted</h3>
                         </div>
                         <div class="title">
                             {{email.SUBJECT}}

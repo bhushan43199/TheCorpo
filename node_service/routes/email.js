@@ -307,9 +307,40 @@ module.exports = function (passport) {
             }
         });
     });
-    
 
-    
+    router.get('/getUsersEmailWithAccept', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var user = loggedInUser.user
+                Email.getUsersWithAccept(user, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+
+    });
+
+
+
 
     //Verify Token
     function verifyToken(req, res, next) {

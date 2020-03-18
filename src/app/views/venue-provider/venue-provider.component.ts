@@ -11,6 +11,7 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
 export class VenueProviderComponent implements OnInit {
   public data: any;
   public user: any = {};
+  imageList = [];
   public venueProviderList:any;
   public venueProviderDetail:any = {};
   seeVenueDetPage = false;
@@ -35,8 +36,23 @@ export class VenueProviderComponent implements OnInit {
   seeVenueId(venueData){
     this.seeVenueDetPage = true;
     this.venueProviderDetail = venueData; 
+    this.getVenueImagebyId()
   }
-
+  getVenueImagebyId() {
+    var id = this.venueProviderDetail._id
+    this.userService.getVenueImagebyId(id)
+      .subscribe(
+        data => {
+         this.imageList = data.data;
+        //  this.imageList.forEach(element => {
+        //   element.IMG_PATH = "http://localhost:4200" + element.IMG_PATH
+        //  });
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
   ngOnInit() {
     this.data = [
       {
@@ -85,9 +101,7 @@ export class VenueProviderComponent implements OnInit {
         },
         err => {
           console.log(err)
-        }
-      )
-
+        })
   }
 
 }

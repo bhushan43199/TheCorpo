@@ -184,6 +184,8 @@ module.exports.sendEmail = function (user, callback) {
 
 
 
+
+
 // module.exports.getAllUsers = function (userObj, callback) {
 //     if (userObj.user.userType == 0) {  //Super Admin
 //         User
@@ -204,8 +206,6 @@ module.exports.sendEmail = function (user, callback) {
 //             .exec(callback);
 //     }
 // }
-
-
 
 
 module.exports.userStatus = function (data, callback) {
@@ -264,3 +264,5 @@ module.exports.getFilteredUser = function (user, callback) {
         User.find(query, callback)
     }
 }
+
+

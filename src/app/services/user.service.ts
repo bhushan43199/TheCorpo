@@ -8,6 +8,12 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+    getVenueImagebyId(id){
+        return this.http.get<any>(appConfig.apiUrl + '/user/getVanueImagesById/'+id)
+        .map(res => {
+            return res;
+        });
+    }
 
     getEmailDataById(id) {
         
@@ -98,11 +104,15 @@ export class UserService {
             });
     }
 
-
-    
-    
     getSentEmails() {
         return this.http.get<any>(appConfig.apiUrl + '/email/getAllSentEmailByUser')
+            .map(res => {
+                return res;
+            });
+    }
+
+    getUsersEmailWithAccept (){
+        return this.http.get<any>(appConfig.apiUrl + '/email/getUsersEmailWithAccept')
             .map(res => {
                 return res;
             });

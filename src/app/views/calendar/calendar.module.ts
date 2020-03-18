@@ -8,12 +8,14 @@ import { CalendarComponent } from './calendar.component';
 
 //Routing
 import { CalendarRoutingModule } from './calendar-routing.module';
+import { ToasterModule } from 'angular2-toaster';
 //
 @NgModule({
   imports: [
     CalendarRoutingModule,
     CommonModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    ToasterModule
   ],
   declarations: [
     CalendarComponent

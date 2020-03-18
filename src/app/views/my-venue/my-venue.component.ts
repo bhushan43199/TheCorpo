@@ -10,9 +10,13 @@ import { appConfig } from 'app/app.config';
   styleUrls: ['./my-venue.component.scss']
 })
 export class MyVenueComponent implements OnInit {
-
-  constructor(private elementRef: ElementRef, private _user_service: UserService, 
+  public loggedInuser: any;
+  imageList = [];
+  constructor(private elementRef: ElementRef, private _user_service: UserService,
     private toasterService: ToasterService, private http: HttpClient) {
+    this.loggedInuser = JSON.parse(localStorage.getItem('user'));
+    this.getVenueImagebyId();
+
   }
   files: File[] = [];
 
@@ -36,6 +40,7 @@ export class MyVenueComponent implements OnInit {
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
         } else if (event instanceof HttpResponse) {
+          this.getVenueImagebyId();
         }
       });
   }
@@ -57,6 +62,22 @@ export class MyVenueComponent implements OnInit {
       // this.onRemove(this.files[j])
     }
     // this.files = [];
+  }
+
+  getVenueImagebyId() {
+    var id = this.loggedInuser._id
+    this._user_service.getVenueImagebyId(id)
+      .subscribe(
+        data => {
+         this.imageList = data.data;
+        //  this.imageList.forEach(element => {
+        //   element.IMG_PATH = "http://localhost:4200" + element.IMG_PATH
+        //  });
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
 }

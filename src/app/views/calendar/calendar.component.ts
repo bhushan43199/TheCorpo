@@ -15,6 +15,8 @@ import {
 } from 'date-fns';
 
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar'; // import should be from `angular-calendar` in your app
+import { UserService } from 'app/services';
+import { ToasterService } from 'angular2-toaster';
 
 
 const colors: any = {
@@ -38,6 +40,12 @@ const colors: any = {
   encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent {
+
+  users:any = [];
+  constructor (public userService: UserService, private toasterService: ToasterService){
+    this.getUsersEmailWithAccept();
+  }
+
   view: string = 'month';
 
   viewDate: Date = new Date();
@@ -115,5 +123,22 @@ export class CalendarComponent {
         this.viewDate = date;
       }
     }
+  }
+
+
+  getUsersEmailWithAccept(){
+    this.userService.getUsersEmailWithAccept()
+    .subscribe(
+      data => {
+        if (data.verify == '1') {
+          this.users = data.data;
+          console.log(this.users)
+        } else {
+          // this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
+        }
+      },
+      err => {
+        console.log(err)
+      })
   }
 }

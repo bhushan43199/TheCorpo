@@ -33,7 +33,8 @@ export class ComposeMailComponent implements OnInit {
   constructor(private _user_service: UserService, private toasterService: ToasterService, private spinnerService: Ng4LoadingSpinnerService) {
     this.getAllRegisterdUsers();
     this.loggedInUser = JSON.parse (localStorage.getItem('user'));
-
+    this.composeObj.START_DATE = new Date()
+    this.composeObj.END_DATE = new Date()
   }
 
   ngOnInit() {

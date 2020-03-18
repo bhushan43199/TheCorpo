@@ -4,6 +4,8 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { FileUploader } from 'ng2-file-upload';
 import { appConfig } from 'app/app.config';
 import { HttpResponse, HttpEventType, HttpClient } from '@angular/common/http';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -28,19 +30,27 @@ export class ProfileComponent implements OnInit {
       tapToDismiss: true,
       timeout: 5000
     });
-  constructor(private _user_service: UserService, private toasterService: ToasterService,private http: HttpClient) {
+  constructor(private _user_service: UserService,
+    private toasterService: ToasterService,
+    private sanitizer: DomSanitizer,
+    private http: HttpClient) {
     this.imgURL = "assets/img/avatars/8.jpg";
 
   }
 
+  sanitizeImageUrl(imageUrl: string): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+  }
+
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("user"))
+    // this.imgURL = this.user.LOGO;
     this.user.DOB = new Date();
   }
 
   uploadFile(data: FormData, item) {
-    var eventID = item.ID;
-    this.http.post(appConfig.apiUrl + '/event/fileUpload/' + eventID, data, { reportProgress: true, observe: 'events' })
+    var userId = item._id;
+    this.http.post(appConfig.apiUrl + '/user/profilePic/' + userId, data, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
         } else if (event instanceof HttpResponse) {
@@ -48,7 +58,7 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  uploadSubmit(event) {
+  uploadSubmit(profile) {
     for (let i = 0; i < this.uploader.queue.length; i++) {
       let fileItem = this.uploader.queue[i]._file;
       if (fileItem.size > 10000000) {
@@ -61,7 +71,7 @@ export class ProfileComponent implements OnInit {
       let fileItem = this.uploader.queue[j]._file;
       // console.log(fileItem.name);
       data.append('file', fileItem);
-      this.uploadFile(data, event);
+      this.uploadFile(data, profile);
     }
     this.uploader.clearQueue();
   }
@@ -99,6 +109,7 @@ export class ProfileComponent implements OnInit {
           if (data.verify == '1') {
             localStorage.setItem('user', JSON.stringify(data.data));
             this.toasterService.pop('success', 'Done', 'User Updated');
+            this.uploadSubmit(data.data);
           } else {
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
           }

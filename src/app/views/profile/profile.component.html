@@ -4,7 +4,7 @@
     <div class="col-lg-4 col-md-12">
       <div class="card mcard_3">
         <div class="card-body">
-          <img [src]="imgURL" class="rounded-circle shadow " width="130px" height="130px" alt="profile-image">
+          <img [src]="sanitizeImageUrl(imgURL)" class="rounded-circle shadow " width="130px" height="130px" alt="profile-image">
           <div class="main-file-input">
             <!-- <input type="file" (change)="onAdd($event)" [hidden]="toggleButton" class="custom-file-input"> -->
             <input type="file" ng2FileSelect [uploader]="uploader" [hidden]="toggleButton" (change)="onAdd($event)"

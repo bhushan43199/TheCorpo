@@ -219,24 +219,7 @@
           </div>
             <div class="card-body">
                 <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/1.jpg"> <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/1.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/2.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/2.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/3.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/3.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/4.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/4.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/5.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/5.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/6.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/6.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/7.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/7.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/8.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/8.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/9.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/9.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/10.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/10.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/11.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/11.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/12.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/12.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/13.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/13.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/14.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/14.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30"> <a data-fancybox="images" href="assets/img/image-gallery/15.jpg" > <img class="img-fluid img-thumbnail" src="assets/img/image-gallery/15.jpg" alt=""> </a> </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30">
-                     
-                    </div>
+                  <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-30" *ngFor="let image of imageList"> <a data-fancybox="images" [href]=" image.IMG_PATH"> <img class="img-fluid img-thumbnail img-ust" [src]="image.IMG_PATH" alt="" > </a> </div>
                 </div>
             </div>
         </div>

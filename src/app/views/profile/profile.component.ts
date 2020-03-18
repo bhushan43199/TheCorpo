@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
   loading: any;
   // bsValue: Date = new Date();
   user: any = {};
+
   public toasterconfig: ToasterConfig =
     new ToasterConfig({
       tapToDismiss: true,
@@ -44,7 +45,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem("user"))
-    // this.imgURL = this.user.LOGO;
+    this.imgURL = this.user.LOGO;
+    if(this.imgURL == '' || this.imgURL == undefined){
+      this.imgURL = "assets/img/avatars/8.jpg"
+    }
     this.user.DOB = new Date();
   }
 
@@ -53,11 +57,15 @@ export class ProfileComponent implements OnInit {
     this.http.post(appConfig.apiUrl + '/user/profilePic/' + userId, data, { reportProgress: true, observe: 'events' })
       .subscribe(event => {
         if (event.type === HttpEventType.UploadProgress) {
+          console.log("success")
         } else if (event instanceof HttpResponse) {
+          this.setData(event.body)
         }
       });
   }
-
+  setData(updatedUser) {
+    this.user = updatedUser.data;
+  }
   uploadSubmit(profile) {
     for (let i = 0; i < this.uploader.queue.length; i++) {
       let fileItem = this.uploader.queue[i]._file;

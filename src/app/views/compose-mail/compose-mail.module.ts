@@ -7,7 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { ToasterModule } from 'angular2-toaster';
 import { BsDatepickerModule } from 'ngx-bootstrap';
-
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +16,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     FormsModule,
     ToasterModule,
     BsDatepickerModule.forRoot(),
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   declarations: [ComposeMailComponent]
 })

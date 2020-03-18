@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
 
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
   selector: 'app-compose-mail',
   templateUrl: './compose-mail.component.html',
@@ -29,9 +30,10 @@ export class ComposeMailComponent implements OnInit {
   users = [];
   usersList: any = [];
   usersFilterList: any = [];
-  constructor(private _user_service: UserService, private toasterService: ToasterService) {
+  constructor(private _user_service: UserService, private toasterService: ToasterService, private spinnerService: Ng4LoadingSpinnerService) {
     this.getAllRegisterdUsers();
     this.loggedInUser = JSON.parse (localStorage.getItem('user'));
+
   }
 
   ngOnInit() {
@@ -68,21 +70,26 @@ export class ComposeMailComponent implements OnInit {
   }
 
   sendMail() {
+    this.spinnerService.show();
     this.composeObj.FROM = this.loggedInUser.EMAIL;
     this._user_service.sendMail(this.composeObj)
       .subscribe(
         data => {
           if (data.verify == '1') {
             // this.usersList = data.data;
-            this.toasterService.pop('success', 'Done', 'Email send...')
+            this.toasterService.pop('success', 'Done', 'Email send...');
             this.clearData();
+            this.spinnerService.hide();
+   
           } else {
-            this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
+            this.toasterService.pop('error', 'ooops..', 'Something went wrong !');
+            this.spinnerService.hide();
           }
 
         },
         error => {
-          this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
+          this.toasterService.pop('error', 'Server Error', 'Something went wrong !');
+          this.spinnerService.hide();
           this.loading = false;
         });
   

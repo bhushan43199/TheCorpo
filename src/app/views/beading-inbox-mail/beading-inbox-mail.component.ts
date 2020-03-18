@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
 import { UserService } from 'app/services';
@@ -7,7 +7,8 @@ import { Subscription, Observable } from 'rxjs';
 @Component({
   selector: 'app-beading-inbox-mail',
   templateUrl: './beading-inbox-mail.component.html',
-  styleUrls: ['./beading-inbox-mail.component.scss']
+  styleUrls: ['./beading-inbox-mail.component.scss','../../../scss/vendors/toastr/toastr.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BeadingInboxMailComponent implements OnInit, OnDestroy {
 

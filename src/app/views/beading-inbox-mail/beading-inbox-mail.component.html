@@ -25,8 +25,7 @@
                 </div>
             </div>
             <ul class="messages">
-                <li class="message" [ngClass]="email.ISREAD == false? 'unread' : 'read'" (click)="viewBead(email, true)"
-                    *ngFor="let email of emails | paginate: { itemsPerPage: 5, currentPage: p } ">
+                <li class="message" [ngClass]="email.ISREAD == false? 'unread' : 'read'" (click)="viewBead(email, true)" *ngFor="let email of emails | paginate: { itemsPerPage: 5, currentPage: p } ">
                     <a>
                         <div class="actions">
                             <!-- <span class="action"><i class="fa fa-square-o"></i></span> -->
@@ -35,11 +34,10 @@
                         </div>
 
                         <div class="header">
-                            <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
-                            <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
+                            <span class="from" *ngIf="loggedInUser.EMAIL === email.FROM">Me</span>
+                            <span class="from" *ngIf="loggedInUser.EMAIL != email.FROM">{{email.FROM}}</span>
                             <h3 class="badge badge-pill badge-danger" *ngIf="email.ISREAD == false">New</h3>
-                            <span class="date"><span class="fa fa-paper-clip"></span>
-                                {{email.CREATED_DATE | date: 'medium'}}</span>
+                            <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
                         </div>
                         <div class="title">
                             {{email.SUBJECT}}
@@ -66,8 +64,7 @@
                 </div>
             </div>
             <ul class="messages">
-                <li class="message" (click)="viewBead(email, false)"
-                    *ngFor="let email of sentEmails | paginate: { itemsPerPage: 5, currentPage: p } ">
+                <li class="message" (click)="viewBead(email, false)" *ngFor="let email of sentEmails | paginate: { itemsPerPage: 5, currentPage: p } ">
                     <a>
                         <div class="actions">
                             <!-- <span class="action"><i class="fa fa-square-o"></i></span> -->
@@ -79,8 +76,7 @@
                             <span class="from" *ngIf="loggedInUser.EMAIL === email.TO">Me</span>
                             <span class="from" *ngIf="loggedInUser.EMAIL != email.TO">{{email.TO}}</span>
                             <!-- <h3 class="badge badge-pill badge-danger" *ngIf="email.ISREAD == false">New</h3> -->
-                            <span class="date"><span class="fa fa-paper-clip"></span>
-                                {{email.CREATED_DATE | date: 'medium'}}</span>
+                            <span class="date"><span class="fa fa-paper-clip"></span> {{email.CREATED_DATE | date: 'medium'}}</span>
                         </div>
                         <div class="title">
                             {{email.SUBJECT}}

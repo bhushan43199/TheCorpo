@@ -13,6 +13,7 @@ import { ViewBeadComponent } from './view-bead.component';
 import { ViewBeadRoutingModule } from './view-bead.routing';
 import { NgxEditorModule } from 'ngx-editor'
 import {  HttpClientModule } from '@angular/common/http';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import {  HttpClientModule } from '@angular/common/http';
     TooltipModule.forRoot(),
     NgSelectModule,
     NgxEditorModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   declarations: [ViewBeadComponent ]
 })

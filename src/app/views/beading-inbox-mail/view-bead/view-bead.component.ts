@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
-
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 @Component({
   selector: 'app-view-bead',
   templateUrl: './view-bead.component.html',
-  styleUrls: ['./view-bead.component.scss']
+  styleUrls: ['./view-bead.component.scss', '../../../../scss/vendors/toastr/toastr.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewBeadComponent implements OnInit {
   htmlContent: any;
@@ -14,7 +15,7 @@ export class ViewBeadComponent implements OnInit {
   email: any = {};
   replyObj: any = {}
   emailId: any;
-  constructor(public route: Router, public router: ActivatedRoute, private toasterService: ToasterService, public user_service: UserService) {
+  constructor(public route: Router, public router: ActivatedRoute, private spinnerService: Ng4LoadingSpinnerService,private toasterService: ToasterService, public user_service: UserService) {
     // var previousPageData = this.route.getCurrentNavigation();
     // var data = {
     //   _id: "5e6bc4a4b2d93f088405c0d6",
@@ -74,24 +75,27 @@ export class ViewBeadComponent implements OnInit {
       )
   }
   reply() {
-
+    this.spinnerService.show();
     this.replyObj.TO = this.email.FROM,
     this.replyObj.FROM = this.email.TO
-    console.log(this.replyObj)
+
     this.user_service.sendMail(this.replyObj)
       .subscribe(
         data => {
           if (data.verify == '1') {
             // this.usersList = data.data;
             this.toasterService.pop('success', 'Done', 'Email send...')
+            this.spinnerService.hide();
 
           } else {
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
+            this.spinnerService.hide();
           }
 
         },
         error => {
           this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
+          this.spinnerService.hide();
           // this.loading = false;
         });
   }

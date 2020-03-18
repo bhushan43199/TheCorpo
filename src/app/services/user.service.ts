@@ -17,6 +17,14 @@ export class UserService {
             });
     }
 
+    getReplyEmailById(id) {
+        
+        return this.http.get<any>(appConfig.apiUrl + '/email/getReplyEmailById/'+ id)
+            .map(res => {
+                return res;
+            });
+    }    
+
     emailReadStatus(obj) {
         return this.http.post<any>(appConfig.apiUrl + '/email/isRead', obj)
             .map(res => {
@@ -82,6 +90,16 @@ export class UserService {
                 return res;
             });
     }
+
+    getUnReadEmails() {
+        return this.http.get<any>(appConfig.apiUrl + '/email/getUnReadEmails')
+            .map(res => {
+                return res;
+            });
+    }
+
+
+    
     
     getSentEmails() {
         return this.http.get<any>(appConfig.apiUrl + '/email/getAllSentEmailByUser')

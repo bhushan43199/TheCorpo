@@ -24,7 +24,8 @@
                     <li class="ml-3">
                       <p class="mb-0"><span class="text-muted">From:</span> <a
                           href="javascript:void(0);">{{email.FROM}}</a></p>
-                      <p class="mb-0"><span class="text-muted">To:</span> Me</p>
+                      <p class="mb-0" *ngIf="user.EMAIL != email.TO"><span class="text-muted">To:</span> {{email.TO}}</p>
+                      <p class="mb-0" *ngIf="user.EMAIL === email.TO"><span class="text-muted">To:</span> Me</p>
                     </li>
                   </ul>
                 </div>
@@ -36,7 +37,7 @@
                   <span>Venue Price : </span>
                 </div>
                 <div class="card-body mb-2">
-                  <h6>Hello {{user.FIRST_NAME}} {{user.LAST_NAME}},</h6>
+                  <h6 *ngIf="user.EMAIL === email.TO">Hello {{user.FIRST_NAME}} {{user.LAST_NAME}},</h6>
                   <br>
                   <p>{{email.SUBJECT}}</p>
                   <ul>
@@ -75,7 +76,7 @@
 
 
                 </div>
-                <div class="row" *ngIf="email.ISACCEPT != undefined">
+                <div class="row" *ngIf="user.ROLE === 3">
                   <div class="col-md-12">
                     <button class="btn btn-success text-white accept" *ngIf="email.ISACCEPT != true"
                       (click)="isAccept()"><i class="fa fa-check"></i>
@@ -104,6 +105,9 @@
                   (click)="editorClose()">Close</button>
               </div>
             </div>
+
+            <!-- Reply Email Data -->
+            <!-- {{replyEmail | json}} -->
           </div>
         </div>
       </div>

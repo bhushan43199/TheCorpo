@@ -16,6 +16,7 @@ export class ViewBeadComponent implements OnInit {
   replyObj: any = {}
   emailId: any;
   user:any = {};
+  replyEmail :any = {};
   constructor(public route: Router, public router: ActivatedRoute,
      private spinnerService: Ng4LoadingSpinnerService, 
      private toasterService: ToasterService, 
@@ -64,6 +65,9 @@ export class ViewBeadComponent implements OnInit {
           // console.log(data);
           this.email = data.data;
           console.log(this.email);
+          if(this.email.ISACCEPT === true){
+            this.getReplyEmailById();
+          }          
         },
         error => {
           console.log(error)
@@ -95,12 +99,12 @@ export class ViewBeadComponent implements OnInit {
         });
   }
 
-
   reply() {
     this.spinnerService.show();
     this.replyObj.TO = this.email.FROM,
     this.replyObj.FROM = this.email.TO
     this.replyObj.SUBJECT = this.email.SUBJECT;
+    this.replyObj.EMAIL_ID  = this.email._id;
     this.user_service.replyEmail(this.replyObj)
       .subscribe(
         data => {
@@ -120,6 +124,18 @@ export class ViewBeadComponent implements OnInit {
           this.spinnerService.hide();
           // this.loading = false;
         });
+  }
+
+  getReplyEmailById(){
+    this.user_service.getReplyEmailById(this.email._id)
+    .subscribe(
+      data => {
+        this.replyEmail = data.data;
+        console.log(this.replyEmail);
+      },
+      error => {
+        console.log(error)
+      })
   }
 
 }

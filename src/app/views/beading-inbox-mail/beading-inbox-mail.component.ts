@@ -24,14 +24,16 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   loggedInUser:any = {};
   inbox:any = true;
   sent:any = false;
+  unReadCount:any = 0;
 
   UnreadEmailCounter = 0;
   ngOnInit() {
     this.loggedInUser = JSON.parse(localStorage.getItem("user"));
     this.getEmails();
-    for (let i = 0; i < this.emails.length; i++) {
-      this.emails.push(`item ${i}`);
-    }
+    this.getUnReadEmails();
+    // for (let i = 0; i < this.emails.length; i++) {
+    //   this.emails.push(`item ${i}`);
+    // }
     
   }
 
@@ -46,6 +48,18 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
           data => {
             this.emails = data.data;
             this.subscribeToData();
+          })
+    );
+  }
+
+  getUnReadEmails() {
+    this.subscription.add(
+      this._user_service.getUnReadEmails()
+        .subscribe(
+          data => {
+            // this.emails = data.data;
+            this.unReadCount = data.data.length;
+            this.subscribeUnReadEmailData();
           })
     );
   }
@@ -69,6 +83,12 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   subscribeToData() {
     this.subscription.add(
       Observable.timer(10000).subscribe(() => this.getEmails())
+    );
+  }
+
+  subscribeUnReadEmailData() {
+    this.subscription.add(
+      Observable.timer(10000).subscribe(() => this.getUnReadEmails())
     );
   }
 

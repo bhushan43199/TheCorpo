@@ -101,9 +101,7 @@ export class VenueProviderComponent implements OnInit {
         },
         err => {
           console.log(err)
-        }
-      )
-
+        })
   }
 
 }

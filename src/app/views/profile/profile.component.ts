@@ -65,6 +65,8 @@ export class ProfileComponent implements OnInit {
   }
   setData(updatedUser) {
     this.user = updatedUser.data;
+    localStorage.setItem('user', JSON.stringify(this.user));
+    console.log("set Data", this.user)
   }
   uploadSubmit(profile) {
     for (let i = 0; i < this.uploader.queue.length; i++) {

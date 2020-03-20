@@ -8,52 +8,61 @@
                 <div class="form-row mb-3">
                     <label for="to" class="col-2 col-sm-1 col-form-label">UserType:</label>
                     <div class="col-10 col-sm-11">
-                        <ng-select [items]="userType" bindLabel="label" bindValue="value" (change)="filterUsers($event)" placeholder="Select Users" required>
+                        <ng-select [items]="userType" bindLabel="label" bindValue="value" (change)="filterUsers($event)"
+                            placeholder="Select Users" required>
                         </ng-select>
                     </div>
                 </div>
                 <div class="form-row mb-3">
                     <label for="to" class="col-2 col-sm-1 col-form-label">To:</label>
                     <div class="col-10 col-sm-11">
-                        <ng-select [items]="usersFilterList" [(ngModel)]="composeObj.TO" name="TO" #TO="ngModel" bindLabel="label" bindValue="value" multiple="true" placeholder="Select mails" required>
+                        <ng-select [items]="usersFilterList" [(ngModel)]="composeObj.TO" name="TO" #TO="ngModel"
+                            bindLabel="label" bindValue="value" multiple="true" placeholder="Select mails" required>
                         </ng-select>
                     </div>
                 </div>
                 <div class="form-row mb-3">
                     <label for="cc" class="col-2 col-sm-1 col-form-label">Subject:</label>
                     <div class="col-10 col-sm-11">
-                        <input type="text" class="form-control" [(ngModel)]="composeObj.SUBJECT" name="SUBJECT" #SUBJECT="ngModel" placeholder="Subject">
+                        <input type="text" class="form-control" [(ngModel)]="composeObj.SUBJECT" name="SUBJECT"
+                            #SUBJECT="ngModel" placeholder="Subject">
                     </div>
                 </div>
                 <div class="form-row mb-3">
                     <label for="cc" class="col-2 col-sm-1 col-form-label">Price(₹):</label>
                     <div class="col-10 col-sm-11">
-                        <input type="text" class="form-control" [(ngModel)]="composeObj.PRICE" name="PRICE" #PRICE="ngModel" placeholder="Price in Rs.">
+                        <input type="text" class="form-control" [(ngModel)]="composeObj.PRICE" name="PRICE"
+                            #PRICE="ngModel" placeholder="Price in Rs.">
                     </div>
                 </div>
                 <div class="form-row mb-3">
                     <label for="cc" class="col-2 col-sm-1 col-form-label">Start Date:</label>
                     <div class="col-10 col-sm-5">
-                        <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="composeObj.START_DATE" name="START_DATE" #START_DATE="ngModel" #dp="bsDatepicker" bsDatepicker>
+                        <input type="text" class="form-control" [disabled]='toggleButton'
+                            [(ngModel)]="composeObj.START_DATE" name="START_DATE" #START_DATE="ngModel"
+                            #dp="bsDatepicker" bsDatepicker>
                         <!-- <input type="text" class="form-control" [(ngModel)]="composeObj.START_DATE" name="START_DATE" #START_DATE="ngModel"  placeholder="Price in Rs."> -->
                     </div>
 
                     <label for="cc" class="col-2 col-sm-1 col-form-label">End Date:</label>
                     <div class="col-10 col-sm-5">
-                        <input type="text" class="form-control" [disabled]='toggleButton' [(ngModel)]="composeObj.END_DATE" name="END_DATE" #END_DATE="ngModel" #dp="bsDatepicker" bsDatepicker>
+                        <input type="text" class="form-control" [disabled]='toggleButton'
+                            [(ngModel)]="composeObj.END_DATE" name="END_DATE" #END_DATE="ngModel" #dp="bsDatepicker"
+                            bsDatepicker>
                         <!-- <input type="text" class="form-control" [(ngModel)]="composeObj.END_DATE" name="PRICE" #START_DATE="ngModel"  placeholder="Price in Rs."> -->
                     </div>
                 </div>
                 <div class="form-row mb-3">
                     <label for="cc" class="col-2 col-sm-1 col-form-label">Place</label>
                     <div class="col-10 col-sm-11">
-                        <input type="text" class="form-control" [(ngModel)]="composeObj.PLACE" name="PLACE" #PLACE="ngModel" placeholder="Add Place">
+                        <input type="text" class="form-control" [(ngModel)]="composeObj.PLACE" name="PLACE"
+                            #PLACE="ngModel" placeholder="Add Place">
                     </div>
                 </div>
             </form>
             <div class="row">
                 <div class="col-sm-11 ml-auto">
-                    <div class="toolbar" role="toolbar">
+                    <!-- <div class="toolbar" role="toolbar">
                         <div class="btn-group">
                             <button type="button" class="btn btn-light"><span class="fa fa-bold"></span></button>
                             <button type="button" class="btn btn-light"><span class="fa fa-italic"></span></button>
@@ -62,8 +71,10 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-light"><span class="fa fa-align-left"></span></button>
                             <button type="button" class="btn btn-light"><span class="fa fa-align-right"></span></button>
-                            <button type="button" class="btn btn-light"><span class="fa fa-align-center"></span></button>
-                            <button type="button" class="btn btn-light"><span class="fa fa-align-justify"></span></button>
+                            <button type="button" class="btn btn-light"><span
+                                    class="fa fa-align-center"></span></button>
+                            <button type="button" class="btn btn-light"><span
+                                    class="fa fa-align-justify"></span></button>
                         </div>
                         <div class="btn-group">
                             <button type="button" class="btn btn-light"><span class="fa fa-indent"></span></button>
@@ -76,22 +87,34 @@
                         <button type="button" class="btn btn-light"><span class="fa fa-trash-o"></span></button>
                         <button type="button" class="btn btn-light"><span class="fa fa-paperclip"></span></button>
                         <div class="btn-group" dropdown placement="bottom right">
-                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
-                <span class="fa fa-tags"></span> <span class="caret"></span>
-              </button>
+                            <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" href="#"
+                                role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle (click)="false">
+                                <span class="fa fa-tags"></span> <span class="caret"></span>
+                            </button>
                             <div class="dropdown-menu" *dropdownMenu>
-                                <a class="dropdown-item" href="#">add label <span class="badge badge-danger"> Home</span></a>
-                                <a class="dropdown-item" href="#">add label <span class="badge badge-info"> Job</span></a>
-                                <a class="dropdown-item" href="#">add label <span class="badge badge-success"> Clients</span></a>
-                                <a class="dropdown-item" href="#">add label <span class="badge badge-warning"> News</span></a>
+                                <a class="dropdown-item" href="#">add label <span class="badge badge-danger">
+                                        Home</span></a>
+                                <a class="dropdown-item" href="#">add label <span class="badge badge-info">
+                                        Job</span></a>
+                                <a class="dropdown-item" href="#">add label <span class="badge badge-success">
+                                        Clients</span></a>
+                                <a class="dropdown-item" href="#">add label <span class="badge badge-warning">
+                                        News</span></a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="form-group mt-4">
-                        <textarea class="form-control" id="message" name="body" rows="12" [(ngModel)]="composeObj.MESSAGE" name="MESSAGE" #MESSAGE="ngModel" placeholder="Click here to reply"></textarea>
+                        <!-- <textarea class="form-control" id="message" name="body" rows="12"
+                            [(ngModel)]="composeObj.MESSAGE" name="MESSAGE" #MESSAGE="ngModel"
+                            placeholder="Click here to reply"></textarea> -->
+                            <app-ngx-editor [placeholder]="'Enter text here...'" rows="12" [spellcheck]="true" [(ngModel)]="composeObj.MESSAGE"
+                            name="MESSAGE" #MESSAGE="ngModel">
+                          </app-ngx-editor>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-success" (click)="sendMail()">Send</button>
+                        <!-- <button type="submit" class="btn btn-light">Draft</button> -->
+                        <button type="button" class="btn btn-danger">Discard</button>
                         <!-- <button type="submit" class="btn btn-light">Draft</button>
                         <button type="submit" class="btn btn-danger">Discard</button> -->
                     </div>

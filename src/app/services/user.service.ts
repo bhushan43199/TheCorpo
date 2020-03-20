@@ -14,6 +14,7 @@ export class UserService {
             return res;
         });
     }
+
     getEmailDataById(id) {
         
         return this.http.get<any>(appConfig.apiUrl + '/email/getEmailDataById/'+ id)
@@ -21,6 +22,14 @@ export class UserService {
                 return res;
             });
     }
+
+    getReplyEmailById(id) {
+        
+        return this.http.get<any>(appConfig.apiUrl + '/email/getReplyEmailById/'+ id)
+            .map(res => {
+                return res;
+            });
+    }    
 
     emailReadStatus(obj) {
         return this.http.post<any>(appConfig.apiUrl + '/email/isRead', obj)
@@ -87,9 +96,23 @@ export class UserService {
                 return res;
             });
     }
-    
+
+    getUnReadEmails() {
+        return this.http.get<any>(appConfig.apiUrl + '/email/getUnReadEmails')
+            .map(res => {
+                return res;
+            });
+    }
+
     getSentEmails() {
         return this.http.get<any>(appConfig.apiUrl + '/email/getAllSentEmailByUser')
+            .map(res => {
+                return res;
+            });
+    }
+
+    getUsersEmailWithAccept (){
+        return this.http.get<any>(appConfig.apiUrl + '/email/getUsersEmailWithAccept')
             .map(res => {
                 return res;
             });

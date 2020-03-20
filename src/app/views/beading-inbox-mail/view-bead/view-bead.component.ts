@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-view-bead',
@@ -15,7 +16,13 @@ export class ViewBeadComponent implements OnInit {
   email: any = {};
   replyObj: any = {}
   emailId: any;
-  constructor(public route: Router, public router: ActivatedRoute, private toasterService: ToasterService, public user_service: UserService) {
+  user:any = {};
+  replyEmail :any = {};
+  constructor(public route: Router, public router: ActivatedRoute,
+     private spinnerService: Ng4LoadingSpinnerService, 
+     private toasterService: ToasterService, 
+     public user_service: UserService) {
+  // constructor(public route: Router, public router: ActivatedRoute, private toasterService: ToasterService, public user_service: UserService) {
     // var previousPageData = this.route.getCurrentNavigation();
     // var data = {
     //   _id: "5e6bc4a4b2d93f088405c0d6",
@@ -38,6 +45,7 @@ export class ViewBeadComponent implements OnInit {
     this.htmlContent = 'Hello there,  <br/> <p>The toolbar can be customized and it also supports various callbacks such as <code>oninit</code>, <code>onfocus</code>, <code>onpaste</code> and many more.</p> <p>Please try <b>paste some texts</b> here</p>';
     this.emailId = this.router.snapshot.paramMap.get('id');
     // console.log(this.emailId)
+    this.user = JSON.parse(localStorage.getItem("user"));
     this.getEmailDataById(this.emailId);
     this.statusChange()
   }
@@ -68,17 +76,49 @@ export class ViewBeadComponent implements OnInit {
         data => {
           // console.log(data);
           this.email = data.data;
+          console.log(this.email);
+          if(this.email.ISACCEPT === true){
+            this.getReplyEmailById();
+          }          
         },
         error => {
           console.log(error)
         }
       )
   }
+
+  isAccept(){
+   
+    this.spinnerService.show();
+    this.user_service.isAccept(this.email)
+      .subscribe(
+        data => {
+          if (data.verify == '1') {
+            // this.usersList = data.data;
+            this.editorFlag = true;
+            this.toasterService.pop('success', 'Done', 'You have accepted this job..!!')
+            this.spinnerService.hide();
+          } else {
+            this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
+            this.spinnerService.hide();
+          }
+
+        },
+        error => {
+          this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
+          this.spinnerService.hide();
+          // this.loading = false;
+        });
+  }
+
   reply() {
 
     this.replyObj.TO = this.email.FROM,
     this.replyObj.FROM = this.email.TO
-    this.user_service.sendMail(this.replyObj)
+    this.replyObj.SUBJECT = this.email.SUBJECT;
+    this.replyObj.EMAIL_ID  = this.email._id;
+    this.user_service.replyEmail(this.replyObj)
+    // this.user_service.sendMail(this.replyObj)
       .subscribe(
         data => {
           if (data.verify == '1') {
@@ -94,6 +134,18 @@ export class ViewBeadComponent implements OnInit {
           this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
           // this.loading = false;
         });
+  }
+
+  getReplyEmailById(){
+    this.user_service.getReplyEmailById(this.email._id)
+    .subscribe(
+      data => {
+        this.replyEmail = data.data;
+        console.log(this.replyEmail);
+      },
+      error => {
+        console.log(error)
+      })
   }
 
 }

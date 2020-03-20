@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 var secret = 'corporate-token';
 const Email = require('../models/email');
+const ReplyEmail = require('../models/replyMail');
 
 
 module.exports = function (passport) {
@@ -226,7 +227,7 @@ module.exports = function (passport) {
                 });
             } else {
                 var data = req.body;
-                Email.replyEmail(data, function (err, result) {
+                ReplyEmail.replyEmail(data, function (err, result) {
                     if (err) {
                         return res.json({
                             message: err.message,
@@ -246,7 +247,98 @@ module.exports = function (passport) {
         });
     });
 
-    
+    router.get('/getUnReadEmails', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, userObj) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            } else {
+                var loggedIn = userObj.user;
+                Email.getUnReadEmails(loggedIn, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    router.get('/getReplyEmailById/:_id', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, userObj) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: {}
+                });
+            } else {
+                var loggedIn = userObj.user;
+                var _id = req.params._id;
+                ReplyEmail.getReplyEmailById(_id, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    router.get('/getUsersEmailWithAccept', verifyToken, (req, res) => {
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var user = loggedInUser.user
+                Email.getUsersWithAccept(user, function (err, usersList) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: {}
+                        });
+                    }
+                    if (usersList) {
+                        return res.json({
+                            verify: 1,
+                            message: "",
+                            data: usersList
+                        });
+                    }
+                });
+            }
+        });
+
+    });
+
 
 
 

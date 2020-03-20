@@ -11,11 +11,11 @@ var path = require('path');
 var fs = require('fs');
 var multer = require('multer');
 
-const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
-const DBIMGPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
+// const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
+// const DBIMGPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
 
-// const DOCPATH = '/var/www/files_sports_master/upload';
-// const DBIMGPATH = '/upload';
+const DOCPATH = 'E:/Genesis Solution/Corporate_Connection/corporate_connection_angular_admin/src/assets/uploads';
+const DBIMGPATH = '/assets/uploads';
 
 
 

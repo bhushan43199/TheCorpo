@@ -5,12 +5,12 @@ import { ToasterService, ToasterConfig } from 'angular2-toaster';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
-  templateUrl: 'login.component.html',
+  templateUrl: 'forgotpassword.component.html',
   styleUrls: ['../../../scss/vendors/toastr/toastr.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class LoginComponent {
-  model: any = {};
+export class ForgotPasswordComponent {
+  fpObj: any = {};
   returnUrl: string = "";
   loading = false;
   public data;
@@ -52,29 +52,27 @@ export class LoginComponent {
     }
   }
 
-  signin() {
+  forgot(){
     this.spinnerService.show();
-    this.loading = true;
-    this.authenticationService.login(this.model.EMAIL, this.model.PASSWORD)
-      .subscribe(
-        data => {
-
-          if(data.verify!=0){
-            this.spinnerService.hide();
-            this.toasterService.pop('success','Login!', 'successfully!');
-            this._router.navigate([this.returnUrl]);
-          }else{
-            this.spinnerService.hide();
-            this.toasterService.pop('error','Login failed', 'Username or Password not match!');
-          }            
-        },
-        error => {
+    this.userService.forgotPassword(this.fpObj)
+    .subscribe(
+      data => {
+        if (data.verify == '1') {            
           this.spinnerService.hide();
-          this.toasterService.pop('error','Oppss..', 'Something went wrong!');
-          this.loading = false;
-        });
-  }
+          this._router.navigate(['/pages/login']);
+          this.toasterService.pop('success', 'Done', 'Check your Email');
+        } else {
+          this.spinnerService.hide();
+          this.toasterService.pop('error', 'Oopps..', 'Something went wrong');
+        }
 
+      },
+      error => {
+        this.toasterService.pop('error','Oppss..', 'Something went wrong!');
+        this.spinnerService.hide();
+        this.loading = false;
+      });
+  }
 
 
 }

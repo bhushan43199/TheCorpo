@@ -6,6 +6,7 @@ import { P500Component } from './500.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
 import { HomeComponent } from './home.component';
+import { ForgotPasswordComponent } from './forgotpassword.component';
 
 const routes: Routes = [
   {
@@ -48,6 +49,13 @@ const routes: Routes = [
         data: {
           title: 'Register Page'
         }
+      },
+      {
+        path: 'forgot-pasword',
+        component: ForgotPasswordComponent,
+        data: {
+          title: 'Forgot Password'
+        }
       }
     ]
   }
@@ -57,4 +65,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PagesRoutingModule {}
+export class PagesRoutingModule { }

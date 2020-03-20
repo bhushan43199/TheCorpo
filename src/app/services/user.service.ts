@@ -8,6 +8,14 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+
+    forgotPassword(data){
+        return this.http.post<any>(appConfig.apiUrl + '/user/forgotPassword' , data)
+        .map(res => {
+            return res;
+        });
+    }
+
     getVenueImagebyId(id){
         return this.http.get<any>(appConfig.apiUrl + '/user/getVanueImagesById/'+id)
         .map(res => {

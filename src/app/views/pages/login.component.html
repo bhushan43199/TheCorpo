@@ -1,5 +1,6 @@
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>
+<ng4-loading-spinner></ng4-loading-spinner>
 <form >
 <div class="app flex-row align-items-center">
   <div class="container">
@@ -28,7 +29,7 @@
                         <button type="submit" class="btn btn-primary px-4" [disabled]= '!f.form.valid' >Login</button>
                     </div>
                     <div class="col-6 text-right">
-                        <button type="button" class="btn btn-link px-0">Forgot password?</button>
+                        <button type="button" class="btn btn-link px-0" routerLink="/pages/forgot-pasword">Forgot password?</button>
                     </div>
                 </div>
             </form>

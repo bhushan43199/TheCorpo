@@ -131,8 +131,20 @@ export class CalendarComponent {
     .subscribe(
       data => {
         if (data.verify == '1') {
-          this.users = data.data;
-          console.log(this.users)
+          var userEventList= data.data;
+          console.log(userEventList)
+
+          var nList = [];
+          userEventList.forEach(element => {
+              var event = {
+                  start: new Date(element.START_DATE),
+                  // end: addDays(element.EVT_END_DATE, 1),
+                  title: element.SUBJECT,
+                  color: colors.red,
+                };
+                nList.push(event);
+          });
+          this.users = nList;
         } else {
           // this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
         }

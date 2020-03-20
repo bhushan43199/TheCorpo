@@ -12,10 +12,12 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
+import { ForgotPasswordComponent } from './forgotpassword.component';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 
 @NgModule({
-  imports: [ PagesRoutingModule, FormsModule , ToasterModule, ReactiveFormsModule, CommonModule,
+  imports: [ PagesRoutingModule, FormsModule , ToasterModule, ReactiveFormsModule, CommonModule, Ng4LoadingSpinnerModule.forRoot(),
     NgSelectModule ],
   declarations: [
     P404Component,
@@ -23,6 +25,7 @@ import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
+    ForgotPasswordComponent,
     ChangePasswordEqualValidator
   ],
 })

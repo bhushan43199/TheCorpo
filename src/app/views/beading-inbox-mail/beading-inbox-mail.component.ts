@@ -24,6 +24,7 @@ export class BeadingInboxMailComponent implements OnInit, OnDestroy {
   loggedInUser:any = {};
   inbox:any = true;
   sent:any = false;
+
   unReadCount:any = 0;
 
   UnreadEmailCounter = 0;

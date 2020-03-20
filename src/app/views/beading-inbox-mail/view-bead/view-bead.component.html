@@ -2,121 +2,125 @@
 <ng4-loading-spinner></ng4-loading-spinner>
 <div class="animated fadeIn">
 
-  <div class="container-fluid">
-    <div class="row clearfix">
-      <div class="col-md-12">
-        <div class="d-flex">
 
-          <div class="inbox right w-100">
-            <div class="card">
-              <div class="card-header">
-                <div class="row">
-                  <div class="col-md-8 title">{{email.SUBJECT}}</div>
-                  <div class="col-md-4 text-right">
-                    <button class="btn btn-danger" routerLink="/beading-inbox-mail"><i class="fa fa-arrow-left"></i>
-                    </button>
-                  </div>
+  <div class="row clearfix">
+    <div class="col-md-12">
+      <div class="d-flex">
+
+        <div class="inbox right w-100">
+          <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-md-8 title">{{email.SUBJECT}}</div>
+                <div class="col-md-4 text-right">
+                  <button class="btn btn-danger" routerLink="/beading-inbox-mail"><i class="fa fa-arrow-left"></i>
+                  </button>
                 </div>
+              </div>
+            </div>
+            <div class="card-body mb-2">
+              <div class="card-body ">
+                <ul class="list-unstyled d-flex justify-content-md-start mb-0">
+                  <li><img class="rounded w40" src="assets/img/xs/avatar1.jpg" alt=""></li>
+                  <li class="ml-3">
+                    <p class="mb-0"><span class="text-muted">From:</span> <a
+                        href="javascript:void(0);">{{email.FROM}}</a></p>
+                    <p class="mb-0" *ngIf="user.EMAIL != email.TO"><span class="text-muted">To:</span> {{email.TO}}
+                    </p>
+                    <p class="mb-0" *ngIf="user.EMAIL === email.TO"><span class="text-muted">To:</span> Me</p>
+                  </li>
+                </ul>
+              </div>
+              <div class="header mb-2 text-info border-bottom">
+                <span>Place : <span style="color: #000;"> {{email.PLACE | titlecase}} </span> </span>
+
+              </div>
+              <div class="header mb-2 text-info border-bottom">
+                <span>Venue Price : <span style="color: #000;"> {{email.PRICE}}</span> </span>
               </div>
               <div class="card-body mb-2">
-                <div class="card-body ">
-                  <ul class="list-unstyled d-flex justify-content-md-start mb-0">
-                    <li><img class="rounded w40" src="assets/img/xs/avatar1.jpg" alt=""></li>
-                    <li class="ml-3">
-                      <p class="mb-0"><span class="text-muted">From:</span> <a
-                          href="javascript:void(0);">{{email.FROM}}</a></p>
-                      <p class="mb-0" *ngIf="user.EMAIL != email.TO"><span class="text-muted">To:</span> {{email.TO}}</p>
-                      <p class="mb-0" *ngIf="user.EMAIL === email.TO"><span class="text-muted">To:</span> Me</p>
-                    </li>
-                  </ul>
-                </div>
-                <div class="header mb-2 text-info border-bottom">
-                  <span>Place : {{email.PLACE | titlecase}} </span>
-
-                </div>
-                <div class="header mb-2 text-info border-bottom">
-                  <span>Venue Price : </span>
-                </div>
-                <div class="card-body mb-2">
-                  <h6 *ngIf="user.EMAIL === email.TO">Hello {{user.FIRST_NAME}} {{user.LAST_NAME}},</h6>
-                  <br>
-                  <!-- <p>{{email.SUBJECT}}</p> -->
-                  <ul>
-                    <li>
-                      <div [innerHTML]="email.MESSAGE"></div>
-                    </li>
-                  </ul>
-                  <!-- <p class="text-info">Purchase: Corporate Connection has not yet purchased this item from you.</p> -->
-                  <!-- <div class="row file_folder">
-                    <div class="col-md-3">
-                      <div class="icon">
-                        <i class="fa fa-file-text fa-lg text-success"></i>
-                      </div>
-                      <div class="file-name">
-                        <p class="mb-0 text-muted">Report2017.xls</p>
-                        <small>Size: 68KB</small>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="icon">
-                        <i class="fa fa-file-text fa-lg text-primary"></i>
-                      </div>
-                      <div class="file-name">
-                        <p class="mb-0 text-muted">Report2017.doc</p>
-                        <small>Size: 68KB</small>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="icon">
-                        <i class="fa fa-file-pdf-o fa-lg text-danger"></i>
-                      </div>
-                      <div class="file-name">
-                        <p class="mb-0 text-muted">Report2017.pdf</p>
-                        <small>Size: 68KB</small>
-                      </div>
-                    </div>
-                  </div> -->
-                </div>
-                <div class="row" *ngIf="user.ROLE === 3">
-                  <div class="col-md-12">
-                    <button class="btn btn-success text-white accept" *ngIf="email.ISACCEPT != true"
-                      (click)="isAccept()"><i class="fa fa-check"></i>
-                      <span>Accept</span></button>
-                    <button class="btn btn-success text-white accept" *ngIf="email.ISACCEPT === true"><i
-                        class="fa fa-check"></i>
-                      <span>Accepted</span></button>
-                    <button *ngIf="email.ISACCEPT != true" class="btn btn-danger text-white reject"
-                      (click)="editorClose()"><i class="fa fa-close"></i>
-                      <span>No
-                        Thanks</span></button>
-                  </div>
-                </div>
-
+                <h6 *ngIf="user.EMAIL === email.TO">Hello {{user.FIRST_NAME}} {{user.LAST_NAME}},</h6>
+                <br>
+                <!-- <p>{{email.SUBJECT}}</p> -->
+                <ul>
+                  <li>
+                    <div [innerHTML]="email.MESSAGE"></div>
+                  </li>
+                </ul>
+           
               </div>
+              <div class="row" *ngIf="user.ROLE === 3">
+                <div class="col-md-12">
+                  <button class="btn btn-success text-white accept" *ngIf="email.ISACCEPT != true"
+                    (click)="isAccept()"><i class="fa fa-check"></i>
+                    <span>Accept</span></button>
+                  <button class="btn btn-success text-white accept" *ngIf="email.ISACCEPT === true"><i
+                      class="fa fa-check"></i>
+                    <span>Accepted</span></button>
+                  <button *ngIf="email.ISACCEPT != true" class="btn btn-danger text-white reject"
+                    (click)="editorClose()"><i class="fa fa-close"></i>
+                    <span>No Thanks</span></button>
+                </div>
+              </div>
+
             </div>
-            <div class="card" *ngIf="editorFlag==true">
-              <div class="card-body accept-reply">
-                <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="replyObj.MESSAGE"
-                  name="MESSAGE" #MESSAGE="ngModel">
-                </app-ngx-editor>
-              </div>
-              <div class="card-footer">
-                <button class="btn btn-primary waves-effect m-t-20" (click)="reply()"> <i class="fa fa-paper-plane"
-                    aria-hidden="true"></i> Reply</button>
-                <button type="button" class="btn btn-primary waves-effect m-t-20 accept-close"
-                  (click)="editorClose()">Close</button>
-              </div>
-            </div>
-
-            <!-- Reply Email Data -->
-            <!-- {{replyEmail | json}} -->
           </div>
+          <div class="card" *ngIf="editorFlag==true">
+            <div class="card-body accept-reply">
+              <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="replyObj.MESSAGE"
+                name="MESSAGE" #MESSAGE="ngModel">
+              </app-ngx-editor>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary waves-effect m-t-20" (click)="reply()"> <i class="fa fa-paper-plane"
+                  aria-hidden="true"></i> Reply</button>
+              <button type="button" class="btn btn-primary waves-effect m-t-20 accept-close"
+                (click)="editorClose()">Close</button>
+            </div>
+          </div>
+
+          <!-- Reply Email Data -->
+          <!-- {{replyEmail | json}} -->
         </div>
       </div>
     </div>
   </div>
 
-
 </div>
+<div class="animated fadeIn" *ngIf="replyEmail != {};">
+  <div class="card">
+    <div class="card-body">
+      <div class="email-app mb-4">
+        <main class="inbox">
+          <ul class="messages">
+            <li class="message unread">
+              <a href="#">
+                <div class="actions">
+                  <span class="action"><i class="fa fa-square-o"></i></span>
+                  <span class="action"><i class="fa fa-star-o"></i></span>
+                </div>
+                <div class="header">
+                  <span class="from">Lukasz Holeczek</span>
+                  <span class="date"><span class="fa fa-paper-clip"></span> Today, 3:47 PM</span>
+                </div>
+                <div class="title">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                </div>
+                <div class="description">
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                  et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                  aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                  dolore eu fugiat nulla pariatur.
+                </div>
+              </a>
+            </li>
+          </ul>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <toaster-container [toasterconfig]="toasterconfig"></toaster-container>

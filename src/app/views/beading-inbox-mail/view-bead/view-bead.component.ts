@@ -22,19 +22,7 @@ export class ViewBeadComponent implements OnInit {
      private spinnerService: Ng4LoadingSpinnerService, 
      private toasterService: ToasterService, 
      public user_service: UserService) {
-  // constructor(public route: Router, public router: ActivatedRoute, private toasterService: ToasterService, public user_service: UserService) {
-    // var previousPageData = this.route.getCurrentNavigation();
-    // var data = {
-    //   _id: "5e6bc4a4b2d93f088405c0d6",
-    //   TO: "flemingparmar7895@gmail.com",
-    //   FROM: "sahilparmar1810@gmail.com",
-    //   SUBJECT: "Testing Mail",
-    //   MESSAGE: "Hello, Im doing testing for it ",
-    //   STATUS: true,
-    //   ISREAD: false,
-    //   CREATED_DATE: "2020-03-13T17:36:36.701Z"
-    // };
-    // this.email = data;
+ 
   }
   public toasterconfig: ToasterConfig =
   new ToasterConfig({
@@ -76,7 +64,7 @@ export class ViewBeadComponent implements OnInit {
         data => {
           // console.log(data);
           this.email = data.data;
-          console.log(this.email);
+          console.log(this.email)
           if(this.email.ISACCEPT === true){
             this.getReplyEmailById();
           }          
@@ -112,7 +100,7 @@ export class ViewBeadComponent implements OnInit {
   }
 
   reply() {
-
+    this.spinnerService.show();
     this.replyObj.TO = this.email.FROM,
     this.replyObj.FROM = this.email.TO
     this.replyObj.SUBJECT = this.email.SUBJECT;
@@ -123,9 +111,11 @@ export class ViewBeadComponent implements OnInit {
         data => {
           if (data.verify == '1') {
             // this.usersList = data.data;
+            this.spinnerService.hide();
             this.toasterService.pop('success', 'Done', 'Email send...')
 
           } else {
+            this.spinnerService.hide();
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
           }
 

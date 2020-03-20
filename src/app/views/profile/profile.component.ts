@@ -5,6 +5,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { appConfig } from 'app/app.config';
 import { HttpResponse, HttpEventType, HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-profile',
@@ -33,7 +34,7 @@ export class ProfileComponent implements OnInit {
     });
   constructor(private _user_service: UserService,
     private toasterService: ToasterService,
-    private sanitizer: DomSanitizer,
+    private sanitizer: DomSanitizer,public spinnerService:Ng4LoadingSpinnerService,
     private http: HttpClient) {
     this.imgURL = "assets/img/avatars/8.jpg";
 
@@ -112,19 +113,23 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
+    this.spinnerService.show();
     this.loading = true;
     this._user_service.updateProfile(this.user)
       .subscribe(
         data => {
           if (data.verify == '1') {
+            this.spinnerService.hide();
             localStorage.setItem('user', JSON.stringify(data.data));
             this.toasterService.pop('success', 'Done', 'User Updated');
             this.uploadSubmit(data.data);
           } else {
+            this.spinnerService.hide()
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
           }
         },
         error => {
+          this.spinnerService.hide()
           this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
           this.loading = false;
         });

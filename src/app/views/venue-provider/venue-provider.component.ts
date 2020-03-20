@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { UserService } from 'app/services';
 import { ToasterService, ToasterConfig } from 'angular2-toaster';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-venue-provider',
@@ -25,7 +26,7 @@ export class VenueProviderComponent implements OnInit {
     tapToDismiss: true,
     timeout: 5000
   });
-  constructor(public userService: UserService, private toasterService: ToasterService) {
+  constructor(public userService: UserService, private toasterService: ToasterService,public spinnerService:Ng4LoadingSpinnerService) {
     this.getAllVenueProviders();
     this.loggedInUserRole = localStorage.getItem('ROLE')
   }
@@ -89,17 +90,21 @@ export class VenueProviderComponent implements OnInit {
   }
 
   getAllVenueProviders() {
+    this.spinnerService.show();
     this.userService.getAllVenueProviders()
       .subscribe(
         data => {
          
           if (data.verify == '1') {
+            this.spinnerService.hide();
             this.venueProviderList = data.data;
           } else {
+            this.spinnerService.hide();
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
           }
         },
         err => {
+          this.spinnerService.hide();
           console.log(err)
         })
   }

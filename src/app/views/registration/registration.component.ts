@@ -3,6 +3,7 @@ import { UserService } from 'app/services';
 import { Router } from '@angular/router';
 import { ToasterConfig, ToasterService } from 'angular2-toaster';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 @Component({
   selector: 'app-registration',
@@ -37,7 +38,7 @@ export class RegistrationComponent implements OnInit {
     { label: "Male", value: "male" },
     { label: "Female", value: "female" }
   ]
-  constructor(private modalService: BsModalService, private toasterService: ToasterService,
+  constructor(private modalService: BsModalService,public spinnerService:Ng4LoadingSpinnerService, private toasterService: ToasterService,
      private _user_service: UserService, public _router: Router) { }
 
   ngOnInit() {
@@ -86,19 +87,23 @@ export class RegistrationComponent implements OnInit {
   }
 
   createUser() {
+    this.spinnerService.show();
     this.loading = true;
     this._user_service.createUser(this.user)
       .subscribe(
         data => {
           if (data.verify == '1') {
+            this.spinnerService.hide()
             this.toasterService.pop('success', 'Done', 'Registration Done');
             this.getAllRegisterdUsers()
           } else {
+            this.spinnerService.hide()
             this.toasterService.pop('error', 'Oopps..', 'Something went wrong');
           }
 
         },
         error => {
+          this.spinnerService.hide()
           // this.showError(error.statusText);
           this.loading = false;
         });
@@ -135,18 +140,22 @@ export class RegistrationComponent implements OnInit {
     this.modalRef.hide();
   }
   updateUser() {
+    this.spinnerService.show()
     this.loading = true;
     this._user_service.updateUser(this.user)
       .subscribe(
         data => {
           if (data.verify == '1') {
+            this.spinnerService.hide()
             this.toasterService.pop('success', 'Done', 'User Updated');
             this.getAllRegisterdUsers();
           } else {
+            this.spinnerService.hide()
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')
           }
         },
         error => {
+          this.spinnerService.hide()
           this.toasterService.pop('error', 'Server Error', 'Something went wrong !')
           this.loading = false;
         });

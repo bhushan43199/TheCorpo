@@ -114,6 +114,10 @@ export const routes: Routes = [
         path: 'compose-mail',
         loadChildren: './views/compose-mail/compose-mail.module#ComposeMailModule'
       },
+      {
+        path: 'change-password',
+        loadChildren: './views/change-password/change-password.module#ChangePasswordModule'
+      },
     ]
   },
   {

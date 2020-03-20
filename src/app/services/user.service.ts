@@ -8,6 +8,12 @@ import { appConfig } from '../app.config';
 export class UserService {
     constructor(private http: HttpClient) { }
 
+    changePassword(data){
+        return this.http.post<any>(appConfig.apiUrl + '/user/changePassword' , data)
+        .map(res => {
+            return res;
+        });
+    }
 
     forgotPassword(data){
         return this.http.post<any>(appConfig.apiUrl + '/user/forgotPassword' , data)

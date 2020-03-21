@@ -9,6 +9,7 @@ import { VenueProviderDataFilterPipe } from './datafilterpipe';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster'
     HttpModule,
     ModalModule.forRoot(),
     NgSelectModule,
-    ToasterModule
+    ToasterModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
   declarations: [VenueProviderComponent, VenueProviderDataFilterPipe]
 })

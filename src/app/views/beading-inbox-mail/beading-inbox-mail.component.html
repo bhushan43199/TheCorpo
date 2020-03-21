@@ -13,7 +13,7 @@
         </nav>
         <main class="inbox" *ngIf="inbox">
             <div class="toolbar">
-                <div class="row">
+                <div class="row">                    
                     <!-- <div class="col-md-6">
                         <div class="btn-group">
                             <button type="button" routerLink="/compose-mail" class="btn btn-primary"> Create Project</button>
@@ -28,8 +28,6 @@
                 <li class="message" [ngClass]="email.ISREAD == false? 'unread' : 'read'" (click)="viewBead(email, true)" *ngFor="let email of emails | paginate: { itemsPerPage: 5, currentPage: p } ">
                     <a>
                         <div class="actions">
-                            <!-- <span class="action"><i class="fa fa-square-o"></i></span> -->
-                            <input type="checkbox" class="action" />
                             <span class="action"><i class="fa fa-star-o"></i></span>
                         </div>
 
@@ -43,7 +41,7 @@
                         <div class="title">
                             {{email.SUBJECT}}
                         </div>
-                        <div class="description">
+                        <div class="description hidechar">
                             <!-- {{email.MESSAGE}} -->
                             <div [innerHTML]="email.MESSAGE"></div>
                         </div>
@@ -83,7 +81,7 @@
                         <div class="title">
                             {{email.SUBJECT}}
                         </div>
-                        <div class="description">
+                        <div class="description hidechar">
                             <!-- {{email.MESSAGE}} -->
                             <div [innerHTML]="email.MESSAGE"></div>
                         </div>

@@ -339,7 +339,47 @@ module.exports = function (passport) {
 
     });
 
+    router.post('/deleteEmail', verifyToken, (req, res) => {
 
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var emailId = req.body._id;
+                Email.findOne({ '_id': emailId }, function (err, email) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: null
+                        });
+                    }
+                    console.log(email)
+                    email.STATUS = false;
+                    Email.updateEmail(email, function (err, result) {
+                        if (err) {
+                            return res.json({
+                                message: err.message,
+                                status: 0,
+                                result: {}
+                            });
+                        }
+                        if (result) {
+                            return res.json({
+                                verify: 1,
+                                message: "Email deleted success.",
+                                data: result
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    });
 
 
     //Verify Token

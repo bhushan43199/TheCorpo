@@ -7,3 +7,17 @@
 .unread {
     background-color: #fff;
 }
+
+.hidechar {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-width: 100ch;
+    text-overflow: ellipsis;
+}
+
+.ml15{
+    margin-left: 15px;
+}
+

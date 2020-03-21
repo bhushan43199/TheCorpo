@@ -14,7 +14,7 @@ var multer = require('multer');
 // const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
 // const DBIMGPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/uploads';
 
-const DOCPATH = 'E:/Genesis Solution/Corporate_Connection/corporate_connection_angular_admin/src/assets/uploads';
+const DOCPATH = 'D:/Sahil/My Data/Genesis/CorporateConnection/corporate_connection_angular_admin/src/assets/uploads';
 const DBIMGPATH = '/assets/uploads';
 
 
@@ -714,6 +714,7 @@ module.exports = function (passport) {
                         });
                     }
                     if (result) {
+                        user.PASSWORD = password;
                         User.sendEmailForgotPassword(user, function (err, result) {
                             if (err) {
                                 return res.json({
@@ -774,6 +775,48 @@ module.exports = function (passport) {
                 });
             }
 
+        });
+    });
+
+    router.post('/deleteVenueImage', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            } else {
+                var userId = req.body._id;
+                Vanue.findOne({ '_id': userId }, function (err, venue) {
+                    if (err) {
+                        return res.json({
+                            verify: 0,
+                            message: err.message,
+                            data: null
+                        });
+                    }
+                    console.log(venue)
+                    venue.STATUS = false;
+                    Vanue.updateVanue(venue, function (err, result) {
+                        if (err) {
+                            return res.json({
+                                message: err.message,
+                                status: 0,
+                                result: {}
+                            });
+                        }
+                        if (result) {
+                            return res.json({
+                                verify: 1,
+                                message: "Image deleted success.",
+                                data: result
+                            });
+                        }
+                    });
+                });
+            }
         });
     });
 

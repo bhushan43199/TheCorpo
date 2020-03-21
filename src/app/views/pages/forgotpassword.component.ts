@@ -58,9 +58,9 @@ export class ForgotPasswordComponent {
     .subscribe(
       data => {
         if (data.verify == '1') {            
-          this.spinnerService.hide();
-          this._router.navigate(['/pages/login']);
+          this.spinnerService.hide();          
           this.toasterService.pop('success', 'Done', 'Check your Email');
+          this._router.navigate(['/pages/login']);
         } else {
           this.spinnerService.hide();
           this.toasterService.pop('error', 'Oopps..', 'Something went wrong');

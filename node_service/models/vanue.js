@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const nodemailer = require('nodemailer');
 
 const vanueSchema = mongoose.Schema({
     IMG_PATH: { type: String, require: true },
@@ -20,6 +19,10 @@ module.exports.create = function (vanue, callback) {
 
 
 module.exports.getVanueImagesById = function (userId, callback) {
-    var query = {'CREATED_BY': userId};
+    var query = {'CREATED_BY': userId, 'STATUS':true};
     Vanue.find(query, callback);
+}
+
+module.exports.updateVanue = function (venue, callback) {
+    Vanue.updateOne({ _id: venue._id }, { $set: venue }, callback);
 }

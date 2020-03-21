@@ -45,9 +45,9 @@ export class VenueProviderComponent implements OnInit {
       .subscribe(
         data => {
          this.imageList = data.data;
-        //  this.imageList.forEach(element => {
-        //   element.IMG_PATH = "http://localhost:4200" + element.IMG_PATH
-        //  });
+         this.imageList.forEach(element => {
+          element.IMG_PATH = "http://localhost:4200" + element.IMG_PATH
+         });
         },
         error => {
           console.log(error)

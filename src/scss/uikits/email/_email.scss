@@ -89,7 +89,8 @@
       }
 
       &.unread {
-        .header, .title {
+        .header,
+        .title {
           font-weight: bold;
         }
       }

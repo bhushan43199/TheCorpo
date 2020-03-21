@@ -15,6 +15,6 @@ import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
     ReactiveFormsModule,
     Ng4LoadingSpinnerModule.forRoot()
   ],
-  declarations: [ChangePasswordComponent,ChangePasswordEqualValidator]
+  declarations: [ChangePasswordComponent, ChangePasswordEqualValidator]
 })
 export class ChangePasswordModule { }

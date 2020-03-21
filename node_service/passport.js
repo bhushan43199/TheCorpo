@@ -32,7 +32,7 @@ module.exports = function (passport) {
 
                 User.comparePassword(password, user.PASSWORD, function (err, isMatch) {
                     // console.log('comparePassword is calling..');
-                    if (err) throw err;
+                    if (err) return done(err.message, null);   
                     if (isMatch) {                       
                         return done(null, user);                   
                     } else {

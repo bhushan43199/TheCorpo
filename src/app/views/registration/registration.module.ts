@@ -8,7 +8,8 @@ import { DataTableModule } from 'angular2-datatable';
 import { ModalModule } from 'ngx-bootstrap';
 import { RegistrationDataFilterPipe } from './datafilterpipe';
 import { ToasterModule, ToasterService} from 'angular2-toaster/angular2-toaster';
-import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { RegisterEqualValidator } from 'app/services/registerValidator';
 @NgModule({
   imports: [
     CommonModule,
@@ -17,9 +18,10 @@ import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
     DataTableModule,
     FormsModule,
     NgSelectModule,
-    ToasterModule
+    ToasterModule,
+    Ng4LoadingSpinnerModule.forRoot()
     
   ],
-  declarations: [RegistrationComponent,RegistrationDataFilterPipe,ChangePasswordEqualValidator]
+  declarations: [RegistrationComponent, RegistrationDataFilterPipe, RegisterEqualValidator]
 })
 export class RegistrationModule { }

@@ -59,10 +59,7 @@ export class ChangePasswordComponent implements OnInit {
 
   changePassword() {
     this.SpinnerService.show();
-    var password = {
-      password: this.user.password
-    };
-    this.userService.changePassword(password)
+    this.userService.changePassword(this.user)
       .subscribe(
         data => {
           if (data.verify != 1) {

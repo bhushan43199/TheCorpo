@@ -4,10 +4,10 @@ import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 @Directive({
     selector: '[validateEqual]',
     providers: [
-        { provide: NG_VALIDATORS, useExisting: ChangePasswordEqualValidator, multi: true }
+        { provide: NG_VALIDATORS, useExisting: RegisterEqualValidator, multi: true }
     ]
 })
-export class ChangePasswordEqualValidator implements Validator {
+export class RegisterEqualValidator implements Validator {
 
     @Input() validateEqual: string;
     validate(control: AbstractControl): { [key: string]: any } | null {

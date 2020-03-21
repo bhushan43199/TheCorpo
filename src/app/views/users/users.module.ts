@@ -8,6 +8,8 @@ import { UserDataFilterPipe } from './datafilterpipe';
 import { ModalModule } from 'ngx-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToasterModule } from 'angular2-toaster';
+import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { UserEqualValidator } from 'app/services/userPassValidator';
 
 @NgModule({
   imports: [
@@ -17,8 +19,9 @@ import { ToasterModule } from 'angular2-toaster';
     DataTableModule,
     FormsModule,
     NgSelectModule,
-    ToasterModule
+    ToasterModule,
+    Ng4LoadingSpinnerModule.forRoot()
   ],
-  declarations: [UsersComponent, UserDataFilterPipe]
+  declarations: [UsersComponent, UserDataFilterPipe, UserEqualValidator]
 })
 export class UsersModule { }

@@ -45,9 +45,9 @@ module.exports.getAllRegisterdUsers = function (userObj, callback) {
     var query = { 'ROLE': { $ne: 0 }, 'STATUS': true };
     // User.find(query, callback);
     User.
-    find(query).
-    sort({ CREATED_DATE: -1 }).
-    exec(callback);
+        find(query).
+        sort({ CREATED_DATE: -1 }).
+        exec(callback);
 }
 
 module.exports.getAllUsers = function (user, callback) {
@@ -56,23 +56,23 @@ module.exports.getAllUsers = function (user, callback) {
         var query = { 'ROLE': { $ne: 0 } };
         // User.find(query, callback);
         User.
-        find(query).
-        sort({ CREATED_DATE: -1 }).
-        exec(callback);
+            find(query).
+            sort({ CREATED_DATE: -1 }).
+            exec(callback);
     } else if (user.ROLE == 1) {
         var query = { 'ROLE': 1, 'STATUS': true }
         // User.find(query, callback);
         User.
-        find(query).
-        sort({ CREATED_DATE: -1 }).
-        exec(callback);
+            find(query).
+            sort({ CREATED_DATE: -1 }).
+            exec(callback);
     } else if (user.ROLE == 2) {
         var query = { 'ROLE': 2, 'STATUS': true }
         // User.find(query, callback);
         User.
-        find(query).
-        sort({ CREATED_DATE: -1 }).
-        exec(callback);
+            find(query).
+            sort({ CREATED_DATE: -1 }).
+            exec(callback);
     }
 }
 
@@ -91,13 +91,11 @@ module.exports.deleteUser = function (userId, callback) {
     User.update({ _id: userId }, { $set: query }, callback);
 }
 
-
-
 module.exports.updateUserPassword = function (user, callback) {
     bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(user.password, salt, function (err, hash) {
-            user.password = hash;
-            user.status = true;
+        bcrypt.hash(user.PASSWORD, salt, function (err, hash) {
+            user.PASSWORD = hash;
+            user.STATUS = true;
             User.updateOne({ _id: user._id }, { $set: user }, callback);
         });
     })
@@ -111,16 +109,16 @@ module.exports.getUserByUsername = function (username, callback) {
 module.exports.comparePassword = function (candidatePassword, hash, callback) {
 
     bcrypt.compare(candidatePassword, hash, function (err, isMatch) {
-        if (err) throw err;
+        if (err) callback(err.message, null);
         callback(null, isMatch);
     });
 }
 
-module.exports.changePassword = function (user, callback) {
+module.exports.changePassword = function (data, callback) {
     bcrypt.genSalt(10, function (err, salt) {
-        bcrypt.hash(user.new_password, salt, function (err, hash) {
-            user.password = hash;
-            user.status = true;
+        bcrypt.hash(data.NEW_PASSWORD, salt, function (err, hash) {
+            data.PASSWORD = hash;
+            data.STATUS = true;
             User.updateOne({ _id: user._id }, { $set: user }, callback);
         });
     })
@@ -142,38 +140,40 @@ module.exports.getProfileData = function (userId, callback) {
 }
 
 
-module.exports.sendEmail = function (user, callback) {
-
+module.exports.sendEmailForgotPassword = function (user, callback) {
     /* 
     * Email sending
     */
+   console.log(user)
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'genesis71318@gmail.com',
-            pass: '71318@genesis'
+            user: 'sahilparmar1810@gmail.com',
+            pass: 'S@hilselu1818'
         }
     });
     var mailOptions = {
-        from: 'no-reply@codedot.com',
-        to: user.email,
-        subject: 'Temporary Password',
-        html: '<table align="center" border="1" cellpadding="0" cellspacing="0" width="600"><tr><td align="center" bgcolor="#2c2e3e" \
-        style="padding: 10px 0 10px 0;"><h1 style="color:#fff">CodeDote</h1></td></tr><tr><td bgcolor="#ffffff"  \
-        style="padding: 40px 30px 40px 30px;"><table border="0" cellpadding="0" cellspacing="0" width="100%"><tr>  \
-        <td>Dear ' + user.fname + ' ' + user.lname + ',</td></tr><tr></tr><tr><td>we look forward to seeing you.</td></tr><tr><td><p>Thanks & regards,</p></td></tr><tr><td><p>CodeDote Team.</p></td></tr><tr><td style="padding: 30px 30px 30px 30px; text-align: center"> ' + user.password + '  </td></tr></table></td></tr><tr><td bgcolor="#1bb1dc" style="padding: 30px 30px 30px 30px;text-align: center; font-size: 20px; color:#fff"><table cellpadding="0" cellspacing="0" width="100%"><tr><td align="left">&copy;CodeDote</td><td align="right"><table border="0" cellpadding="0" cellspacing="0"><tr><td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td></tr></table></td></tr></table></td></tr></table>'
-        //html: 'Greetings from Interviewer<br>Please follow below link to get into virtual interview room.<br><a href=' + weblink + '> Click Here</a><br>Please feel free to connect with me in case of any query.<br>All the Best!',
+        from: "noreply@corp.com",
+        to: user.EMAIL,
+        subject: "Forgot Password",
+        html: '<table align="center" border="1" cellpadding="0" cellspacing="0" width="600"><tbody><tr><td align="center" bgcolor="#e4e5e6" style="padding: 10px 0 10px 0;"><div _ngcontent-c0="" class="logo"><b><a _ngcontent-c0="" style="color: #f77221;">The Corporate<span>&nbsp;</span><span _ngcontent-c0="">Connection</span></a></b></div></td></tr><tr><td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;"><p>Hello&nbsp; '+user.FIRST_NAME+' '+user.LAST_NAME+',</p><p><span>Greetings!</span></p><p><span>You are just a step away from accessing your account.</span></p><p>Your new password is :- <strong>'+user.PASSWORD+'</strong></p><p><span>Best Regards,<br/>Team @corporateconnection</span></p><p></p></td></tr><tr><td bgcolor="#1b387a" style="padding: 30px 30px 30px 30px; text-align: center; font-size: 20px; color: #fff;"><table cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="left">&copy;thecorporateconnection</td><td align="right"></td></tr></tbody></table></td></tr></tbody></table>',
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log('Email not send');
-            console.log(error);
+            console.log(error.message);
+            callback(error.message, null);
         } else {
             console.log('Email sent: ' + info.response);
             callback(null, info);
         }
     });
+}
+
+module.exports.doesEmailExist = function (email, callback) {
+    var query = { 'EMAIL': email };
+    User.findOne(query, callback);
 }
 
 

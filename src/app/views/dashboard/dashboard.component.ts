@@ -10,11 +10,11 @@ export class DashboardComponent implements OnInit {
 
   loading: any;
   userlist: any = [];
-  adminsCount:any = 0;
-  usersCount:any = 0;
-  venueCount:any = 0;
+  adminsCount: any = 0;
+  usersCount: any = 0;
+  venueCount: any = 0;
 
-  constructor( private toasterService: ToasterService,
+  constructor(private toasterService: ToasterService,
     private _user_service: UserService) { }
 
   ngOnInit() {
@@ -29,13 +29,13 @@ export class DashboardComponent implements OnInit {
           if (data.verify == '1') {
             var userlist = data.data;
             userlist.forEach(element => {
-                if(element.ROLE === 1){
-                  this.adminsCount++;
-                }else if(element.ROLE === 2){
-                  this.venueCount++;
-                }else{
-                  this.usersCount++;
-                }
+              if (element.ROLE === 1) {
+                this.adminsCount++;
+              } else if (element.ROLE === 2) {
+                this.venueCount++;
+              } else {
+                this.usersCount++;
+              }
             });
           } else {
             this.toasterService.pop('error', 'ooops..', 'Something went wrong !')

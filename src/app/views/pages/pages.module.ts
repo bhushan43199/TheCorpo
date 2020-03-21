@@ -14,6 +14,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
 import { ForgotPasswordComponent } from './forgotpassword.component';
 import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
+import { PagesEqualValidator } from 'app/services/pagesValidator';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { Ng4LoadingSpinnerModule } from 'ng4-loading-spinner';
     RegisterComponent,
     HomeComponent,
     ForgotPasswordComponent,
-    ChangePasswordEqualValidator
+    PagesEqualValidator
   ],
 })
 export class PagesModule { }

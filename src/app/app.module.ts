@@ -42,7 +42,7 @@ const APP_COMPONENTS = [
   AppSidebarFormComponent,
   AppSidebarHeaderComponent,
   AppSidebarMinimizerComponent,
-  APP_SIDEBAR_NAV
+  APP_SIDEBAR_NAV,
 ]
 
 // Import directives
@@ -50,7 +50,7 @@ import {
   AsideToggleDirective,
   NAV_DROPDOWN_DIRECTIVES,
   ReplaceDirective,
-  SIDEBAR_TOGGLE_DIRECTIVES
+  SIDEBAR_TOGGLE_DIRECTIVES,
 } from './directives';
 
 const APP_DIRECTIVES = [
@@ -74,6 +74,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './helpers';
 import { AuthGuard } from './guards';
 import { DataService } from './services/data.service';
+import { ChangePasswordEqualValidator } from 'app/services/passwordvalidator';
 
 @NgModule({
   imports: [

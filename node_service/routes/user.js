@@ -686,9 +686,99 @@ module.exports = function (passport) {
         });
     });
 
+    router.post('/forgotPassword', (req, res) => {
+
+        const userEmail = req.body.EMAIL;
+        User.doesEmailExist(userEmail, function (err, isMatch) {
+            if (err) {
+                return res.json({
+                    verify: 0,
+                    message: err.message,
+                    data: null
+                });
+            }
+            if (isMatch) {
+                var user = isMatch;
+                console.log(user)
+                var password = generator.generate({
+                    length: 10,
+                    numbers: true
+                });
+                user.PASSWORD = password;
+                User.updateUserPassword(user, function (err, result) {
+                    if (err) {
+                        return res.json({
+                            message: err.message,
+                            status: 0,
+                            result: {}
+                        });
+                    }
+                    if (result) {
+                        User.sendEmailForgotPassword(user, function (err, result) {
+                            if (err) {
+                                return res.json({
+                                    message: err.message,
+                                    status: 0,
+                                    result: {}
+                                });
+                            }
+                            if (result) {
+                                return res.json({
+                                    verify: 1,
+                                    message: "Email send success.",
+                                    data: null
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                return res.json({
+                    verify: 0,
+                    message: 'Email not found.',
+                    data: null
+                });
+            }
+        });
+    });
+
+    router.post('/changePassword', verifyToken, (req, res) => {
+
+        jwt.verify(req.token, secret, function (err, loggedInUser) {
+            if (err) {
+                // return res.status(403);
+                return res.json({
+                    message: err.message,
+                    status: 0,
+                    result: {}
+                });
+            } else {
+                var data = req.body;
+                var user = loggedInUser.user;
+                user.PASSWORD = data.PASSWORD;
+                User.updateUserPassword(user, function (err, result) {
+                    if (err) {
+                        return res.json({
+                            message: err.message,
+                            status: 0,
+                            result: {}
+                        });
+                    }
+                    if (result) {
+                        return res.json({
+                            verify: 1,
+                            message: "Password update success.",
+                            data: null
+                        });
+                    }
+                });
+            }
+
+        });
+    });
 
     //Verify Token
-  
+
     function verifyToken(req, res, next) {
 
         const bearerHeader = req.headers['authorization'];

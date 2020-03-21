@@ -57,8 +57,8 @@ function SendEmail(Email, callback) {
             var mailOptions = {
                 from: 'no-reply@corporate.com',
                 to: Email,
-                subject: 'Hi ! This is from Async Script',
-                text: "Hello World !"
+                subject: mailData.SUBJECT,
+                html: '<table align="center" border="1" cellpadding="0" cellspacing="0" width="600"><tbody><tr><td align="center" bgcolor="#e4e5e6" style="padding: 10px 0 10px 0;"><div _ngcontent-c0="" class="logo"><b><a _ngcontent-c0="" style="color: #f77221;">The Corporate<span>&nbsp;</span><span _ngcontent-c0="">Connection</span></a></b></div></td></tr><tr><td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;"><p>'+mailData.MESSAGE+'</p><p>Best Regards,</p><p>Respectfully Yours,</p><p>(Team The corporate connection)<a rel="noopener"><u></u></a></p><p></p></td></tr><tr><td bgcolor="#1b387a" style="padding: 30px 30px 30px 30px; text-align: center; font-size: 20px; color: #fff;"><table cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td align="left">&copy;thecorporateconnection</td><td align="right"></td></tr></tbody></table></td></tr></tbody></table><p></p>'
             };
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {

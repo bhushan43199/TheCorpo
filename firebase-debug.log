@@ -1,0 +1,22 @@
+[debug] [2020-03-25T11:34:47.361Z] ----------------------------------------------------------------------
+[debug] [2020-03-25T11:34:47.366Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\montu\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only hosting
+[debug] [2020-03-25T11:34:47.366Z] CLI Version:   7.16.1
+[debug] [2020-03-25T11:34:47.366Z] Platform:      win32
+[debug] [2020-03-25T11:34:47.366Z] Node Version:  v12.13.0
+[debug] [2020-03-25T11:34:47.368Z] Time:          Wed Mar 25 2020 04:34:47 GMT-0700 (Pacific Daylight Time)
+[debug] [2020-03-25T11:34:47.369Z] ----------------------------------------------------------------------
+[debug] [2020-03-25T11:34:47.369Z] 
+[debug] [2020-03-25T11:34:47.386Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-03-25T11:34:47.387Z] > authorizing via signed-in user
+[debug] [2020-03-25T11:34:47.387Z] [iam] checking project the-corporate-connection-f600c for permissions ["firebase.projects.get"]
+[debug] [2020-03-25T11:34:47.395Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/the-corporate-connection-f600c:testIamPermissions  
+
+[debug] [2020-03-25T11:34:47.846Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-25T11:34:47.850Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/the-corporate-connection-f600c  
+ 
+[debug] [2020-03-25T11:34:48.148Z] <<< HTTP RESPONSE 200
+[debug] [2020-03-25T11:34:48.150Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/the-corporate-connection-f600c/webApps/-/config  
+ 
+[debug] [2020-03-25T11:34:48.559Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: src
+[info] +  hosting: Local server: http://localhost:5000
